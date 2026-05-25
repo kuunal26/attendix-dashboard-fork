@@ -1,0 +1,25 @@
+{
+  "overview": "Attendix is a department-wide attendance management system for Electronics & Telecommunication with QR/NFC check-in, location verification, and student roster management by year.",
+  "features": [
+    "Four student year sections (First Year, Second Year, Third Year, B.Tech)",
+    "QR-based attendance with TOTP 10-second expiry tokens",
+    "Short attendance URL (/a) for readable QR codes on ESP displays",
+    "Browser geolocation gating — blocks attendance outside allowed range",
+    "Weekly timetable templates per semester, editable by faculty",
+    "Manual student add/edit/delete by admin or faculty",
+    "PRN-based student identity with 4-point verification",
+    "Role-based access for Admin, Faculty, and Student views"
+  ],
+  "category": "education",
+  "tags": [
+    "attendance",
+    "education",
+    "qr-code",
+    "nfc",
+    "timetable",
+    "student-management",
+    "geolocation",
+    "totp"
+  ],
+  "last_updated": "2026-05-24T19:29:18.192Z"
+}

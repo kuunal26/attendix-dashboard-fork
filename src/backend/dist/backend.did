@@ -1,0 +1,161 @@
+type WeeklySlot = 
+ record {
+   day: text;
+   endTime: text;
+   room: text;
+   startTime: text;
+   subject: text;
+ };
+type UpdateStudentRequest = 
+ record {
+   isActive: opt bool;
+   name: opt text;
+   prn: opt text;
+   rollNo: opt nat;
+   section: opt text;
+ };
+type StudentWithSection = 
+ record {
+   id: text;
+   isActive: bool;
+   name: text;
+   prn: text;
+   rollNo: nat;
+   section: text;
+ };
+type StudentWithId = 
+ record {
+   name: text;
+   prn_last2: text;
+   student_id: text;
+ };
+type Student = 
+ record {
+   id: text;
+   isActive: bool;
+   name: text;
+   prn: text;
+   rollNo: nat;
+   section: text;
+ };
+type SectionCounts = 
+ record {
+   btech: nat;
+   first_year: nat;
+   second_year: nat;
+   third_year: nat;
+ };
+type MarkAttendanceResponse = 
+ variant {
+   alreadyMarked: text;
+   error: text;
+   invalidPRN: text;
+   ok: text;
+ };
+type MarkAttendanceRequest = 
+ record {
+   device_info: text;
+   image_url: text;
+   latitude: float64;
+   longitude: float64;
+   prn: text;
+   token: nat;
+ };
+type ManualAttendanceRequest = 
+ record {
+   notes: text;
+   prn: text;
+   subject: text;
+   timestamp_override: opt int;
+ };
+type LocationConfig = 
+ record {
+   lat: float64;
+   lng: float64;
+   locationLabel: text;
+   radiusMeters: float64;
+ };
+type FacultyCredentials = 
+ record {
+   email: text;
+   name: text;
+   password: text;
+ };
+type AttendanceStats = 
+ record {
+   today_count: nat;
+   total_records: nat;
+   total_students: nat;
+   unique_students: nat;
+ };
+type AttendanceRecord = 
+ record {
+   device_info: text;
+   geo_fail: bool;
+   id: text;
+   image_url: text;
+   latitude: float64;
+   longitude: float64;
+   method: text;
+   prn: text;
+   student_name: text;
+   timestamp: int;
+ };
+type AddStudentRequest = 
+ record {
+   isActive: bool;
+   name: text;
+   prn: text;
+   rollNo: nat;
+   section: text;
+ };
+service : {
+  add_manual_attendance: (req: ManualAttendanceRequest) ->
+   (MarkAttendanceResponse);
+  add_student: (req: AddStudentRequest) -> (variant {
+                                              err: text;
+                                              ok: Student;
+                                            });
+  delete_attendance: (record_id: nat) -> (bool);
+  delete_student: (id: text) -> (variant {
+                                   err: text;
+                                   ok;
+                                 });
+  get_all_attendance: () -> (vec AttendanceRecord) query;
+  get_all_semester_templates: () -> (vec record {
+                                           nat;
+                                           vec WeeklySlot;
+                                         }) query;
+  get_all_students: () -> (vec Student) query;
+  get_attendance_by_date: (date_text: text) -> (vec AttendanceRecord) query;
+  get_attendance_by_student: (prn: text) -> (vec AttendanceRecord) query;
+  get_attendance_stats: () -> (AttendanceStats) query;
+  get_faculty_credentials: () -> (FacultyCredentials) query;
+  get_hotspot_ip: () -> (text) query;
+  get_live_checkins: (limit: nat) -> (vec AttendanceRecord) query;
+  get_location_config: () -> (LocationConfig) query;
+  get_semester_template: (semester: nat) -> (vec WeeklySlot) query;
+  get_student_by_prn: (prn: text) -> (opt Student) query;
+  get_student_list: () -> (vec StudentWithId) query;
+  get_student_sections_count: () -> (SectionCounts) query;
+  get_students_by_section: (section: text) -> (vec StudentWithSection) query;
+  mark_attendance: (req: MarkAttendanceRequest) -> (MarkAttendanceResponse);
+  update_faculty_credentials: (name: text, email: text, password: text) ->
+   (bool);
+  update_hotspot_ip: (ip: text) -> (bool);
+  update_location_config: (config: LocationConfig) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  update_semester_template: (semester: nat, slots: vec WeeklySlot) ->
+   (variant {
+      err: text;
+      ok;
+    });
+  update_student: (id: text, upd: UpdateStudentRequest) ->
+   (variant {
+      err: text;
+      ok: Student;
+    });
+}
