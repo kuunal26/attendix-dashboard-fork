@@ -29,14 +29,14 @@ module {
 
   // ── TOTP Validation ─────────────────────────────────────────────
 
-  /// Validates a TOTP token using: abs(floor(epoch_secs / 2) * 987654321) % 1000000
-  /// Accepts current window and immediately previous window.
+  /// Validates a TOTP token using: abs(floor(epoch_secs / 20) * 987654321) % 1000000
+  /// Accepts current 20-second window and immediately previous 20-second window (up to ~40s tolerance).
   public func validateTotp(token : Nat, nowNs : Int) : Bool {
     let epochSecs : Int = nowNs / 1_000_000_000;
-    let currentBlock : Int = epochSecs / 2;
+    let currentBlock : Int = epochSecs / 20;
     let prevBlock : Int = currentBlock - 1;
-    let currentToken : Nat = Int.abs(currentBlock * 987654321) % 1000000;
-    let prevToken : Nat = Int.abs(prevBlock * 987654321) % 1000000;
+    let currentToken : Nat = (Int.abs(currentBlock * 987654321) : Nat) % 1_000_000;
+    let prevToken : Nat = (Int.abs(prevBlock * 987654321) : Nat) % 1_000_000;
     token == currentToken or token == prevToken;
   };
 
@@ -154,15 +154,20 @@ module {
   };
 
   /// Returns students filtered by section.
+  /// Returns students filtered by section.
+  /// Normalises the incoming section string (lowercase, spaces→underscores) so
+  /// callers like the frontend passing "Second Year" or "second_year" both work.
   public func studentsBySection(
     students : Map.Map<Text, Student>,
     section : Text,
   ) : [Types.StudentWithSection] {
+    let lower = section.toLower();
+    let normalised = lower.replace(#text " ", "_");
     students.values().toArray().filter(
-      func(s : Student) : Bool { s.section == section }
+      func(s : Student) : Bool { s.section == normalised }
     ).map<Student, Types.StudentWithSection>(
       func(s) {
-        { id = s.id; name = s.name; prn = s.prn; section = s.section; rollNo = s.rollNo; isActive = s.isActive };
+        { id = s.id; name = s.name; prn = s.prn; section = s.section; rollNo = s.rollNo; isActive = s.isActive; reference_photo_url = s.reference_photo_url };
       }
     );
   };
@@ -187,157 +192,157 @@ module {
     let m = Map.empty<Text, Student>();
 
     // ── Second Year students (78 students) ──
-    m.add("24062701372001", { id = "24062701372001"; prn = "24062701372001"; name = "AWARE PRATIK SANDIP"; section = "second_year"; rollNo = 1; isActive = true });
-    m.add("24062701372002", { id = "24062701372002"; prn = "24062701372002"; name = "BALLAL PRATIDNYA VINOD"; section = "second_year"; rollNo = 2; isActive = true });
-    m.add("24062701372003", { id = "24062701372003"; prn = "24062701372003"; name = "BENDRE SHRADDHA KIRAN"; section = "second_year"; rollNo = 3; isActive = true });
-    m.add("24062701372004", { id = "24062701372004"; prn = "24062701372004"; name = "BODAKE PRANITA KIRAN"; section = "second_year"; rollNo = 4; isActive = true });
-    m.add("24062701372005", { id = "24062701372005"; prn = "24062701372005"; name = "BOTE VISHRANTI VIJAYKUMAR"; section = "second_year"; rollNo = 5; isActive = true });
-    m.add("24062701372006", { id = "24062701372006"; prn = "24062701372006"; name = "CHORAGE SHREYAS DEEPAK"; section = "second_year"; rollNo = 6; isActive = true });
-    m.add("24062701372007", { id = "24062701372007"; prn = "24062701372007"; name = "CHORAMALE GAURI BAJIRAO"; section = "second_year"; rollNo = 7; isActive = true });
-    m.add("24062701372008", { id = "24062701372008"; prn = "24062701372008"; name = "DAHOTRE SARTHAK SHEKHAR"; section = "second_year"; rollNo = 8; isActive = true });
-    m.add("24062701372009", { id = "24062701372009"; prn = "24062701372009"; name = "DEOKAR RUTUJA MAHADEV"; section = "second_year"; rollNo = 9; isActive = true });
-    m.add("24062701372010", { id = "24062701372010"; prn = "24062701372010"; name = "DESAI VAISHNAVI DATTATRAY"; section = "second_year"; rollNo = 10; isActive = true });
-    m.add("24062701372011", { id = "24062701372011"; prn = "24062701372011"; name = "DHAKAL BISHAL KALAMBHADUR"; section = "second_year"; rollNo = 11; isActive = true });
-    m.add("24062701372012", { id = "24062701372012"; prn = "24062701372012"; name = "DHAMALE TEJAS SHIVAJI"; section = "second_year"; rollNo = 12; isActive = true });
-    m.add("24062701372013", { id = "24062701372013"; prn = "24062701372013"; name = "GADEKAR PRITI NITIN"; section = "second_year"; rollNo = 13; isActive = true });
-    m.add("24062701372014", { id = "24062701372014"; prn = "24062701372014"; name = "GHANWAT NEHA SURESH"; section = "second_year"; rollNo = 14; isActive = true });
-    m.add("24062701372016", { id = "24062701372016"; prn = "24062701372016"; name = "JADHAV AKSHAY VILAS"; section = "second_year"; rollNo = 15; isActive = true });
-    m.add("24062701372017", { id = "24062701372017"; prn = "24062701372017"; name = "JADHAV AVISHKA MANOHAR"; section = "second_year"; rollNo = 16; isActive = true });
-    m.add("24062701372018", { id = "24062701372018"; prn = "24062701372018"; name = "JADHAV SAKSHI DHANAJI"; section = "second_year"; rollNo = 17; isActive = true });
-    m.add("24062701372019", { id = "24062701372019"; prn = "24062701372019"; name = "JADHAV VEDANTIKA VINOD"; section = "second_year"; rollNo = 18; isActive = true });
-    m.add("24062701372020", { id = "24062701372020"; prn = "24062701372020"; name = "JAGTAP DIKSHA RAJENDRA"; section = "second_year"; rollNo = 19; isActive = true });
-    m.add("24062701372021", { id = "24062701372021"; prn = "24062701372021"; name = "KADAM ADITI BIRAJ"; section = "second_year"; rollNo = 20; isActive = true });
-    m.add("24062701372022", { id = "24062701372022"; prn = "24062701372022"; name = "KAMBLE PRERNA SHARAD"; section = "second_year"; rollNo = 21; isActive = true });
-    m.add("24062701372023", { id = "24062701372023"; prn = "24062701372023"; name = "KANKNUDI VAISHNAVI MALLAPPA"; section = "second_year"; rollNo = 22; isActive = true });
-    m.add("24062701372024", { id = "24062701372024"; prn = "24062701372024"; name = "KHADE ANUJA SHANKAR"; section = "second_year"; rollNo = 23; isActive = true });
-    m.add("24062701372025", { id = "24062701372025"; prn = "24062701372025"; name = "KHADE ASHWINI PINTU"; section = "second_year"; rollNo = 24; isActive = true });
-    m.add("24062701372026", { id = "24062701372026"; prn = "24062701372026"; name = "KHARADE ARYAN SANTOSH"; section = "second_year"; rollNo = 25; isActive = true });
-    m.add("24062701372027", { id = "24062701372027"; prn = "24062701372027"; name = "KUMBHAR NIMESH YUVRAJ"; section = "second_year"; rollNo = 26; isActive = true });
-    m.add("24062701372028", { id = "24062701372028"; prn = "24062701372028"; name = "KUMBHAR PREETAM CHANDRAKANT"; section = "second_year"; rollNo = 27; isActive = true });
-    m.add("24062701372029", { id = "24062701372029"; prn = "24062701372029"; name = "LOHAR ISHWARI MAHESH"; section = "second_year"; rollNo = 28; isActive = true });
-    m.add("24062701372030", { id = "24062701372030"; prn = "24062701372030"; name = "MAGAR ADITYA RAMESH"; section = "second_year"; rollNo = 29; isActive = true });
-    m.add("24062701372031", { id = "24062701372031"; prn = "24062701372031"; name = "MAHADIK JANHAVI JAHAGIRRAO"; section = "second_year"; rollNo = 30; isActive = true });
-    m.add("24062701372033", { id = "24062701372033"; prn = "24062701372033"; name = "MANE SOHAM RAVINDRA"; section = "second_year"; rollNo = 31; isActive = true });
-    m.add("24062701372034", { id = "24062701372034"; prn = "24062701372034"; name = "MANE SOHAM SANDIP"; section = "second_year"; rollNo = 32; isActive = true });
-    m.add("24062701372035", { id = "24062701372035"; prn = "24062701372035"; name = "MASANE AYUSH NANDAKUMAR"; section = "second_year"; rollNo = 33; isActive = true });
-    m.add("24062701372036", { id = "24062701372036"; prn = "24062701372036"; name = "MESTRY BHARGAVI ANAND"; section = "second_year"; rollNo = 34; isActive = true });
-    m.add("24062701372037", { id = "24062701372037"; prn = "24062701372037"; name = "MOHITE SAYEE SURESH"; section = "second_year"; rollNo = 35; isActive = true });
-    m.add("24062701372038", { id = "24062701372038"; prn = "24062701372038"; name = "MORE ANUSHKA SACHIN"; section = "second_year"; rollNo = 36; isActive = true });
-    m.add("24062701372039", { id = "24062701372039"; prn = "24062701372039"; name = "MULANI AYAN SADIQ"; section = "second_year"; rollNo = 37; isActive = true });
-    m.add("24062701372040", { id = "24062701372040"; prn = "24062701372040"; name = "NALAWADE SIDDHI SUNIL"; section = "second_year"; rollNo = 38; isActive = true });
-    m.add("24062701372041", { id = "24062701372041"; prn = "24062701372041"; name = "NANAWARE PRITAM PRAKASH"; section = "second_year"; rollNo = 39; isActive = true });
-    m.add("24062701372042", { id = "24062701372042"; prn = "24062701372042"; name = "NANAWARE SAMRUDDHI RAJENDRA"; section = "second_year"; rollNo = 40; isActive = true });
-    m.add("24062701372043", { id = "24062701372043"; prn = "24062701372043"; name = "NIKAM PRAJAKTA MANSING"; section = "second_year"; rollNo = 41; isActive = true });
-    m.add("24062701372044", { id = "24062701372044"; prn = "24062701372044"; name = "NIKAM SIDDHI MANOJKUMAR"; section = "second_year"; rollNo = 42; isActive = true });
-    m.add("24062701372045", { id = "24062701372045"; prn = "24062701372045"; name = "PACHANGANE AKANKSHA GORAKHNATH"; section = "second_year"; rollNo = 43; isActive = true });
-    m.add("24062701372046", { id = "24062701372046"; prn = "24062701372046"; name = "PADALKAR OM AJIT"; section = "second_year"; rollNo = 44; isActive = true });
-    m.add("24062701372047", { id = "24062701372047"; prn = "24062701372047"; name = "PATHAN SAAD SHAHANAWAZ"; section = "second_year"; rollNo = 45; isActive = true });
-    m.add("24062701372048", { id = "24062701372048"; prn = "24062701372048"; name = "PATIL SHARVARI HANMANT"; section = "second_year"; rollNo = 46; isActive = true });
-    m.add("24062701372049", { id = "24062701372049"; prn = "24062701372049"; name = "PAWAR ABHISHEK SUSHANT"; section = "second_year"; rollNo = 47; isActive = true });
-    m.add("24062701372050", { id = "24062701372050"; prn = "24062701372050"; name = "PAWAR CHARAN MUKUND"; section = "second_year"; rollNo = 48; isActive = true });
-    m.add("24062701372051", { id = "24062701372051"; prn = "24062701372051"; name = "PAWAR SHANTANU UMESH"; section = "second_year"; rollNo = 49; isActive = true });
-    m.add("24062701372052", { id = "24062701372052"; prn = "24062701372052"; name = "PISAL CHAITANYA MALOJIRAO"; section = "second_year"; rollNo = 50; isActive = true });
-    m.add("24062701372053", { id = "24062701372053"; prn = "24062701372053"; name = "POTE DIGAMBAR SHASHIKANT"; section = "second_year"; rollNo = 51; isActive = true });
-    m.add("24062701372054", { id = "24062701372054"; prn = "24062701372054"; name = "RANBAGLE SHANTANU VIJAY"; section = "second_year"; rollNo = 52; isActive = true });
-    m.add("24062701372055", { id = "24062701372055"; prn = "24062701372055"; name = "RAWATE SAMRUDDHI SANDEEP"; section = "second_year"; rollNo = 53; isActive = true });
-    m.add("24062701372056", { id = "24062701372056"; prn = "24062701372056"; name = "SABLE SUHANI SURESH"; section = "second_year"; rollNo = 54; isActive = true });
-    m.add("24062701372058", { id = "24062701372058"; prn = "24062701372058"; name = "SHAIKH FAYAJ MOHAMMADPAIGAMBAR"; section = "second_year"; rollNo = 55; isActive = true });
-    m.add("24062701372059", { id = "24062701372059"; prn = "24062701372059"; name = "SHAIKH MOHAMADANIS JAMAL"; section = "second_year"; rollNo = 56; isActive = true });
-    m.add("24062701372060", { id = "24062701372060"; prn = "24062701372060"; name = "SHETE NIRANJAN MURLIDHAR"; section = "second_year"; rollNo = 57; isActive = true });
-    m.add("24062701372061", { id = "24062701372061"; prn = "24062701372061"; name = "SHINDE SHIVANI SURESH"; section = "second_year"; rollNo = 58; isActive = true });
-    m.add("24062701372062", { id = "24062701372062"; prn = "24062701372062"; name = "SHINDE SHRUTI SANTOSH"; section = "second_year"; rollNo = 59; isActive = true });
-    m.add("24062701372063", { id = "24062701372063"; prn = "24062701372063"; name = "SHINGATE SRUSHTI SANTOSH"; section = "second_year"; rollNo = 60; isActive = true });
-    m.add("24062701372064", { id = "24062701372064"; prn = "24062701372064"; name = "SHIRKE AMOGH AJAY"; section = "second_year"; rollNo = 61; isActive = true });
-    m.add("24062701372065", { id = "24062701372065"; prn = "24062701372065"; name = "THORAT VAISHNAVI DADASAHEB"; section = "second_year"; rollNo = 62; isActive = true });
-    m.add("24062701372066", { id = "24062701372066"; prn = "24062701372066"; name = "UMBARKAR PURVA JITENDRA"; section = "second_year"; rollNo = 63; isActive = true });
-    m.add("24062701372067", { id = "24062701372067"; prn = "24062701372067"; name = "VANARASE SAHIL VIJAY"; section = "second_year"; rollNo = 64; isActive = true });
-    m.add("24062701372068", { id = "24062701372068"; prn = "24062701372068"; name = "YADAV DHIRAJ MUGUTRAV"; section = "second_year"; rollNo = 65; isActive = true });
-    m.add("24062701372069", { id = "24062701372069"; prn = "24062701372069"; name = "YADAV PRASANN ANIL"; section = "second_year"; rollNo = 66; isActive = true });
-    m.add("23062701372064", { id = "23062701372064"; prn = "23062701372064"; name = "ATTAR AFZA ANSAR"; section = "second_year"; rollNo = 67; isActive = true });
-    m.add("PENDING_67", { id = "PENDING_67"; prn = ""; name = "DALVI SOHAM SHRIKRISHNA"; section = "second_year"; rollNo = 68; isActive = true });
-    m.add("PENDING_68", { id = "PENDING_68"; prn = ""; name = "KADAM VISHRANTI DHONDIRAM"; section = "second_year"; rollNo = 69; isActive = true });
-    m.add("PENDING_69", { id = "PENDING_69"; prn = ""; name = "KALE ASMITA GANPAT"; section = "second_year"; rollNo = 70; isActive = true });
-    m.add("PENDING_70", { id = "PENDING_70"; prn = ""; name = "KHARAT ASHLESHA SURYAKANT"; section = "second_year"; rollNo = 71; isActive = true });
-    m.add("PENDING_71", { id = "PENDING_71"; prn = ""; name = "KULKARNI SUBODH PANKAJ"; section = "second_year"; rollNo = 72; isActive = true });
-    m.add("PENDING_72", { id = "PENDING_72"; prn = ""; name = "MAHAMUNI SAI RAJARAM"; section = "second_year"; rollNo = 73; isActive = true });
-    m.add("PENDING_73", { id = "PENDING_73"; prn = ""; name = "PATIL KIRAN KHANDERAV"; section = "second_year"; rollNo = 74; isActive = true });
-    m.add("PENDING_74", { id = "PENDING_74"; prn = ""; name = "PAWAR SHRAVANI MOHAN"; section = "second_year"; rollNo = 75; isActive = true });
-    m.add("PENDING_75", { id = "PENDING_75"; prn = ""; name = "PAWAR VAISHNAVI DNYANESHWAR"; section = "second_year"; rollNo = 76; isActive = true });
-    m.add("PENDING_76", { id = "PENDING_76"; prn = ""; name = "PAWAR VINIT MARUTI"; section = "second_year"; rollNo = 77; isActive = true });
-    m.add("PENDING_77", { id = "PENDING_77"; prn = ""; name = "SAVALE SHRADDHA SANJAY"; section = "second_year"; rollNo = 78; isActive = true });
-    m.add("PENDING_78", { id = "PENDING_78"; prn = ""; name = "UTALE SWATI PRATAP"; section = "second_year"; rollNo = 79; isActive = true });
+    m.add("24062701372001", { id = "24062701372001"; prn = "24062701372001"; name = "AWARE PRATIK SANDIP"; section = "second_year"; rollNo = 1; isActive = true; reference_photo_url = null });
+    m.add("24062701372002", { id = "24062701372002"; prn = "24062701372002"; name = "BALLAL PRATIDNYA VINOD"; section = "second_year"; rollNo = 2; isActive = true; reference_photo_url = null });
+    m.add("24062701372003", { id = "24062701372003"; prn = "24062701372003"; name = "BENDRE SHRADDHA KIRAN"; section = "second_year"; rollNo = 3; isActive = true; reference_photo_url = null });
+    m.add("24062701372004", { id = "24062701372004"; prn = "24062701372004"; name = "BODAKE PRANITA KIRAN"; section = "second_year"; rollNo = 4; isActive = true; reference_photo_url = null });
+    m.add("24062701372005", { id = "24062701372005"; prn = "24062701372005"; name = "BOTE VISHRANTI VIJAYKUMAR"; section = "second_year"; rollNo = 5; isActive = true; reference_photo_url = null });
+    m.add("24062701372006", { id = "24062701372006"; prn = "24062701372006"; name = "CHORAGE SHREYAS DEEPAK"; section = "second_year"; rollNo = 6; isActive = true; reference_photo_url = null });
+    m.add("24062701372007", { id = "24062701372007"; prn = "24062701372007"; name = "CHORAMALE GAURI BAJIRAO"; section = "second_year"; rollNo = 7; isActive = true; reference_photo_url = null });
+    m.add("24062701372008", { id = "24062701372008"; prn = "24062701372008"; name = "DAHOTRE SARTHAK SHEKHAR"; section = "second_year"; rollNo = 8; isActive = true; reference_photo_url = null });
+    m.add("24062701372009", { id = "24062701372009"; prn = "24062701372009"; name = "DEOKAR RUTUJA MAHADEV"; section = "second_year"; rollNo = 9; isActive = true; reference_photo_url = null });
+    m.add("24062701372010", { id = "24062701372010"; prn = "24062701372010"; name = "DESAI VAISHNAVI DATTATRAY"; section = "second_year"; rollNo = 10; isActive = true; reference_photo_url = null });
+    m.add("24062701372011", { id = "24062701372011"; prn = "24062701372011"; name = "DHAKAL BISHAL KALAMBHADUR"; section = "second_year"; rollNo = 11; isActive = true; reference_photo_url = null });
+    m.add("24062701372012", { id = "24062701372012"; prn = "24062701372012"; name = "DHAMALE TEJAS SHIVAJI"; section = "second_year"; rollNo = 12; isActive = true; reference_photo_url = null });
+    m.add("24062701372013", { id = "24062701372013"; prn = "24062701372013"; name = "GADEKAR PRITI NITIN"; section = "second_year"; rollNo = 13; isActive = true; reference_photo_url = null });
+    m.add("24062701372014", { id = "24062701372014"; prn = "24062701372014"; name = "GHANWAT NEHA SURESH"; section = "second_year"; rollNo = 14; isActive = true; reference_photo_url = null });
+    m.add("24062701372016", { id = "24062701372016"; prn = "24062701372016"; name = "JADHAV AKSHAY VILAS"; section = "second_year"; rollNo = 15; isActive = true; reference_photo_url = null });
+    m.add("24062701372017", { id = "24062701372017"; prn = "24062701372017"; name = "JADHAV AVISHKA MANOHAR"; section = "second_year"; rollNo = 16; isActive = true; reference_photo_url = null });
+    m.add("24062701372018", { id = "24062701372018"; prn = "24062701372018"; name = "JADHAV SAKSHI DHANAJI"; section = "second_year"; rollNo = 17; isActive = true; reference_photo_url = null });
+    m.add("24062701372019", { id = "24062701372019"; prn = "24062701372019"; name = "JADHAV VEDANTIKA VINOD"; section = "second_year"; rollNo = 18; isActive = true; reference_photo_url = null });
+    m.add("24062701372020", { id = "24062701372020"; prn = "24062701372020"; name = "JAGTAP DIKSHA RAJENDRA"; section = "second_year"; rollNo = 19; isActive = true; reference_photo_url = null });
+    m.add("24062701372021", { id = "24062701372021"; prn = "24062701372021"; name = "KADAM ADITI BIRAJ"; section = "second_year"; rollNo = 20; isActive = true; reference_photo_url = null });
+    m.add("24062701372022", { id = "24062701372022"; prn = "24062701372022"; name = "KAMBLE PRERNA SHARAD"; section = "second_year"; rollNo = 21; isActive = true; reference_photo_url = null });
+    m.add("24062701372023", { id = "24062701372023"; prn = "24062701372023"; name = "KANKNUDI VAISHNAVI MALLAPPA"; section = "second_year"; rollNo = 22; isActive = true; reference_photo_url = null });
+    m.add("24062701372024", { id = "24062701372024"; prn = "24062701372024"; name = "KHADE ANUJA SHANKAR"; section = "second_year"; rollNo = 23; isActive = true; reference_photo_url = null });
+    m.add("24062701372025", { id = "24062701372025"; prn = "24062701372025"; name = "KHADE ASHWINI PINTU"; section = "second_year"; rollNo = 24; isActive = true; reference_photo_url = null });
+    m.add("24062701372026", { id = "24062701372026"; prn = "24062701372026"; name = "KHARADE ARYAN SANTOSH"; section = "second_year"; rollNo = 25; isActive = true; reference_photo_url = null });
+    m.add("24062701372027", { id = "24062701372027"; prn = "24062701372027"; name = "KUMBHAR NIMESH YUVRAJ"; section = "second_year"; rollNo = 26; isActive = true; reference_photo_url = null });
+    m.add("24062701372028", { id = "24062701372028"; prn = "24062701372028"; name = "KUMBHAR PREETAM CHANDRAKANT"; section = "second_year"; rollNo = 27; isActive = true; reference_photo_url = null });
+    m.add("24062701372029", { id = "24062701372029"; prn = "24062701372029"; name = "LOHAR ISHWARI MAHESH"; section = "second_year"; rollNo = 28; isActive = true; reference_photo_url = null });
+    m.add("24062701372030", { id = "24062701372030"; prn = "24062701372030"; name = "MAGAR ADITYA RAMESH"; section = "second_year"; rollNo = 29; isActive = true; reference_photo_url = null });
+    m.add("24062701372031", { id = "24062701372031"; prn = "24062701372031"; name = "MAHADIK JANHAVI JAHAGIRRAO"; section = "second_year"; rollNo = 30; isActive = true; reference_photo_url = null });
+    m.add("24062701372033", { id = "24062701372033"; prn = "24062701372033"; name = "MANE SOHAM RAVINDRA"; section = "second_year"; rollNo = 31; isActive = true; reference_photo_url = null });
+    m.add("24062701372034", { id = "24062701372034"; prn = "24062701372034"; name = "MANE SOHAM SANDIP"; section = "second_year"; rollNo = 32; isActive = true; reference_photo_url = null });
+    m.add("24062701372035", { id = "24062701372035"; prn = "24062701372035"; name = "MASANE AYUSH NANDAKUMAR"; section = "second_year"; rollNo = 33; isActive = true; reference_photo_url = null });
+    m.add("24062701372036", { id = "24062701372036"; prn = "24062701372036"; name = "MESTRY BHARGAVI ANAND"; section = "second_year"; rollNo = 34; isActive = true; reference_photo_url = null });
+    m.add("24062701372037", { id = "24062701372037"; prn = "24062701372037"; name = "MOHITE SAYEE SURESH"; section = "second_year"; rollNo = 35; isActive = true; reference_photo_url = null });
+    m.add("24062701372038", { id = "24062701372038"; prn = "24062701372038"; name = "MORE ANUSHKA SACHIN"; section = "second_year"; rollNo = 36; isActive = true; reference_photo_url = null });
+    m.add("24062701372039", { id = "24062701372039"; prn = "24062701372039"; name = "MULANI AYAN SADIQ"; section = "second_year"; rollNo = 37; isActive = true; reference_photo_url = null });
+    m.add("24062701372040", { id = "24062701372040"; prn = "24062701372040"; name = "NALAWADE SIDDHI SUNIL"; section = "second_year"; rollNo = 38; isActive = true; reference_photo_url = null });
+    m.add("24062701372041", { id = "24062701372041"; prn = "24062701372041"; name = "NANAWARE PRITAM PRAKASH"; section = "second_year"; rollNo = 39; isActive = true; reference_photo_url = null });
+    m.add("24062701372042", { id = "24062701372042"; prn = "24062701372042"; name = "NANAWARE SAMRUDDHI RAJENDRA"; section = "second_year"; rollNo = 40; isActive = true; reference_photo_url = null });
+    m.add("24062701372043", { id = "24062701372043"; prn = "24062701372043"; name = "NIKAM PRAJAKTA MANSING"; section = "second_year"; rollNo = 41; isActive = true; reference_photo_url = null });
+    m.add("24062701372044", { id = "24062701372044"; prn = "24062701372044"; name = "NIKAM SIDDHI MANOJKUMAR"; section = "second_year"; rollNo = 42; isActive = true; reference_photo_url = null });
+    m.add("24062701372045", { id = "24062701372045"; prn = "24062701372045"; name = "PACHANGANE AKANKSHA GORAKHNATH"; section = "second_year"; rollNo = 43; isActive = true; reference_photo_url = null });
+    m.add("24062701372046", { id = "24062701372046"; prn = "24062701372046"; name = "PADALKAR OM AJIT"; section = "second_year"; rollNo = 44; isActive = true; reference_photo_url = null });
+    m.add("24062701372047", { id = "24062701372047"; prn = "24062701372047"; name = "PATHAN SAAD SHAHANAWAZ"; section = "second_year"; rollNo = 45; isActive = true; reference_photo_url = null });
+    m.add("24062701372048", { id = "24062701372048"; prn = "24062701372048"; name = "PATIL SHARVARI HANMANT"; section = "second_year"; rollNo = 46; isActive = true; reference_photo_url = null });
+    m.add("24062701372049", { id = "24062701372049"; prn = "24062701372049"; name = "PAWAR ABHISHEK SUSHANT"; section = "second_year"; rollNo = 47; isActive = true; reference_photo_url = null });
+    m.add("24062701372050", { id = "24062701372050"; prn = "24062701372050"; name = "PAWAR CHARAN MUKUND"; section = "second_year"; rollNo = 48; isActive = true; reference_photo_url = null });
+    m.add("24062701372051", { id = "24062701372051"; prn = "24062701372051"; name = "PAWAR SHANTANU UMESH"; section = "second_year"; rollNo = 49; isActive = true; reference_photo_url = null });
+    m.add("24062701372052", { id = "24062701372052"; prn = "24062701372052"; name = "PISAL CHAITANYA MALOJIRAO"; section = "second_year"; rollNo = 50; isActive = true; reference_photo_url = null });
+    m.add("24062701372053", { id = "24062701372053"; prn = "24062701372053"; name = "POTE DIGAMBAR SHASHIKANT"; section = "second_year"; rollNo = 51; isActive = true; reference_photo_url = null });
+    m.add("24062701372054", { id = "24062701372054"; prn = "24062701372054"; name = "RANBAGLE SHANTANU VIJAY"; section = "second_year"; rollNo = 52; isActive = true; reference_photo_url = null });
+    m.add("24062701372055", { id = "24062701372055"; prn = "24062701372055"; name = "RAWATE SAMRUDDHI SANDEEP"; section = "second_year"; rollNo = 53; isActive = true; reference_photo_url = null });
+    m.add("24062701372056", { id = "24062701372056"; prn = "24062701372056"; name = "SABLE SUHANI SURESH"; section = "second_year"; rollNo = 54; isActive = true; reference_photo_url = null });
+    m.add("24062701372058", { id = "24062701372058"; prn = "24062701372058"; name = "SHAIKH FAYAJ MOHAMMADPAIGAMBAR"; section = "second_year"; rollNo = 55; isActive = true; reference_photo_url = null });
+    m.add("24062701372059", { id = "24062701372059"; prn = "24062701372059"; name = "SHAIKH MOHAMADANIS JAMAL"; section = "second_year"; rollNo = 56; isActive = true; reference_photo_url = null });
+    m.add("24062701372060", { id = "24062701372060"; prn = "24062701372060"; name = "SHETE NIRANJAN MURLIDHAR"; section = "second_year"; rollNo = 57; isActive = true; reference_photo_url = null });
+    m.add("24062701372061", { id = "24062701372061"; prn = "24062701372061"; name = "SHINDE SHIVANI SURESH"; section = "second_year"; rollNo = 58; isActive = true; reference_photo_url = null });
+    m.add("24062701372062", { id = "24062701372062"; prn = "24062701372062"; name = "SHINDE SHRUTI SANTOSH"; section = "second_year"; rollNo = 59; isActive = true; reference_photo_url = null });
+    m.add("24062701372063", { id = "24062701372063"; prn = "24062701372063"; name = "SHINGATE SRUSHTI SANTOSH"; section = "second_year"; rollNo = 60; isActive = true; reference_photo_url = null });
+    m.add("24062701372064", { id = "24062701372064"; prn = "24062701372064"; name = "SHIRKE AMOGH AJAY"; section = "second_year"; rollNo = 61; isActive = true; reference_photo_url = null });
+    m.add("24062701372065", { id = "24062701372065"; prn = "24062701372065"; name = "THORAT VAISHNAVI DADASAHEB"; section = "second_year"; rollNo = 62; isActive = true; reference_photo_url = null });
+    m.add("24062701372066", { id = "24062701372066"; prn = "24062701372066"; name = "UMBARKAR PURVA JITENDRA"; section = "second_year"; rollNo = 63; isActive = true; reference_photo_url = null });
+    m.add("24062701372067", { id = "24062701372067"; prn = "24062701372067"; name = "VANARASE SAHIL VIJAY"; section = "second_year"; rollNo = 64; isActive = true; reference_photo_url = null });
+    m.add("24062701372068", { id = "24062701372068"; prn = "24062701372068"; name = "YADAV DHIRAJ MUGUTRAV"; section = "second_year"; rollNo = 65; isActive = true; reference_photo_url = null });
+    m.add("24062701372069", { id = "24062701372069"; prn = "24062701372069"; name = "YADAV PRASANN ANIL"; section = "second_year"; rollNo = 66; isActive = true; reference_photo_url = null });
+    m.add("23062701372064", { id = "23062701372064"; prn = "23062701372064"; name = "ATTAR AFZA ANSAR"; section = "second_year"; rollNo = 67; isActive = true; reference_photo_url = null });
+    m.add("PENDING_67", { id = "PENDING_67"; prn = ""; name = "DALVI SOHAM SHRIKRISHNA"; section = "second_year"; rollNo = 68; isActive = true; reference_photo_url = null });
+    m.add("PENDING_68", { id = "PENDING_68"; prn = ""; name = "KADAM VISHRANTI DHONDIRAM"; section = "second_year"; rollNo = 69; isActive = true; reference_photo_url = null });
+    m.add("PENDING_69", { id = "PENDING_69"; prn = ""; name = "KALE ASMITA GANPAT"; section = "second_year"; rollNo = 70; isActive = true; reference_photo_url = null });
+    m.add("PENDING_70", { id = "PENDING_70"; prn = ""; name = "KHARAT ASHLESHA SURYAKANT"; section = "second_year"; rollNo = 71; isActive = true; reference_photo_url = null });
+    m.add("PENDING_71", { id = "PENDING_71"; prn = ""; name = "KULKARNI SUBODH PANKAJ"; section = "second_year"; rollNo = 72; isActive = true; reference_photo_url = null });
+    m.add("PENDING_72", { id = "PENDING_72"; prn = ""; name = "MAHAMUNI SAI RAJARAM"; section = "second_year"; rollNo = 73; isActive = true; reference_photo_url = null });
+    m.add("PENDING_73", { id = "PENDING_73"; prn = ""; name = "PATIL KIRAN KHANDERAV"; section = "second_year"; rollNo = 74; isActive = true; reference_photo_url = null });
+    m.add("PENDING_74", { id = "PENDING_74"; prn = ""; name = "PAWAR SHRAVANI MOHAN"; section = "second_year"; rollNo = 75; isActive = true; reference_photo_url = null });
+    m.add("PENDING_75", { id = "PENDING_75"; prn = ""; name = "PAWAR VAISHNAVI DNYANESHWAR"; section = "second_year"; rollNo = 76; isActive = true; reference_photo_url = null });
+    m.add("PENDING_76", { id = "PENDING_76"; prn = ""; name = "PAWAR VINIT MARUTI"; section = "second_year"; rollNo = 77; isActive = true; reference_photo_url = null });
+    m.add("PENDING_77", { id = "PENDING_77"; prn = ""; name = "SAVALE SHRADDHA SANJAY"; section = "second_year"; rollNo = 78; isActive = true; reference_photo_url = null });
+    m.add("PENDING_78", { id = "PENDING_78"; prn = ""; name = "UTALE SWATI PRATAP"; section = "second_year"; rollNo = 79; isActive = true; reference_photo_url = null });
 
     // ── B.Tech students (69 students) ──
-    m.add("2262701372001", { id = "2262701372001"; prn = "2262701372001"; name = "BHOSALE PRADNYA SANJAY"; section = "btech"; rollNo = 1; isActive = true });
-    m.add("2262701372002", { id = "2262701372002"; prn = "2262701372002"; name = "JADHAV VAISHNAVI SHANKAR"; section = "btech"; rollNo = 2; isActive = true });
-    m.add("2262701372003", { id = "2262701372003"; prn = "2262701372003"; name = "GHERADE PRAMOD MARUTI"; section = "btech"; rollNo = 3; isActive = true });
-    m.add("2262701372004", { id = "2262701372004"; prn = "2262701372004"; name = "YADAV SHRADDHA SANDIP"; section = "btech"; rollNo = 4; isActive = true });
-    m.add("2262701372006", { id = "2262701372006"; prn = "2262701372006"; name = "SHETPHALKAR SNEHA ASHWINKUMAR"; section = "btech"; rollNo = 5; isActive = true });
-    m.add("2262701372007", { id = "2262701372007"; prn = "2262701372007"; name = "BHOSALE VARUN VINOD"; section = "btech"; rollNo = 6; isActive = true });
-    m.add("2262701372008", { id = "2262701372008"; prn = "2262701372008"; name = "ZODGE SHIVAM SHRIRAM"; section = "btech"; rollNo = 7; isActive = true });
-    m.add("2262701372009", { id = "2262701372009"; prn = "2262701372009"; name = "JADHAV PRATIK GORAKH"; section = "btech"; rollNo = 8; isActive = true });
-    m.add("2262701372011", { id = "2262701372011"; prn = "2262701372011"; name = "AWALE REVANSIDDHI DHANANJAY"; section = "btech"; rollNo = 9; isActive = true });
-    m.add("2262701372012", { id = "2262701372012"; prn = "2262701372012"; name = "SHELATKAR SANKALP SANJAY"; section = "btech"; rollNo = 10; isActive = true });
-    m.add("2262701372013", { id = "2262701372013"; prn = "2262701372013"; name = "SHINDE PRACHI SACHIN"; section = "btech"; rollNo = 11; isActive = true });
-    m.add("2262701372014", { id = "2262701372014"; prn = "2262701372014"; name = "SHELAR PRATHAMESH DHANANJAY"; section = "btech"; rollNo = 12; isActive = true });
-    m.add("2262701372015", { id = "2262701372015"; prn = "2262701372015"; name = "DALVI SUNNY SANJU"; section = "btech"; rollNo = 13; isActive = true });
-    m.add("2262701372016", { id = "2262701372016"; prn = "2262701372016"; name = "KADAM CHAITANYA PAVAN"; section = "btech"; rollNo = 14; isActive = true });
-    m.add("2262701372017", { id = "2262701372017"; prn = "2262701372017"; name = "BHOSLAE OM SOMNATH"; section = "btech"; rollNo = 15; isActive = true });
-    m.add("2262701372018", { id = "2262701372018"; prn = "2262701372018"; name = "GHUGARE KIRAN YASHWANT"; section = "btech"; rollNo = 16; isActive = true });
-    m.add("2262701372019", { id = "2262701372019"; prn = "2262701372019"; name = "KHARAT ANUJA AJAY"; section = "btech"; rollNo = 17; isActive = true });
-    m.add("2262701372020", { id = "2262701372020"; prn = "2262701372020"; name = "UPPALGE ROHIT RANGNATH"; section = "btech"; rollNo = 18; isActive = true });
-    m.add("2262701372021", { id = "2262701372021"; prn = "2262701372021"; name = "GHADGE ATHARV DATTATRAY"; section = "btech"; rollNo = 19; isActive = true });
-    m.add("2262701372022", { id = "2262701372022"; prn = "2262701372022"; name = "MALUSARE MADHURA SAGAR"; section = "btech"; rollNo = 20; isActive = true });
-    m.add("2262701372023", { id = "2262701372023"; prn = "2262701372023"; name = "PAWAR PRATIKSHA MANOJ"; section = "btech"; rollNo = 21; isActive = true });
-    m.add("2262701372024", { id = "2262701372024"; prn = "2262701372024"; name = "SALUNKHE SHRUTI SAMBHAJI"; section = "btech"; rollNo = 22; isActive = true });
-    m.add("2262701372025", { id = "2262701372025"; prn = "2262701372025"; name = "MANE SAMRUDDHI KISAN"; section = "btech"; rollNo = 23; isActive = true });
-    m.add("2262701372026", { id = "2262701372026"; prn = "2262701372026"; name = "SALUNKHE SANJANA NARAYAN"; section = "btech"; rollNo = 24; isActive = true });
-    m.add("2262701372027", { id = "2262701372027"; prn = "2262701372027"; name = "KUMBHAR DIKSHA MANOHAR"; section = "btech"; rollNo = 25; isActive = true });
-    m.add("2262701372028", { id = "2262701372028"; prn = "2262701372028"; name = "JANGAM CHINMAY YOGESH"; section = "btech"; rollNo = 26; isActive = true });
-    m.add("2262701372029", { id = "2262701372029"; prn = "2262701372029"; name = "SAWANT SHREYA KRISHNAT"; section = "btech"; rollNo = 27; isActive = true });
-    m.add("2262701372030", { id = "2262701372030"; prn = "2262701372030"; name = "JADHAV JANHAVI MADHUKAR"; section = "btech"; rollNo = 28; isActive = true });
-    m.add("2262701372032", { id = "2262701372032"; prn = "2262701372032"; name = "SOLANKI VIVEK RAVI"; section = "btech"; rollNo = 29; isActive = true });
-    m.add("2262701372033", { id = "2262701372033"; prn = "2262701372033"; name = "VEER GAYATRI JANGLIMAHARAJ"; section = "btech"; rollNo = 30; isActive = true });
-    m.add("2262701372034", { id = "2262701372034"; prn = "2262701372034"; name = "PHADTARE NIKHIL SHANKAR"; section = "btech"; rollNo = 31; isActive = true });
-    m.add("2262701372035", { id = "2262701372035"; prn = "2262701372035"; name = "PANDIT SHRAVANI PRAVIN"; section = "btech"; rollNo = 32; isActive = true });
-    m.add("2262701372036", { id = "2262701372036"; prn = "2262701372036"; name = "DHANE SUJAL SANDIP"; section = "btech"; rollNo = 33; isActive = true });
-    m.add("2262701372037", { id = "2262701372037"; prn = "2262701372037"; name = "JADHAV OM SANJAY"; section = "btech"; rollNo = 34; isActive = true });
-    m.add("2262701372039", { id = "2262701372039"; prn = "2262701372039"; name = "SHINTRE BHAGYASHRI SOMESHWAR"; section = "btech"; rollNo = 35; isActive = true });
-    m.add("2262701372040", { id = "2262701372040"; prn = "2262701372040"; name = "THORVE ANUJA AVINASH"; section = "btech"; rollNo = 36; isActive = true });
-    m.add("2262701372041", { id = "2262701372041"; prn = "2262701372041"; name = "JADHAV PRANALI RAVINDRA"; section = "btech"; rollNo = 37; isActive = true });
-    m.add("2262701372042", { id = "2262701372042"; prn = "2262701372042"; name = "NAIM NAJIR BEG"; section = "btech"; rollNo = 38; isActive = true });
-    m.add("2262701372043", { id = "2262701372043"; prn = "2262701372043"; name = "DHAVALE PINAK MANDAR"; section = "btech"; rollNo = 39; isActive = true });
-    m.add("2262701372044", { id = "2262701372044"; prn = "2262701372044"; name = "SHRADDHA NARAYAN BANKAR"; section = "btech"; rollNo = 40; isActive = true });
-    m.add("2262701372045", { id = "2262701372045"; prn = "2262701372045"; name = "SURYAWANSHI PRERANA ABHIJEET"; section = "btech"; rollNo = 41; isActive = true });
-    m.add("2262701372046", { id = "2262701372046"; prn = "2262701372046"; name = "VARMA YASH DEEPAK"; section = "btech"; rollNo = 42; isActive = true });
-    m.add("2262701372047", { id = "2262701372047"; prn = "2262701372047"; name = "SANAS PURVA BALIRAM"; section = "btech"; rollNo = 43; isActive = true });
-    m.add("2262701372048", { id = "2262701372048"; prn = "2262701372048"; name = "JAMBHALE VEDANT ANIL"; section = "btech"; rollNo = 44; isActive = true });
-    m.add("2262701372049", { id = "2262701372049"; prn = "2262701372049"; name = "JAGADALE RAJLAXMI SAMBHAJI"; section = "btech"; rollNo = 45; isActive = true });
-    m.add("2262701372050", { id = "2262701372050"; prn = "2262701372050"; name = "MAHADIK YOGESH SHANKAR"; section = "btech"; rollNo = 46; isActive = true });
-    m.add("2262701372051", { id = "2262701372051"; prn = "2262701372051"; name = "KURLEKAR SHRAVANI SUNIL"; section = "btech"; rollNo = 47; isActive = true });
-    m.add("2262701372052", { id = "2262701372052"; prn = "2262701372052"; name = "KARANDE SHRUTI NITIN"; section = "btech"; rollNo = 48; isActive = true });
-    m.add("2262701372053", { id = "2262701372053"; prn = "2262701372053"; name = "SAKUNDE DIVYA VITTHAL"; section = "btech"; rollNo = 49; isActive = true });
-    m.add("2262701372054", { id = "2262701372054"; prn = "2262701372054"; name = "SHINDE ATHARVA NITIN"; section = "btech"; rollNo = 50; isActive = true });
-    m.add("2262701372055", { id = "2262701372055"; prn = "2262701372055"; name = "UDANDE ANUSHRI VISHAL"; section = "btech"; rollNo = 51; isActive = true });
-    m.add("2262701372056", { id = "2262701372056"; prn = "2262701372056"; name = "KSHIRSAGAR SHREYA SANTOSH"; section = "btech"; rollNo = 52; isActive = true });
-    m.add("2262701372057", { id = "2262701372057"; prn = "2262701372057"; name = "KHUTALE PARTH RAJENDRA"; section = "btech"; rollNo = 53; isActive = true });
-    m.add("2262701372058", { id = "2262701372058"; prn = "2262701372058"; name = "SHINDE JAYWANT SOMNATH"; section = "btech"; rollNo = 54; isActive = true });
-    m.add("2262701372059", { id = "2262701372059"; prn = "2262701372059"; name = "JADHAV SHRADDHA SATISH"; section = "btech"; rollNo = 55; isActive = true });
-    m.add("2262701372060", { id = "2262701372060"; prn = "2262701372060"; name = "MALUSARE SRUSHTI UMESH"; section = "btech"; rollNo = 56; isActive = true });
-    m.add("2262701372061", { id = "2262701372061"; prn = "2262701372061"; name = "JADHAV NISHANT VIJAY"; section = "btech"; rollNo = 57; isActive = true });
-    m.add("2262701372062", { id = "2262701372062"; prn = "2262701372062"; name = "SHINGATE SAMRUDDHI JITENDRA"; section = "btech"; rollNo = 58; isActive = true });
-    m.add("2262701372063", { id = "2262701372063"; prn = "2262701372063"; name = "GHORPADE SANSKRUTI MAHENDRA"; section = "btech"; rollNo = 59; isActive = true });
-    m.add("2262701372064", { id = "2262701372064"; prn = "2262701372064"; name = "GONDHALI PRATHAMESH VINAYAK"; section = "btech"; rollNo = 60; isActive = true });
-    m.add("2262701372066", { id = "2262701372066"; prn = "2262701372066"; name = "PAWAR SHRADDHA AVINASH"; section = "btech"; rollNo = 61; isActive = true });
-    m.add("2262701372068", { id = "2262701372068"; prn = "2262701372068"; name = "DHANAWADE KUNAL KUBER"; section = "btech"; rollNo = 62; isActive = true });
-    m.add("23062701372501", { id = "23062701372501"; prn = "23062701372501"; name = "GIRI HARSHDA HANMANT"; section = "btech"; rollNo = 63; isActive = true });
-    m.add("23062701372502", { id = "23062701372502"; prn = "23062701372502"; name = "SALUNKHE SHRAVANI SURESH"; section = "btech"; rollNo = 64; isActive = true });
-    m.add("23062701372503", { id = "23062701372503"; prn = "23062701372503"; name = "CHAVAN SAYALI MANSING"; section = "btech"; rollNo = 65; isActive = true });
-    m.add("23062701372504", { id = "23062701372504"; prn = "23062701372504"; name = "GURAV PRUTHVIRAJ NAGANNATH"; section = "btech"; rollNo = 66; isActive = true });
-    m.add("23062701372505", { id = "23062701372505"; prn = "23062701372505"; name = "JADHAV ANUJA JOTIBA"; section = "btech"; rollNo = 67; isActive = true });
-    m.add("23062701372506", { id = "23062701372506"; prn = "23062701372506"; name = "SALUNKHE SAKSHI DIPAK"; section = "btech"; rollNo = 68; isActive = true });
-    m.add("23062701372507", { id = "23062701372507"; prn = "23062701372507"; name = "DHANE SHRAVANI BHARAT"; section = "btech"; rollNo = 69; isActive = true });
-    m.add("23062701372509", { id = "23062701372509"; prn = "23062701372509"; name = "PANDU YASIN RAJASAB"; section = "btech"; rollNo = 70; isActive = true });
+    m.add("2262701372001", { id = "2262701372001"; prn = "2262701372001"; name = "BHOSALE PRADNYA SANJAY"; section = "btech"; rollNo = 1; isActive = true; reference_photo_url = null });
+    m.add("2262701372002", { id = "2262701372002"; prn = "2262701372002"; name = "JADHAV VAISHNAVI SHANKAR"; section = "btech"; rollNo = 2; isActive = true; reference_photo_url = null });
+    m.add("2262701372003", { id = "2262701372003"; prn = "2262701372003"; name = "GHERADE PRAMOD MARUTI"; section = "btech"; rollNo = 3; isActive = true; reference_photo_url = null });
+    m.add("2262701372004", { id = "2262701372004"; prn = "2262701372004"; name = "YADAV SHRADDHA SANDIP"; section = "btech"; rollNo = 4; isActive = true; reference_photo_url = null });
+    m.add("2262701372006", { id = "2262701372006"; prn = "2262701372006"; name = "SHETPHALKAR SNEHA ASHWINKUMAR"; section = "btech"; rollNo = 5; isActive = true; reference_photo_url = null });
+    m.add("2262701372007", { id = "2262701372007"; prn = "2262701372007"; name = "BHOSALE VARUN VINOD"; section = "btech"; rollNo = 6; isActive = true; reference_photo_url = null });
+    m.add("2262701372008", { id = "2262701372008"; prn = "2262701372008"; name = "ZODGE SHIVAM SHRIRAM"; section = "btech"; rollNo = 7; isActive = true; reference_photo_url = null });
+    m.add("2262701372009", { id = "2262701372009"; prn = "2262701372009"; name = "JADHAV PRATIK GORAKH"; section = "btech"; rollNo = 8; isActive = true; reference_photo_url = null });
+    m.add("2262701372011", { id = "2262701372011"; prn = "2262701372011"; name = "AWALE REVANSIDDHI DHANANJAY"; section = "btech"; rollNo = 9; isActive = true; reference_photo_url = null });
+    m.add("2262701372012", { id = "2262701372012"; prn = "2262701372012"; name = "SHELATKAR SANKALP SANJAY"; section = "btech"; rollNo = 10; isActive = true; reference_photo_url = null });
+    m.add("2262701372013", { id = "2262701372013"; prn = "2262701372013"; name = "SHINDE PRACHI SACHIN"; section = "btech"; rollNo = 11; isActive = true; reference_photo_url = null });
+    m.add("2262701372014", { id = "2262701372014"; prn = "2262701372014"; name = "SHELAR PRATHAMESH DHANANJAY"; section = "btech"; rollNo = 12; isActive = true; reference_photo_url = null });
+    m.add("2262701372015", { id = "2262701372015"; prn = "2262701372015"; name = "DALVI SUNNY SANJU"; section = "btech"; rollNo = 13; isActive = true; reference_photo_url = null });
+    m.add("2262701372016", { id = "2262701372016"; prn = "2262701372016"; name = "KADAM CHAITANYA PAVAN"; section = "btech"; rollNo = 14; isActive = true; reference_photo_url = null });
+    m.add("2262701372017", { id = "2262701372017"; prn = "2262701372017"; name = "BHOSLAE OM SOMNATH"; section = "btech"; rollNo = 15; isActive = true; reference_photo_url = null });
+    m.add("2262701372018", { id = "2262701372018"; prn = "2262701372018"; name = "GHUGARE KIRAN YASHWANT"; section = "btech"; rollNo = 16; isActive = true; reference_photo_url = null });
+    m.add("2262701372019", { id = "2262701372019"; prn = "2262701372019"; name = "KHARAT ANUJA AJAY"; section = "btech"; rollNo = 17; isActive = true; reference_photo_url = null });
+    m.add("2262701372020", { id = "2262701372020"; prn = "2262701372020"; name = "UPPALGE ROHIT RANGNATH"; section = "btech"; rollNo = 18; isActive = true; reference_photo_url = null });
+    m.add("2262701372021", { id = "2262701372021"; prn = "2262701372021"; name = "GHADGE ATHARV DATTATRAY"; section = "btech"; rollNo = 19; isActive = true; reference_photo_url = null });
+    m.add("2262701372022", { id = "2262701372022"; prn = "2262701372022"; name = "MALUSARE MADHURA SAGAR"; section = "btech"; rollNo = 20; isActive = true; reference_photo_url = null });
+    m.add("2262701372023", { id = "2262701372023"; prn = "2262701372023"; name = "PAWAR PRATIKSHA MANOJ"; section = "btech"; rollNo = 21; isActive = true; reference_photo_url = null });
+    m.add("2262701372024", { id = "2262701372024"; prn = "2262701372024"; name = "SALUNKHE SHRUTI SAMBHAJI"; section = "btech"; rollNo = 22; isActive = true; reference_photo_url = null });
+    m.add("2262701372025", { id = "2262701372025"; prn = "2262701372025"; name = "MANE SAMRUDDHI KISAN"; section = "btech"; rollNo = 23; isActive = true; reference_photo_url = null });
+    m.add("2262701372026", { id = "2262701372026"; prn = "2262701372026"; name = "SALUNKHE SANJANA NARAYAN"; section = "btech"; rollNo = 24; isActive = true; reference_photo_url = null });
+    m.add("2262701372027", { id = "2262701372027"; prn = "2262701372027"; name = "KUMBHAR DIKSHA MANOHAR"; section = "btech"; rollNo = 25; isActive = true; reference_photo_url = null });
+    m.add("2262701372028", { id = "2262701372028"; prn = "2262701372028"; name = "JANGAM CHINMAY YOGESH"; section = "btech"; rollNo = 26; isActive = true; reference_photo_url = null });
+    m.add("2262701372029", { id = "2262701372029"; prn = "2262701372029"; name = "SAWANT SHREYA KRISHNAT"; section = "btech"; rollNo = 27; isActive = true; reference_photo_url = null });
+    m.add("2262701372030", { id = "2262701372030"; prn = "2262701372030"; name = "JADHAV JANHAVI MADHUKAR"; section = "btech"; rollNo = 28; isActive = true; reference_photo_url = null });
+    m.add("2262701372032", { id = "2262701372032"; prn = "2262701372032"; name = "SOLANKI VIVEK RAVI"; section = "btech"; rollNo = 29; isActive = true; reference_photo_url = null });
+    m.add("2262701372033", { id = "2262701372033"; prn = "2262701372033"; name = "VEER GAYATRI JANGLIMAHARAJ"; section = "btech"; rollNo = 30; isActive = true; reference_photo_url = null });
+    m.add("2262701372034", { id = "2262701372034"; prn = "2262701372034"; name = "PHADTARE NIKHIL SHANKAR"; section = "btech"; rollNo = 31; isActive = true; reference_photo_url = null });
+    m.add("2262701372035", { id = "2262701372035"; prn = "2262701372035"; name = "PANDIT SHRAVANI PRAVIN"; section = "btech"; rollNo = 32; isActive = true; reference_photo_url = null });
+    m.add("2262701372036", { id = "2262701372036"; prn = "2262701372036"; name = "DHANE SUJAL SANDIP"; section = "btech"; rollNo = 33; isActive = true; reference_photo_url = null });
+    m.add("2262701372037", { id = "2262701372037"; prn = "2262701372037"; name = "JADHAV OM SANJAY"; section = "btech"; rollNo = 34; isActive = true; reference_photo_url = null });
+    m.add("2262701372039", { id = "2262701372039"; prn = "2262701372039"; name = "SHINTRE BHAGYASHRI SOMESHWAR"; section = "btech"; rollNo = 35; isActive = true; reference_photo_url = null });
+    m.add("2262701372040", { id = "2262701372040"; prn = "2262701372040"; name = "THORVE ANUJA AVINASH"; section = "btech"; rollNo = 36; isActive = true; reference_photo_url = null });
+    m.add("2262701372041", { id = "2262701372041"; prn = "2262701372041"; name = "JADHAV PRANALI RAVINDRA"; section = "btech"; rollNo = 37; isActive = true; reference_photo_url = null });
+    m.add("2262701372042", { id = "2262701372042"; prn = "2262701372042"; name = "NAIM NAJIR BEG"; section = "btech"; rollNo = 38; isActive = true; reference_photo_url = null });
+    m.add("2262701372043", { id = "2262701372043"; prn = "2262701372043"; name = "DHAVALE PINAK MANDAR"; section = "btech"; rollNo = 39; isActive = true; reference_photo_url = null });
+    m.add("2262701372044", { id = "2262701372044"; prn = "2262701372044"; name = "SHRADDHA NARAYAN BANKAR"; section = "btech"; rollNo = 40; isActive = true; reference_photo_url = null });
+    m.add("2262701372045", { id = "2262701372045"; prn = "2262701372045"; name = "SURYAWANSHI PRERANA ABHIJEET"; section = "btech"; rollNo = 41; isActive = true; reference_photo_url = null });
+    m.add("2262701372046", { id = "2262701372046"; prn = "2262701372046"; name = "VARMA YASH DEEPAK"; section = "btech"; rollNo = 42; isActive = true; reference_photo_url = null });
+    m.add("2262701372047", { id = "2262701372047"; prn = "2262701372047"; name = "SANAS PURVA BALIRAM"; section = "btech"; rollNo = 43; isActive = true; reference_photo_url = null });
+    m.add("2262701372048", { id = "2262701372048"; prn = "2262701372048"; name = "JAMBHALE VEDANT ANIL"; section = "btech"; rollNo = 44; isActive = true; reference_photo_url = null });
+    m.add("2262701372049", { id = "2262701372049"; prn = "2262701372049"; name = "JAGADALE RAJLAXMI SAMBHAJI"; section = "btech"; rollNo = 45; isActive = true; reference_photo_url = null });
+    m.add("2262701372050", { id = "2262701372050"; prn = "2262701372050"; name = "MAHADIK YOGESH SHANKAR"; section = "btech"; rollNo = 46; isActive = true; reference_photo_url = null });
+    m.add("2262701372051", { id = "2262701372051"; prn = "2262701372051"; name = "KURLEKAR SHRAVANI SUNIL"; section = "btech"; rollNo = 47; isActive = true; reference_photo_url = null });
+    m.add("2262701372052", { id = "2262701372052"; prn = "2262701372052"; name = "KARANDE SHRUTI NITIN"; section = "btech"; rollNo = 48; isActive = true; reference_photo_url = null });
+    m.add("2262701372053", { id = "2262701372053"; prn = "2262701372053"; name = "SAKUNDE DIVYA VITTHAL"; section = "btech"; rollNo = 49; isActive = true; reference_photo_url = null });
+    m.add("2262701372054", { id = "2262701372054"; prn = "2262701372054"; name = "SHINDE ATHARVA NITIN"; section = "btech"; rollNo = 50; isActive = true; reference_photo_url = null });
+    m.add("2262701372055", { id = "2262701372055"; prn = "2262701372055"; name = "UDANDE ANUSHRI VISHAL"; section = "btech"; rollNo = 51; isActive = true; reference_photo_url = null });
+    m.add("2262701372056", { id = "2262701372056"; prn = "2262701372056"; name = "KSHIRSAGAR SHREYA SANTOSH"; section = "btech"; rollNo = 52; isActive = true; reference_photo_url = null });
+    m.add("2262701372057", { id = "2262701372057"; prn = "2262701372057"; name = "KHUTALE PARTH RAJENDRA"; section = "btech"; rollNo = 53; isActive = true; reference_photo_url = null });
+    m.add("2262701372058", { id = "2262701372058"; prn = "2262701372058"; name = "SHINDE JAYWANT SOMNATH"; section = "btech"; rollNo = 54; isActive = true; reference_photo_url = null });
+    m.add("2262701372059", { id = "2262701372059"; prn = "2262701372059"; name = "JADHAV SHRADDHA SATISH"; section = "btech"; rollNo = 55; isActive = true; reference_photo_url = null });
+    m.add("2262701372060", { id = "2262701372060"; prn = "2262701372060"; name = "MALUSARE SRUSHTI UMESH"; section = "btech"; rollNo = 56; isActive = true; reference_photo_url = null });
+    m.add("2262701372061", { id = "2262701372061"; prn = "2262701372061"; name = "JADHAV NISHANT VIJAY"; section = "btech"; rollNo = 57; isActive = true; reference_photo_url = null });
+    m.add("2262701372062", { id = "2262701372062"; prn = "2262701372062"; name = "SHINGATE SAMRUDDHI JITENDRA"; section = "btech"; rollNo = 58; isActive = true; reference_photo_url = null });
+    m.add("2262701372063", { id = "2262701372063"; prn = "2262701372063"; name = "GHORPADE SANSKRUTI MAHENDRA"; section = "btech"; rollNo = 59; isActive = true; reference_photo_url = null });
+    m.add("2262701372064", { id = "2262701372064"; prn = "2262701372064"; name = "GONDHALI PRATHAMESH VINAYAK"; section = "btech"; rollNo = 60; isActive = true; reference_photo_url = null });
+    m.add("2262701372066", { id = "2262701372066"; prn = "2262701372066"; name = "PAWAR SHRADDHA AVINASH"; section = "btech"; rollNo = 61; isActive = true; reference_photo_url = null });
+    m.add("2262701372068", { id = "2262701372068"; prn = "2262701372068"; name = "DHANAWADE KUNAL KUBER"; section = "btech"; rollNo = 62; isActive = true; reference_photo_url = null });
+    m.add("23062701372501", { id = "23062701372501"; prn = "23062701372501"; name = "GIRI HARSHDA HANMANT"; section = "btech"; rollNo = 63; isActive = true; reference_photo_url = null });
+    m.add("23062701372502", { id = "23062701372502"; prn = "23062701372502"; name = "SALUNKHE SHRAVANI SURESH"; section = "btech"; rollNo = 64; isActive = true; reference_photo_url = null });
+    m.add("23062701372503", { id = "23062701372503"; prn = "23062701372503"; name = "CHAVAN SAYALI MANSING"; section = "btech"; rollNo = 65; isActive = true; reference_photo_url = null });
+    m.add("23062701372504", { id = "23062701372504"; prn = "23062701372504"; name = "GURAV PRUTHVIRAJ NAGANNATH"; section = "btech"; rollNo = 66; isActive = true; reference_photo_url = null });
+    m.add("23062701372505", { id = "23062701372505"; prn = "23062701372505"; name = "JADHAV ANUJA JOTIBA"; section = "btech"; rollNo = 67; isActive = true; reference_photo_url = null });
+    m.add("23062701372506", { id = "23062701372506"; prn = "23062701372506"; name = "SALUNKHE SAKSHI DIPAK"; section = "btech"; rollNo = 68; isActive = true; reference_photo_url = null });
+    m.add("23062701372507", { id = "23062701372507"; prn = "23062701372507"; name = "DHANE SHRAVANI BHARAT"; section = "btech"; rollNo = 69; isActive = true; reference_photo_url = null });
+    m.add("23062701372509", { id = "23062701372509"; prn = "23062701372509"; name = "PANDU YASIN RAJASAB"; section = "btech"; rollNo = 70; isActive = true; reference_photo_url = null });
 
     m;
   };
@@ -386,6 +391,7 @@ module {
       device_info = req.device_info;
       method = "QR";
       geo_fail = geoFail;
+      face_mismatch = false;
     };
   };
 
@@ -411,7 +417,45 @@ module {
       device_info = "Manual Entry by Faculty";
       method = "Manual";
       geo_fail = false;
+      face_mismatch = false;
     };
+  };
+
+  /// Updates the reference_photo_url for a student identified by PRN.
+  /// Updates the reference_photo_url for a student identified by PRN.
+  /// Returns the updated Student record on success, null if PRN not found.
+  public func updateStudentPhoto(
+    students : Map.Map<Text, Student>,
+    prn : Text,
+    url : Text,
+  ) : ?Student {
+    switch (students.get(prn)) {
+      case null null;
+      case (?s) {
+        let updated = { s with reference_photo_url = ?url };
+        students.add(prn, updated);
+        ?updated;
+      };
+    };
+  };
+
+  /// Sets the face_mismatch flag on an attendance record by id.
+  /// Returns true if found, false if not found.
+  public func flagFaceMismatch(
+    records : List.List<AttendanceRecord>,
+    record_id : Nat,
+    flagged : Bool,
+  ) : Bool {
+    var found = false;
+    records.mapInPlace(
+      func(r : AttendanceRecord) : AttendanceRecord {
+        if (r.id == record_id.toText()) {
+          found := true;
+          { r with face_mismatch = flagged };
+        } else { r };
+      }
+    );
+    found;
   };
 
   /// Removes the attendance record with the given id. Returns true if deleted.
@@ -494,6 +538,7 @@ module {
       section = req.section;
       rollNo = req.rollNo;
       isActive = req.isActive;
+      reference_photo_url = null;
     };
     students.add(req.prn, student);
     #ok(student);
@@ -515,6 +560,7 @@ module {
           section = switch (upd.section) { case (?v) v; case null s.section };
           rollNo = switch (upd.rollNo) { case (?v) v; case null s.rollNo };
           isActive = switch (upd.isActive) { case (?v) v; case null s.isActive };
+          reference_photo_url = s.reference_photo_url;
         };
         students.add(updated.id, updated);
         #ok(updated);

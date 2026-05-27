@@ -1,13 +1,15 @@
 import Types "types/attendance";
 import AttendanceLib "lib/attendance";
 import AttendanceMixin "mixins/attendance-api";
-import Migration "migration";
+
 import Map "mo:core/Map";
 import List "mo:core/List";
 
 
 
-(with migration = Migration.run)
+
+
+
 actor {
   let students : Map.Map<Text, Types.Student> = AttendanceLib.initStudents();
   let records : List.List<Types.AttendanceRecord> = List.empty<Types.AttendanceRecord>();

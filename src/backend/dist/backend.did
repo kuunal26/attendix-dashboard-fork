@@ -20,6 +20,7 @@ type StudentWithSection =
    isActive: bool;
    name: text;
    prn: text;
+   reference_photo_url: opt text;
    rollNo: nat;
    section: text;
  };
@@ -35,6 +36,7 @@ type Student =
    isActive: bool;
    name: text;
    prn: text;
+   reference_photo_url: opt text;
    rollNo: nat;
    section: text;
  };
@@ -91,6 +93,7 @@ type AttendanceStats =
 type AttendanceRecord = 
  record {
    device_info: text;
+   face_mismatch: bool;
    geo_fail: bool;
    id: text;
    image_url: text;
@@ -121,6 +124,7 @@ service : {
                                    err: text;
                                    ok;
                                  });
+  flag_face_mismatch: (record_id: nat, flagged: bool) -> (bool);
   get_all_attendance: () -> (vec AttendanceRecord) query;
   get_all_semester_templates: () -> (vec record {
                                            nat;
@@ -158,4 +162,5 @@ service : {
       err: text;
       ok: Student;
     });
+  update_student_photo: (prn: text, url: text) -> (opt Student);
 }

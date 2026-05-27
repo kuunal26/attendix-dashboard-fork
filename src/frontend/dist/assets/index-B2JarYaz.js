@@ -33212,7 +33212,7 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$T = [
+const __iconNode$U = [
   ["path", { d: "M10.268 21a2 2 0 0 0 3.464 0", key: "vwvbt9" }],
   [
     "path",
@@ -33222,14 +33222,14 @@ const __iconNode$T = [
     }
   ]
 ];
-const Bell = createLucideIcon("bell", __iconNode$T);
+const Bell = createLucideIcon("bell", __iconNode$U);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$S = [
+const __iconNode$T = [
   ["path", { d: "M12 7v14", key: "1akyts" }],
   [
     "path",
@@ -33239,14 +33239,14 @@ const __iconNode$S = [
     }
   ]
 ];
-const BookOpen = createLucideIcon("book-open", __iconNode$S);
+const BookOpen = createLucideIcon("book-open", __iconNode$T);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$R = [
+const __iconNode$S = [
   ["path", { d: "M8 2v4", key: "1cmpym" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
@@ -33258,7 +33258,20 @@ const __iconNode$R = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M16 18h.01", key: "kzsmim" }]
 ];
-const CalendarDays = createLucideIcon("calendar-days", __iconNode$R);
+const CalendarDays = createLucideIcon("calendar-days", __iconNode$S);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$R = [
+  ["path", { d: "M8 2v4", key: "1cmpym" }],
+  ["path", { d: "M16 2v4", key: "4m81vk" }],
+  ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
+  ["path", { d: "M3 10h18", key: "8toen8" }]
+];
+const Calendar = createLucideIcon("calendar", __iconNode$R);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33266,19 +33279,6 @@ const CalendarDays = createLucideIcon("calendar-days", __iconNode$R);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$Q = [
-  ["path", { d: "M8 2v4", key: "1cmpym" }],
-  ["path", { d: "M16 2v4", key: "4m81vk" }],
-  ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
-  ["path", { d: "M3 10h18", key: "8toen8" }]
-];
-const Calendar = createLucideIcon("calendar", __iconNode$Q);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$P = [
   [
     "path",
     {
@@ -33288,52 +33288,64 @@ const __iconNode$P = [
   ],
   ["circle", { cx: "12", cy: "13", r: "3", key: "1vg3eu" }]
 ];
-const Camera = createLucideIcon("camera", __iconNode$P);
+const Camera = createLucideIcon("camera", __iconNode$Q);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$O = [
+const __iconNode$P = [
   ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
   ["path", { d: "M18 17V9", key: "2bz60n" }],
   ["path", { d: "M13 17V5", key: "1frdt8" }],
   ["path", { d: "M8 17v-3", key: "17ska0" }]
 ];
-const ChartColumn = createLucideIcon("chart-column", __iconNode$O);
+const ChartColumn = createLucideIcon("chart-column", __iconNode$P);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$N = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-const Check = createLucideIcon("check", __iconNode$N);
+const __iconNode$O = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+const Check = createLucideIcon("check", __iconNode$O);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$M = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$M);
+const __iconNode$N = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$N);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$L = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$L);
+const __iconNode$M = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$M);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$K = [["path", { d: "m18 15-6-6-6 6", key: "153udz" }]];
-const ChevronUp = createLucideIcon("chevron-up", __iconNode$K);
+const __iconNode$L = [["path", { d: "m18 15-6-6-6 6", key: "153udz" }]];
+const ChevronUp = createLucideIcon("chevron-up", __iconNode$L);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$K = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+];
+const CircleAlert = createLucideIcon("circle-alert", __iconNode$K);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33341,11 +33353,10 @@ const ChevronUp = createLucideIcon("chevron-up", __iconNode$K);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$J = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
-  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+  ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
+  ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
 ];
-const CircleAlert = createLucideIcon("circle-alert", __iconNode$J);
+const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$J);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33353,10 +33364,11 @@ const CircleAlert = createLucideIcon("circle-alert", __iconNode$J);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$I = [
-  ["path", { d: "M21.801 10A10 10 0 1 1 17 3.335", key: "yps3ct" }],
-  ["path", { d: "m9 11 3 3L22 4", key: "1pflzl" }]
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["path", { d: "M8 12h8", key: "1wcyev" }],
+  ["path", { d: "M12 8v8", key: "napkw2" }]
 ];
-const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$I);
+const CirclePlus = createLucideIcon("circle-plus", __iconNode$I);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33365,10 +33377,10 @@ const CircleCheckBig = createLucideIcon("circle-check-big", __iconNode$I);
  */
 const __iconNode$H = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["path", { d: "M8 12h8", key: "1wcyev" }],
-  ["path", { d: "M12 8v8", key: "napkw2" }]
+  ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }],
+  ["path", { d: "M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662", key: "154egf" }]
 ];
-const CirclePlus = createLucideIcon("circle-plus", __iconNode$H);
+const CircleUser = createLucideIcon("circle-user", __iconNode$H);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33377,10 +33389,10 @@ const CirclePlus = createLucideIcon("circle-plus", __iconNode$H);
  */
 const __iconNode$G = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }],
-  ["path", { d: "M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662", key: "154egf" }]
+  ["path", { d: "m15 9-6 6", key: "1uzhvr" }],
+  ["path", { d: "m9 9 6 6", key: "z0biqf" }]
 ];
-const CircleUser = createLucideIcon("circle-user", __iconNode$G);
+const CircleX = createLucideIcon("circle-x", __iconNode$G);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33388,18 +33400,6 @@ const CircleUser = createLucideIcon("circle-user", __iconNode$G);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$F = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["path", { d: "m15 9-6 6", key: "1uzhvr" }],
-  ["path", { d: "m9 9 6 6", key: "z0biqf" }]
-];
-const CircleX = createLucideIcon("circle-x", __iconNode$F);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$E = [
   ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
   [
     "path",
@@ -33410,7 +33410,18 @@ const __iconNode$E = [
   ],
   ["path", { d: "m9 14 2 2 4-4", key: "df797q" }]
 ];
-const ClipboardCheck = createLucideIcon("clipboard-check", __iconNode$E);
+const ClipboardCheck = createLucideIcon("clipboard-check", __iconNode$F);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$E = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["polyline", { points: "12 6 12 12 16 14", key: "68esgv" }]
+];
+const Clock = createLucideIcon("clock", __iconNode$E);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33419,9 +33430,12 @@ const ClipboardCheck = createLucideIcon("clipboard-check", __iconNode$E);
  */
 const __iconNode$D = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["polyline", { points: "12 6 12 12 16 14", key: "68esgv" }]
+  ["line", { x1: "22", x2: "18", y1: "12", y2: "12", key: "l9bcsi" }],
+  ["line", { x1: "6", x2: "2", y1: "12", y2: "12", key: "13hhkx" }],
+  ["line", { x1: "12", x2: "12", y1: "6", y2: "2", key: "10w3f3" }],
+  ["line", { x1: "12", x2: "12", y1: "22", y2: "18", key: "15g9kq" }]
 ];
-const Clock = createLucideIcon("clock", __iconNode$D);
+const Crosshair = createLucideIcon("crosshair", __iconNode$D);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33429,13 +33443,11 @@ const Clock = createLucideIcon("clock", __iconNode$D);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$C = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["line", { x1: "22", x2: "18", y1: "12", y2: "12", key: "l9bcsi" }],
-  ["line", { x1: "6", x2: "2", y1: "12", y2: "12", key: "13hhkx" }],
-  ["line", { x1: "12", x2: "12", y1: "6", y2: "2", key: "10w3f3" }],
-  ["line", { x1: "12", x2: "12", y1: "22", y2: "18", key: "15g9kq" }]
+  ["path", { d: "M12 15V3", key: "m9g1x1" }],
+  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
+  ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
 ];
-const Crosshair = createLucideIcon("crosshair", __iconNode$C);
+const Download = createLucideIcon("download", __iconNode$C);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33443,18 +33455,6 @@ const Crosshair = createLucideIcon("crosshair", __iconNode$C);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$B = [
-  ["path", { d: "M12 15V3", key: "m9g1x1" }],
-  ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
-  ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
-];
-const Download = createLucideIcon("download", __iconNode$B);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$A = [
   [
     "path",
     {
@@ -33472,14 +33472,14 @@ const __iconNode$A = [
   ],
   ["path", { d: "m2 2 20 20", key: "1ooewy" }]
 ];
-const EyeOff = createLucideIcon("eye-off", __iconNode$A);
+const EyeOff = createLucideIcon("eye-off", __iconNode$B);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$z = [
+const __iconNode$A = [
   [
     "path",
     {
@@ -33489,7 +33489,21 @@ const __iconNode$z = [
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-const Eye = createLucideIcon("eye", __iconNode$z);
+const Eye = createLucideIcon("eye", __iconNode$A);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$z = [
+  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
+  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
+  ["path", { d: "M10 9H8", key: "b1mrlr" }],
+  ["path", { d: "M16 13H8", key: "t4e002" }],
+  ["path", { d: "M16 17H8", key: "z1uh3a" }]
+];
+const FileText = createLucideIcon("file-text", __iconNode$z);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33497,13 +33511,12 @@ const Eye = createLucideIcon("eye", __iconNode$z);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$y = [
-  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
-  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
-  ["path", { d: "M10 9H8", key: "b1mrlr" }],
-  ["path", { d: "M16 13H8", key: "t4e002" }],
-  ["path", { d: "M16 17H8", key: "z1uh3a" }]
+  ["line", { x1: "4", x2: "20", y1: "9", y2: "9", key: "4lhtct" }],
+  ["line", { x1: "4", x2: "20", y1: "15", y2: "15", key: "vyu0kd" }],
+  ["line", { x1: "10", x2: "8", y1: "3", y2: "21", key: "1ggp8o" }],
+  ["line", { x1: "16", x2: "14", y1: "3", y2: "21", key: "weycgp" }]
 ];
-const FileText = createLucideIcon("file-text", __iconNode$y);
+const Hash2 = createLucideIcon("hash", __iconNode$y);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33511,12 +33524,11 @@ const FileText = createLucideIcon("file-text", __iconNode$y);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$x = [
-  ["line", { x1: "4", x2: "20", y1: "9", y2: "9", key: "4lhtct" }],
-  ["line", { x1: "4", x2: "20", y1: "15", y2: "15", key: "vyu0kd" }],
-  ["line", { x1: "10", x2: "8", y1: "3", y2: "21", key: "1ggp8o" }],
-  ["line", { x1: "16", x2: "14", y1: "3", y2: "21", key: "weycgp" }]
+  ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
+  ["path", { d: "M3 3v5h5", key: "1xhq8a" }],
+  ["path", { d: "M12 7v5l4 2", key: "1fdv2h" }]
 ];
-const Hash2 = createLucideIcon("hash", __iconNode$x);
+const History = createLucideIcon("history", __iconNode$x);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33524,18 +33536,6 @@ const Hash2 = createLucideIcon("hash", __iconNode$x);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$w = [
-  ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
-  ["path", { d: "M3 3v5h5", key: "1xhq8a" }],
-  ["path", { d: "M12 7v5l4 2", key: "1fdv2h" }]
-];
-const History = createLucideIcon("history", __iconNode$w);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$v = [
   [
     "path",
     {
@@ -33545,28 +33545,40 @@ const __iconNode$v = [
   ],
   ["circle", { cx: "16.5", cy: "7.5", r: ".5", fill: "currentColor", key: "w0ekpg" }]
 ];
-const KeyRound = createLucideIcon("key-round", __iconNode$v);
+const KeyRound = createLucideIcon("key-round", __iconNode$w);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$u = [
+const __iconNode$v = [
   ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
   ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
   ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
   ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
 ];
-const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$u);
+const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$v);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$t = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
-const LoaderCircle = createLucideIcon("loader-circle", __iconNode$t);
+const __iconNode$u = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+const LoaderCircle = createLucideIcon("loader-circle", __iconNode$u);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$t = [
+  ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
+  ["path", { d: "M21 12H9", key: "dn1m92" }],
+  ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
+];
+const LogOut = createLucideIcon("log-out", __iconNode$t);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33574,11 +33586,10 @@ const LoaderCircle = createLucideIcon("loader-circle", __iconNode$t);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$s = [
-  ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
-  ["path", { d: "M21 12H9", key: "dn1m92" }],
-  ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
+  ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
+  ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
 ];
-const LogOut = createLucideIcon("log-out", __iconNode$s);
+const Mail = createLucideIcon("mail", __iconNode$s);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33586,17 +33597,6 @@ const LogOut = createLucideIcon("log-out", __iconNode$s);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$r = [
-  ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
-  ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
-];
-const Mail = createLucideIcon("mail", __iconNode$r);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$q = [
   [
     "path",
     {
@@ -33606,7 +33606,19 @@ const __iconNode$q = [
   ],
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
 ];
-const MapPin = createLucideIcon("map-pin", __iconNode$q);
+const MapPin = createLucideIcon("map-pin", __iconNode$r);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$q = [
+  ["path", { d: "M4 12h16", key: "1lakjw" }],
+  ["path", { d: "M4 18h16", key: "19g7jn" }],
+  ["path", { d: "M4 6h16", key: "1o0s65" }]
+];
+const Menu = createLucideIcon("menu", __iconNode$q);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33614,11 +33626,9 @@ const MapPin = createLucideIcon("map-pin", __iconNode$q);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$p = [
-  ["path", { d: "M4 12h16", key: "1lakjw" }],
-  ["path", { d: "M4 18h16", key: "19g7jn" }],
-  ["path", { d: "M4 6h16", key: "1o0s65" }]
+  ["path", { d: "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z", key: "a7tn18" }]
 ];
-const Menu = createLucideIcon("menu", __iconNode$p);
+const Moon = createLucideIcon("moon", __iconNode$p);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33626,9 +33636,12 @@ const Menu = createLucideIcon("menu", __iconNode$p);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$o = [
-  ["path", { d: "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z", key: "a7tn18" }]
+  ["path", { d: "M6 8.32a7.43 7.43 0 0 1 0 7.36", key: "9iaqei" }],
+  ["path", { d: "M9.46 6.21a11.76 11.76 0 0 1 0 11.58", key: "1yha7l" }],
+  ["path", { d: "M12.91 4.1a15.91 15.91 0 0 1 .01 15.8", key: "4iu2gk" }],
+  ["path", { d: "M16.37 2a20.16 20.16 0 0 1 0 20", key: "sap9u2" }]
 ];
-const Moon = createLucideIcon("moon", __iconNode$o);
+const Nfc = createLucideIcon("nfc", __iconNode$o);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33636,19 +33649,6 @@ const Moon = createLucideIcon("moon", __iconNode$o);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$n = [
-  ["path", { d: "M6 8.32a7.43 7.43 0 0 1 0 7.36", key: "9iaqei" }],
-  ["path", { d: "M9.46 6.21a11.76 11.76 0 0 1 0 11.58", key: "1yha7l" }],
-  ["path", { d: "M12.91 4.1a15.91 15.91 0 0 1 .01 15.8", key: "4iu2gk" }],
-  ["path", { d: "M16.37 2a20.16 20.16 0 0 1 0 20", key: "sap9u2" }]
-];
-const Nfc = createLucideIcon("nfc", __iconNode$n);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$m = [
   [
     "path",
     {
@@ -33658,7 +33658,18 @@ const __iconNode$m = [
   ],
   ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
 ];
-const Pencil = createLucideIcon("pencil", __iconNode$m);
+const Pencil = createLucideIcon("pencil", __iconNode$n);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$m = [
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "M12 5v14", key: "s699le" }]
+];
+const Plus = createLucideIcon("plus", __iconNode$m);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -33666,17 +33677,6 @@ const Pencil = createLucideIcon("pencil", __iconNode$m);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$l = [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "M12 5v14", key: "s699le" }]
-];
-const Plus = createLucideIcon("plus", __iconNode$l);
-/**
- * @license lucide-react v0.511.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$k = [
   ["rect", { width: "5", height: "5", x: "3", y: "3", rx: "1", key: "1tu5fj" }],
   ["rect", { width: "5", height: "5", x: "16", y: "3", rx: "1", key: "1v8r4q" }],
   ["rect", { width: "5", height: "5", x: "3", y: "16", rx: "1", key: "1x03jg" }],
@@ -33690,7 +33690,20 @@ const __iconNode$k = [
   ["path", { d: "M21 12v.01", key: "1lwtk9" }],
   ["path", { d: "M12 21v-1", key: "1880an" }]
 ];
-const QrCode = createLucideIcon("qr-code", __iconNode$k);
+const QrCode = createLucideIcon("qr-code", __iconNode$l);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$k = [
+  ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
+  ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
+  ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
+  ["path", { d: "M8 16H3v5", key: "1cv678" }]
+];
+const RefreshCw = createLucideIcon("refresh-cw", __iconNode$k);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -42397,6 +42410,7 @@ const AddStudentRequest = Record({
 const Student = Record({
   "id": Text,
   "prn": Text,
+  "reference_photo_url": Opt(Text),
   "name": Text,
   "section": Text,
   "isActive": Bool,
@@ -42408,6 +42422,7 @@ const AttendanceRecord = Record({
   "student_name": Text,
   "latitude": Float64,
   "method": Text,
+  "face_mismatch": Bool,
   "image_url": Text,
   "device_info": Text,
   "longitude": Float64,
@@ -42452,6 +42467,7 @@ const SectionCounts = Record({
 const StudentWithSection = Record({
   "id": Text,
   "prn": Text,
+  "reference_photo_url": Opt(Text),
   "name": Text,
   "section": Text,
   "isActive": Bool,
@@ -42489,6 +42505,7 @@ Service({
     [Variant({ "ok": Null, "err": Text })],
     []
   ),
+  "flag_face_mismatch": Func([Nat, Bool], [Bool], []),
   "get_all_attendance": Func([], [Vec(AttendanceRecord)], ["query"]),
   "get_all_semester_templates": Func(
     [],
@@ -42553,6 +42570,11 @@ Service({
     [Text, UpdateStudentRequest],
     [Variant({ "ok": Student, "err": Text })],
     []
+  ),
+  "update_student_photo": Func(
+    [Text, Text],
+    [Opt(Student)],
+    []
   )
 });
 const idlFactory = ({ IDL: IDL2 }) => {
@@ -42578,6 +42600,7 @@ const idlFactory = ({ IDL: IDL2 }) => {
   const Student2 = IDL2.Record({
     "id": IDL2.Text,
     "prn": IDL2.Text,
+    "reference_photo_url": IDL2.Opt(IDL2.Text),
     "name": IDL2.Text,
     "section": IDL2.Text,
     "isActive": IDL2.Bool,
@@ -42589,6 +42612,7 @@ const idlFactory = ({ IDL: IDL2 }) => {
     "student_name": IDL2.Text,
     "latitude": IDL2.Float64,
     "method": IDL2.Text,
+    "face_mismatch": IDL2.Bool,
     "image_url": IDL2.Text,
     "device_info": IDL2.Text,
     "longitude": IDL2.Float64,
@@ -42633,6 +42657,7 @@ const idlFactory = ({ IDL: IDL2 }) => {
   const StudentWithSection2 = IDL2.Record({
     "id": IDL2.Text,
     "prn": IDL2.Text,
+    "reference_photo_url": IDL2.Opt(IDL2.Text),
     "name": IDL2.Text,
     "section": IDL2.Text,
     "isActive": IDL2.Bool,
@@ -42670,6 +42695,7 @@ const idlFactory = ({ IDL: IDL2 }) => {
       [IDL2.Variant({ "ok": IDL2.Null, "err": IDL2.Text })],
       []
     ),
+    "flag_face_mismatch": IDL2.Func([IDL2.Nat, IDL2.Bool], [IDL2.Bool], []),
     "get_all_attendance": IDL2.Func([], [IDL2.Vec(AttendanceRecord2)], ["query"]),
     "get_all_semester_templates": IDL2.Func(
       [],
@@ -42734,6 +42760,11 @@ const idlFactory = ({ IDL: IDL2 }) => {
       [IDL2.Text, UpdateStudentRequest2],
       [IDL2.Variant({ "ok": Student2, "err": IDL2.Text })],
       []
+    ),
+    "update_student_photo": IDL2.Func(
+      [IDL2.Text, IDL2.Text],
+      [IDL2.Opt(Student2)],
+      []
     )
   });
 };
@@ -42744,6 +42775,9 @@ function candid_some(value) {
 }
 function candid_none() {
   return [];
+}
+function record_opt_to_undefined(arg) {
+  return arg == null ? void 0 : arg;
 }
 class Backend {
   constructor(actor, _uploadFile, _downloadFile, processError2) {
@@ -42798,14 +42832,28 @@ class Backend {
     if (this.processError) {
       try {
         const result = await this.actor.delete_student(arg0);
-        return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+        return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.delete_student(arg0);
-      return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+      return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
+    }
+  }
+  async flag_face_mismatch(arg0, arg1) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.flag_face_mismatch(arg0, arg1);
+        return result;
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.flag_face_mismatch(arg0, arg1);
+      return result;
     }
   }
   async get_all_attendance() {
@@ -42840,14 +42888,14 @@ class Backend {
     if (this.processError) {
       try {
         const result = await this.actor.get_all_students();
-        return result;
+        return from_candid_vec_n10(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.get_all_students();
-      return result;
+      return from_candid_vec_n10(this._uploadFile, this._downloadFile, result);
     }
   }
   async get_attendance_by_date(arg0) {
@@ -42966,14 +43014,14 @@ class Backend {
     if (this.processError) {
       try {
         const result = await this.actor.get_student_by_prn(arg0);
-        return from_candid_opt_n7(this._uploadFile, this._downloadFile, result);
+        return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.get_student_by_prn(arg0);
-      return from_candid_opt_n7(this._uploadFile, this._downloadFile, result);
+      return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
     }
   }
   async get_student_list() {
@@ -43008,14 +43056,14 @@ class Backend {
     if (this.processError) {
       try {
         const result = await this.actor.get_students_by_section(arg0);
-        return result;
+        return from_candid_vec_n12(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.get_students_by_section(arg0);
-      return result;
+      return from_candid_vec_n12(this._uploadFile, this._downloadFile, result);
     }
   }
   async mark_attendance(arg0) {
@@ -43064,50 +43112,84 @@ class Backend {
     if (this.processError) {
       try {
         const result = await this.actor.update_location_config(arg0);
-        return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+        return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.update_location_config(arg0);
-      return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+      return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
     }
   }
   async update_semester_template(arg0, arg1) {
     if (this.processError) {
       try {
         const result = await this.actor.update_semester_template(arg0, arg1);
-        return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+        return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
       const result = await this.actor.update_semester_template(arg0, arg1);
-      return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+      return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
     }
   }
   async update_student(arg0, arg1) {
     if (this.processError) {
       try {
-        const result = await this.actor.update_student(arg0, to_candid_UpdateStudentRequest_n8(this._uploadFile, this._downloadFile, arg1));
+        const result = await this.actor.update_student(arg0, to_candid_UpdateStudentRequest_n14(this._uploadFile, this._downloadFile, arg1));
         return from_candid_variant_n5(this._uploadFile, this._downloadFile, result);
       } catch (e) {
         this.processError(e);
         throw new Error("unreachable");
       }
     } else {
-      const result = await this.actor.update_student(arg0, to_candid_UpdateStudentRequest_n8(this._uploadFile, this._downloadFile, arg1));
+      const result = await this.actor.update_student(arg0, to_candid_UpdateStudentRequest_n14(this._uploadFile, this._downloadFile, arg1));
       return from_candid_variant_n5(this._uploadFile, this._downloadFile, result);
+    }
+  }
+  async update_student_photo(arg0, arg1) {
+    if (this.processError) {
+      try {
+        const result = await this.actor.update_student_photo(arg0, arg1);
+        return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
+      } catch (e) {
+        this.processError(e);
+        throw new Error("unreachable");
+      }
+    } else {
+      const result = await this.actor.update_student_photo(arg0, arg1);
+      return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
     }
   }
 }
 function from_candid_MarkAttendanceResponse_n3(_uploadFile, _downloadFile, value) {
   return from_candid_variant_n4(_uploadFile, _downloadFile, value);
 }
-function from_candid_opt_n7(_uploadFile, _downloadFile, value) {
+function from_candid_StudentWithSection_n13(_uploadFile, _downloadFile, value) {
+  return from_candid_record_n7(_uploadFile, _downloadFile, value);
+}
+function from_candid_Student_n6(_uploadFile, _downloadFile, value) {
+  return from_candid_record_n7(_uploadFile, _downloadFile, value);
+}
+function from_candid_opt_n11(_uploadFile, _downloadFile, value) {
+  return value.length === 0 ? null : from_candid_Student_n6(_uploadFile, _downloadFile, value[0]);
+}
+function from_candid_opt_n8(_uploadFile, _downloadFile, value) {
   return value.length === 0 ? null : value[0];
+}
+function from_candid_record_n7(_uploadFile, _downloadFile, value) {
+  return {
+    id: value.id,
+    prn: value.prn,
+    reference_photo_url: record_opt_to_undefined(from_candid_opt_n8(_uploadFile, _downloadFile, value.reference_photo_url)),
+    name: value.name,
+    section: value.section,
+    isActive: value.isActive,
+    rollNo: value.rollNo
+  };
 }
 function from_candid_variant_n4(_uploadFile, _downloadFile, value) {
   return "ok" in value ? {
@@ -43127,13 +43209,13 @@ function from_candid_variant_n4(_uploadFile, _downloadFile, value) {
 function from_candid_variant_n5(_uploadFile, _downloadFile, value) {
   return "ok" in value ? {
     __kind__: "ok",
-    ok: value.ok
+    ok: from_candid_Student_n6(_uploadFile, _downloadFile, value.ok)
   } : "err" in value ? {
     __kind__: "err",
     err: value.err
   } : value;
 }
-function from_candid_variant_n6(_uploadFile, _downloadFile, value) {
+function from_candid_variant_n9(_uploadFile, _downloadFile, value) {
   return "ok" in value ? {
     __kind__: "ok",
     ok: value.ok
@@ -43142,11 +43224,26 @@ function from_candid_variant_n6(_uploadFile, _downloadFile, value) {
     err: value.err
   } : value;
 }
+function from_candid_vec_n10(_uploadFile, _downloadFile, value) {
+  return value.map((x3) => from_candid_Student_n6(_uploadFile, _downloadFile, x3));
+}
+function from_candid_vec_n12(_uploadFile, _downloadFile, value) {
+  return value.map((x3) => from_candid_StudentWithSection_n13(_uploadFile, _downloadFile, x3));
+}
 function to_candid_ManualAttendanceRequest_n1(_uploadFile, _downloadFile, value) {
   return to_candid_record_n2(_uploadFile, _downloadFile, value);
 }
-function to_candid_UpdateStudentRequest_n8(_uploadFile, _downloadFile, value) {
-  return to_candid_record_n9(_uploadFile, _downloadFile, value);
+function to_candid_UpdateStudentRequest_n14(_uploadFile, _downloadFile, value) {
+  return to_candid_record_n15(_uploadFile, _downloadFile, value);
+}
+function to_candid_record_n15(_uploadFile, _downloadFile, value) {
+  return {
+    prn: value.prn ? candid_some(value.prn) : candid_none(),
+    name: value.name ? candid_some(value.name) : candid_none(),
+    section: value.section ? candid_some(value.section) : candid_none(),
+    isActive: value.isActive ? candid_some(value.isActive) : candid_none(),
+    rollNo: value.rollNo ? candid_some(value.rollNo) : candid_none()
+  };
 }
 function to_candid_record_n2(_uploadFile, _downloadFile, value) {
   return {
@@ -43154,15 +43251,6 @@ function to_candid_record_n2(_uploadFile, _downloadFile, value) {
     subject: value.subject,
     timestamp_override: value.timestamp_override ? candid_some(value.timestamp_override) : candid_none(),
     notes: value.notes
-  };
-}
-function to_candid_record_n9(_uploadFile, _downloadFile, value) {
-  return {
-    prn: value.prn ? candid_some(value.prn) : candid_none(),
-    name: value.name ? candid_some(value.name) : candid_none(),
-    section: value.section ? candid_some(value.section) : candid_none(),
-    isActive: value.isActive ? candid_some(value.isActive) : candid_none(),
-    rollNo: value.rollNo ? candid_some(value.rollNo) : candid_none()
   };
 }
 function createActor(canisterId, _uploadFile, _downloadFile, options = {}) {
@@ -43185,9 +43273,11 @@ function useAllAttendance() {
     queryKey: ["attendance", "all"],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.get_all_attendance();
+      const records = await actor.get_all_attendance();
+      return [...records].sort((a2, b2) => Number(b2.timestamp - a2.timestamp));
     },
     enabled: !!actor && !isFetching,
+    staleTime: 6e4,
     refetchInterval: 15e3
   });
 }
@@ -43239,9 +43329,18 @@ function useAllStudents() {
     queryKey: ["students", "all"],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.get_all_students();
+      const raw = await actor.get_all_students();
+      return raw.map((s2) => {
+        const r2 = s2;
+        const raw_url = r2.reference_photo_url;
+        return {
+          ...r2,
+          reference_photo_url: Array.isArray(raw_url) ? raw_url.length > 0 ? raw_url[0] : void 0 : typeof raw_url === "string" ? raw_url || void 0 : void 0
+        };
+      });
     },
-    enabled: !!actor && !isFetching
+    enabled: !!actor && !isFetching,
+    staleTime: 6e4
   });
 }
 function useDeleteAttendance() {
@@ -43305,7 +43404,15 @@ function useStudentsBySection(section) {
     queryKey: ["students", "section", section],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.get_students_by_section(section);
+      const raw = await actor.get_students_by_section(section);
+      return raw.map((s2) => {
+        const r2 = s2;
+        const raw_url = r2.reference_photo_url;
+        return {
+          ...r2,
+          reference_photo_url: Array.isArray(raw_url) ? raw_url.length > 0 ? raw_url[0] : void 0 : typeof raw_url === "string" ? raw_url || void 0 : void 0
+        };
+      });
     },
     enabled: !!actor && !isFetching && !!section
   });
@@ -43366,6 +43473,49 @@ function useDeleteStudent() {
     },
     onSuccess: () => {
       queryClient2.invalidateQueries({ queryKey: ["students"] });
+    }
+  });
+}
+function useUpdateStudentPhoto() {
+  const { actor } = useActor(createActor);
+  const queryClient2 = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ prn, url }) => {
+      if (!actor) throw new Error("Actor not ready");
+      return actor.update_student_photo(prn, url);
+    },
+    onSuccess: (_data, variables) => {
+      const updateFn = (oldData) => {
+        if (!Array.isArray(oldData)) return oldData;
+        return oldData.map((student) => {
+          const s2 = student;
+          if (s2.prn === variables.prn) {
+            return {
+              ...s2,
+              reference_photo_url: variables.url
+            };
+          }
+          return student;
+        });
+      };
+      const studentQueries = queryClient2.getQueryCache().findAll({ queryKey: ["students"] });
+      for (const query of studentQueries) {
+        queryClient2.setQueryData(query.queryKey, updateFn);
+      }
+      queryClient2.invalidateQueries({ queryKey: ["students"] });
+    }
+  });
+}
+function useFlagFaceMismatch() {
+  const { actor } = useActor(createActor);
+  const queryClient2 = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ record_id, flagged }) => {
+      if (!actor) throw new Error("Actor not ready");
+      return actor.flag_face_mismatch(record_id, flagged);
+    },
+    onSuccess: () => {
+      queryClient2.invalidateQueries({ queryKey: ["attendance"] });
     }
   });
 }
@@ -43446,6 +43596,46 @@ function formatTimestamp(ts) {
   const full = `${date}, ${time2}`;
   return { date, time: time2, full };
 }
+async function computeFaceSimilarity(url1, url2) {
+  const size2 = 64;
+  const canvas1 = document.createElement("canvas");
+  const canvas2 = document.createElement("canvas");
+  canvas1.width = size2;
+  canvas1.height = size2;
+  canvas2.width = size2;
+  canvas2.height = size2;
+  const ctx1 = canvas1.getContext("2d");
+  const ctx2 = canvas2.getContext("2d");
+  if (!ctx1 || !ctx2) return 0;
+  const loadImage = (src) => new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+  try {
+    const [img1, img2] = await Promise.all([loadImage(url1), loadImage(url2)]);
+    ctx1.drawImage(img1, 0, 0, size2, size2);
+    ctx2.drawImage(img2, 0, 0, size2, size2);
+    const d1 = ctx1.getImageData(0, 0, size2, size2).data;
+    const d2 = ctx2.getImageData(0, 0, size2, size2).data;
+    let dot = 0;
+    let mag1 = 0;
+    let mag2 = 0;
+    for (let i = 0; i < d1.length; i += 4) {
+      const g1 = 0.299 * d1[i] + 0.587 * d1[i + 1] + 0.114 * d1[i + 2];
+      const g2 = 0.299 * d2[i] + 0.587 * d2[i + 1] + 0.114 * d2[i + 2];
+      dot += g1 * g2;
+      mag1 += g1 * g1;
+      mag2 += g2 * g2;
+    }
+    if (mag1 === 0 || mag2 === 0) return 0;
+    return dot / (Math.sqrt(mag1) * Math.sqrt(mag2));
+  } catch {
+    return 0;
+  }
+}
 function haversineMeters(lat1, lon1, lat2, lon2) {
   const R2 = 6371e3;
   const toRad = (d2) => d2 * Math.PI / 180;
@@ -43479,6 +43669,7 @@ function ForbiddenPage() {
 function NFCTapPage() {
   const { actor } = useActor(createActor);
   const markMutation = useMarkAttendance();
+  const flagMutation = useFlagFaceMismatch();
   const { data: locationConfig } = useLocationConfig();
   const { data: configuredGatewayIp } = useHotspotIp();
   const [prn, setPrn] = reactExports.useState("");
@@ -43490,15 +43681,25 @@ function NFCTapPage() {
   const [distance2, setDistance] = reactExports.useState(null);
   const [ipBlocked, setIpBlocked] = reactExports.useState(null);
   const [token, setToken] = reactExports.useState("");
-  const [step, setStep] = reactExports.useState(
-    "form"
-  );
+  const [step, setStep] = reactExports.useState("camera");
   const [successTime, setSuccessTime] = reactExports.useState("");
   const [errorMsg, setErrorMsg] = reactExports.useState("");
+  const [referencePhotoUrl, setReferencePhotoUrl] = reactExports.useState(
+    null
+  );
+  const [faceFailReason, setFaceFailReason] = reactExports.useState(null);
   const autoResetRef = reactExports.useRef(null);
+  const [capturedPhoto, setCapturedPhoto] = reactExports.useState(null);
+  const [cameraError, setCameraError] = reactExports.useState(null);
+  const [cameraStream, setCameraStream] = reactExports.useState(null);
+  const [cameraReady, setCameraReady] = reactExports.useState(false);
+  const [retryCount, setRetryCount] = reactExports.useState(0);
+  const videoRef = reactExports.useRef(null);
+  const canvasRef = reactExports.useRef(null);
+  const canPlayTimeoutRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const t = params.get("t") ?? params.get("token") ?? "";
+    const t = (params.get("t") ?? params.get("token") ?? "").trim();
     setToken(t);
   }, []);
   reactExports.useEffect(() => {
@@ -43538,6 +43739,7 @@ function NFCTapPage() {
   const handlePrnBlur = async () => {
     if (!prn.trim() || prn.trim().length < 3) {
       setStudentName(null);
+      setReferencePhotoUrl(null);
       setPrnError("PRN must be at least 3 characters");
       return;
     }
@@ -43549,13 +43751,18 @@ function NFCTapPage() {
       const student = await actor.get_student_by_prn(prn.trim());
       if (student) {
         setStudentName(student.name);
+        const rawUrl = student.reference_photo_url;
+        const url = Array.isArray(rawUrl) ? rawUrl.length > 0 ? rawUrl[0] : null : typeof rawUrl === "string" ? rawUrl || null : null;
+        setReferencePhotoUrl(url);
         setPrnError("");
       } else {
         setStudentName(null);
+        setReferencePhotoUrl(null);
         setPrnError("Student not found");
       }
     } catch {
       setStudentName(null);
+      setReferencePhotoUrl(null);
       setPrnError("Failed to validate PRN");
     }
   };
@@ -43583,35 +43790,176 @@ function NFCTapPage() {
     }
   ];
   const canSubmit = !!token && !!studentName;
+  const stopCamera = reactExports.useCallback(() => {
+    if (cameraStream) {
+      for (const track2 of cameraStream.getTracks()) track2.stop();
+      setCameraStream(null);
+    }
+    setCameraReady(false);
+  }, [cameraStream]);
+  reactExports.useEffect(() => {
+    if (step !== "camera" || capturedPhoto) return;
+    let active = true;
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "user",
+            width: { ideal: 320 },
+            height: { ideal: 240 }
+          },
+          audio: false
+        });
+        if (!active) {
+          for (const t of stream.getTracks()) t.stop();
+          return;
+        }
+        setCameraStream(stream);
+        setCameraError(null);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play().catch(() => {
+          });
+        }
+        canPlayTimeoutRef.current = setTimeout(() => {
+          if (!active) return;
+          setCameraReady((ready) => {
+            if (!ready) {
+              for (const t of stream.getTracks()) t.stop();
+              setCameraStream(null);
+              setCameraError("Camera took too long to load. Tap Retry.");
+            }
+            return ready;
+          });
+        }, 5e3);
+      } catch {
+        if (!active) return;
+        setCameraError(
+          "Camera access is required to mark attendance. Please allow camera access and reload the page."
+        );
+      }
+    }
+    startCamera();
+    return () => {
+      active = false;
+      if (canPlayTimeoutRef.current) {
+        clearTimeout(canPlayTimeoutRef.current);
+        canPlayTimeoutRef.current = null;
+      }
+    };
+  }, [step, capturedPhoto, retryCount]);
+  reactExports.useEffect(() => {
+    if (cameraStream && videoRef.current) {
+      videoRef.current.srcObject = cameraStream;
+      videoRef.current.play().catch(() => {
+      });
+    }
+  }, [cameraStream]);
+  const handleCapturePhoto = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+    canvas.width = video.videoWidth || 320;
+    canvas.height = video.videoHeight || 240;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, 0, 0);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
+    setCapturedPhoto(dataUrl);
+    stopCamera();
+  };
+  const handleRetakePhoto = () => {
+    setCapturedPhoto(null);
+    stopCamera();
+    setCameraError(null);
+    setRetryCount((c2) => c2 + 1);
+  };
+  const handleProceedWithPhoto = () => {
+    setStep("form");
+  };
   const resetForm = reactExports.useCallback(() => {
     setPrn("");
     setStudentName(null);
     setPrnError("");
     setErrorMsg("");
     setSuccessTime("");
-    setStep("form");
+    setCapturedPhoto(null);
+    setCameraError(null);
+    setReferencePhotoUrl(null);
+    setFaceFailReason(null);
+    stopCamera();
+    setStep("camera");
     const params = new URLSearchParams(window.location.search);
-    const t = params.get("t") ?? params.get("token") ?? "";
+    const t = (params.get("t") ?? params.get("token") ?? "").trim();
     setToken(t);
-  }, []);
+  }, [stopCamera]);
   reactExports.useEffect(() => {
-    if (step === "success" || step === "error") {
-      autoResetRef.current = setTimeout(resetForm, 5e3);
+    if (step === "success" || step === "error" || step === "face_fail") {
+      autoResetRef.current = setTimeout(resetForm, 2e4);
     }
     return () => {
       if (autoResetRef.current) clearTimeout(autoResetRef.current);
     };
   }, [step, resetForm]);
   const handleSubmit = async (e) => {
+    var _a3;
     e.preventDefault();
     if (!canSubmit || !actor) return;
+    const parsedToken = Number.parseInt(token, 10);
+    if (Number.isNaN(parsedToken)) {
+      setErrorMsg("QR code expired or invalid");
+      setStep("error");
+      return;
+    }
+    if (!referencePhotoUrl) {
+      setFaceFailReason("no_photo");
+      setStep("face_fail");
+      return;
+    }
     setStep("submitting");
+    let similarity = 0;
+    try {
+      similarity = await computeFaceSimilarity(
+        capturedPhoto ?? "",
+        referencePhotoUrl
+      );
+    } catch {
+      similarity = 0;
+    }
+    if (similarity < 0.35) {
+      setFaceFailReason("mismatch");
+      setStep("face_fail");
+      const req2 = {
+        prn: prn.trim(),
+        latitude: userLat ?? 0,
+        longitude: userLng ?? 0,
+        token: BigInt(parsedToken),
+        image_url: capturedPhoto ?? "",
+        device_info: navigator.userAgent
+      };
+      try {
+        const response = await markMutation.mutateAsync(req2);
+        if (response.__kind__ === "ok") {
+          const recordId = (_a3 = response.ok) == null ? void 0 : _a3.id;
+          if (recordId) {
+            await flagMutation.mutateAsync({
+              record_id: BigInt(recordId),
+              flagged: true
+            });
+          }
+        }
+      } catch {
+      }
+      return;
+    }
     const req = {
       prn: prn.trim(),
       latitude: userLat ?? 0,
       longitude: userLng ?? 0,
-      token: BigInt(token),
-      image_url: "",
+      token: BigInt(parsedToken),
+      image_url: capturedPhoto ?? "",
       device_info: navigator.userAgent
     };
     try {
@@ -43672,6 +44020,210 @@ function NFCTapPage() {
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-muted-foreground uppercase tracking-widest", children: "Tap to Mark Attendance" })
         ] }),
+        step === "camera" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "w-full max-w-sm flex flex-col gap-4",
+            "data-ocid": "nfc_tap.camera_step",
+            children: cameraError ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "w-full rounded-xl border border-destructive/60 bg-destructive/10 px-4 py-5 flex flex-col items-center gap-3 text-center",
+                role: "alert",
+                "data-ocid": "nfc_tap.camera_error_state",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-10 h-10 text-destructive/70", "aria-hidden": true }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold text-destructive", children: cameraError }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "button",
+                    {
+                      type: "button",
+                      "data-ocid": "nfc_tap.camera_retry_button",
+                      onClick: () => {
+                        stopCamera();
+                        setCameraError(null);
+                        setRetryCount((c2) => c2 + 1);
+                      },
+                      className: "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold",
+                      style: {
+                        background: "var(--surface-2)",
+                        border: "1px solid var(--border-color)",
+                        color: "var(--text-secondary)"
+                      },
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-4 h-4" }),
+                        "Retry"
+                      ]
+                    }
+                  )
+                ]
+              }
+            ) : capturedPhoto ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center gap-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "p",
+                {
+                  className: "text-sm font-semibold uppercase tracking-widest",
+                  style: { color: "var(--text-secondary)" },
+                  children: "Preview — does this look good?"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "relative rounded-2xl overflow-hidden shadow-lg",
+                  style: { border: "2px solid var(--border-color)" },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "img",
+                      {
+                        src: capturedPhoto,
+                        alt: "Your selfie",
+                        className: "w-full max-w-xs object-cover",
+                        style: { maxHeight: 280 }
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        className: "absolute bottom-3 right-3 w-8 h-8 rounded-full flex items-center justify-center",
+                        style: {
+                          background: "var(--success-bg)",
+                          border: "2px solid var(--success)"
+                        },
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          CircleCheckBig,
+                          {
+                            className: "w-4 h-4",
+                            style: { color: "var(--success)" }
+                          }
+                        )
+                      }
+                    )
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 w-full", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    "data-ocid": "nfc_tap.camera_retake_button",
+                    onClick: handleRetakePhoto,
+                    className: "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium",
+                    style: {
+                      background: "var(--surface-2)",
+                      border: "1px solid var(--border-color)",
+                      color: "var(--text-secondary)"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-4 h-4" }),
+                      "Retake"
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    "data-ocid": "nfc_tap.camera_proceed_button",
+                    onClick: handleProceedWithPhoto,
+                    className: "nfc-button flex-1 flex items-center justify-center gap-2",
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheckBig, { className: "w-4 h-4" }),
+                      "Use Photo"
+                    ]
+                  }
+                )
+              ] })
+            ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center gap-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "p",
+                {
+                  className: "text-sm font-semibold uppercase tracking-widest text-center",
+                  style: { color: "var(--text-secondary)" },
+                  children: "Take a selfie to verify your presence"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "relative w-full rounded-2xl overflow-hidden shadow-lg",
+                  style: {
+                    border: "2px solid var(--border-color)",
+                    background: "var(--surface-2)",
+                    aspectRatio: "4/3"
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "video",
+                      {
+                        ref: videoRef,
+                        autoPlay: true,
+                        playsInline: true,
+                        muted: true,
+                        onCanPlay: () => {
+                          if (canPlayTimeoutRef.current) {
+                            clearTimeout(canPlayTimeoutRef.current);
+                            canPlayTimeoutRef.current = null;
+                          }
+                          setCameraReady(true);
+                        },
+                        className: "w-full h-full object-cover",
+                        style: { transform: "scaleX(-1)" },
+                        "aria-label": "Camera preview"
+                      }
+                    ),
+                    !cameraReady && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "div",
+                      {
+                        className: "absolute inset-0 flex flex-col items-center justify-center gap-2",
+                        style: { background: "var(--surface-2)" },
+                        children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "nfc-spinner w-8 h-8", "aria-hidden": true }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "p",
+                            {
+                              className: "text-xs",
+                              style: { color: "var(--text-secondary)" },
+                              children: "Starting camera…"
+                            }
+                          )
+                        ]
+                      }
+                    ),
+                    cameraReady && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 flex items-center justify-center pointer-events-none", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        style: {
+                          width: "55%",
+                          paddingBottom: "70%",
+                          borderRadius: "50%",
+                          border: "2px dashed rgba(255,255,255,0.5)",
+                          position: "relative"
+                        }
+                      }
+                    ) })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef, className: "hidden" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  type: "button",
+                  "data-ocid": "nfc_tap.camera_capture_button",
+                  onClick: handleCapturePhoto,
+                  disabled: !cameraReady,
+                  className: "nfc-button w-full flex items-center justify-center gap-2",
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-5 h-5" }),
+                    "Capture Photo"
+                  ]
+                }
+              )
+            ] })
+          }
+        ),
         !token && /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
@@ -43916,6 +44468,15 @@ function NFCTapPage() {
             ]
           }
         ),
+        step === "success" && capturedPhoto && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mb-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "img",
+          {
+            src: capturedPhoto,
+            alt: "Your selfie",
+            className: "w-16 h-16 rounded-full object-cover mx-auto",
+            style: { border: "2px solid var(--success)" }
+          }
+        ) }),
         step === "success" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
           {
@@ -43944,7 +44505,7 @@ function NFCTapPage() {
                   successTime
                 ] })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground/60 mt-2", children: "Resetting in 5 seconds…" })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground/60 mt-2", children: "Resetting in 20 seconds…" })
             ]
           }
         ),
@@ -43972,7 +44533,30 @@ function NFCTapPage() {
                 /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-xl font-bold text-foreground", children: "Unable to Mark Attendance" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted-foreground", children: errorMsg })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground/60 mt-2", children: "Resetting in 5 seconds…" })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground/60 mt-2", children: "Resetting in 20 seconds…" })
+            ]
+          }
+        ),
+        step === "face_fail" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "w-full max-w-sm flex flex-col items-center gap-4 text-center",
+            "data-ocid": "nfc_tap.face_fail_state",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "w-20 h-20 rounded-full flex items-center justify-center",
+                  style: { backgroundColor: "var(--danger-bg)" },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleX, { className: "w-10 h-10", style: { color: "var(--danger)" } })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-bold text-destructive", children: "Attendance Failed" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold text-foreground", children: "Face verification could not be completed." }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted-foreground mt-2", children: faceFailReason === "no_photo" ? "No reference photo registered. Please ask your faculty to register your face first." : "Your face did not match the registered reference photo. Please approach your faculty for manual attendance." })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground/60 mt-2", children: "Resetting in 20 seconds…" })
             ]
           }
         )
@@ -44238,14 +44822,23 @@ function tsToDateStr(ts) {
   if (Number.isNaN(d2.getTime())) return "";
   return d2.toISOString().slice(0, 10);
 }
+function safePhotoUrl$1(val) {
+  if (typeof val === "string") return val || null;
+  if (Array.isArray(val)) return val.length > 0 ? val[0] : null;
+  return null;
+}
 function getInitials$2(name) {
   return name.split(" ").slice(0, 2).map((n) => n[0]).join("").toUpperCase();
 }
-function SelfieModal({
+function ComparisonModal({
   record,
-  onClose
+  student,
+  onClose,
+  onFlagToggle
 }) {
   const overlayRef = reactExports.useRef(null);
+  const flagMutation = useFlagFaceMismatch();
+  const referenceUrl = safePhotoUrl$1((student == null ? void 0 : student.reference_photo_url) ?? null);
   reactExports.useEffect(() => {
     const handleKey = (e) => {
       if (e.key === "Escape") onClose();
@@ -44253,12 +44846,33 @@ function SelfieModal({
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
+  async function handleToggleMismatch() {
+    const newFlagged = !record.face_mismatch;
+    try {
+      await flagMutation.mutateAsync({
+        record_id: BigInt(record.id),
+        flagged: newFlagged
+      });
+      onFlagToggle(record.id, newFlagged);
+      ue.success(
+        record.face_mismatch ? "Mismatch flag removed" : "Record flagged as mismatch"
+      );
+    } catch {
+      ue.error("Failed to update flag");
+    }
+  }
+  const panelStyle = {
+    background: "var(--surface-2)",
+    border: "1px solid var(--border-color)",
+    borderRadius: 12,
+    overflow: "hidden"
+  };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
       ref: overlayRef,
       className: "fixed inset-0 z-50 flex items-center justify-center p-4",
-      style: { background: "rgba(0,0,0,0.75)" },
+      style: { background: "rgba(0,0,0,0.80)" },
       role: "presentation",
       onClick: (e) => {
         if (e.target === overlayRef.current) onClose();
@@ -44269,45 +44883,175 @@ function SelfieModal({
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
-          className: "relative rounded-2xl overflow-hidden max-w-sm w-full shadow-2xl",
-          style: { background: "var(--surface)" },
+          "data-ocid": "attendance.comparison.dialog",
+          className: "relative rounded-2xl shadow-2xl w-full",
+          style: {
+            background: "var(--surface)",
+            maxWidth: 760,
+            maxHeight: "90vh",
+            overflowY: "auto"
+          },
           children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
               {
-                type: "button",
-                "data-ocid": "attendance.lightbox.close_button",
-                onClick: onClose,
-                className: "absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full",
-                style: { background: "rgba(0,0,0,0.5)", color: "#fff" },
-                "aria-label": "Close photo",
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "w-4 h-4" })
+                className: "flex items-center justify-between px-5 py-4 border-b",
+                style: { borderColor: "var(--border-color)" },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "h3",
+                      {
+                        className: "font-semibold text-base",
+                        style: { color: "var(--text-primary)" },
+                        children: [
+                          "Identity Verification — ",
+                          record.student_name
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "p",
+                      {
+                        className: "text-xs mt-0.5",
+                        style: { color: "var(--text-secondary)" },
+                        children: [
+                          "PRN: ",
+                          record.prn
+                        ]
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      type: "button",
+                      "data-ocid": "attendance.comparison.close_button",
+                      onClick: onClose,
+                      className: "w-8 h-8 flex items-center justify-center rounded-full",
+                      style: {
+                        background: "var(--surface-2)",
+                        color: "var(--text-secondary)"
+                      },
+                      "aria-label": "Close comparison",
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "w-4 h-4" })
+                    }
+                  )
+                ]
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "img",
-              {
-                src: record.image_url,
-                alt: `Selfie of ${record.student_name}`,
-                className: "w-full object-cover",
-                style: { maxHeight: 320 }
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 space-y-1", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "p",
-                {
-                  className: "font-semibold text-sm",
-                  style: { color: "var(--text-primary)" },
-                  children: record.student_name
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs", style: { color: "var(--text-secondary)" }, children: [
-                "PRN: ",
-                record.prn,
-                " · ",
-                formatNanoTs$1(record.timestamp)
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 grid grid-cols-2 gap-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: panelStyle, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    className: "px-3 py-2 text-xs font-semibold uppercase tracking-wide",
+                    style: {
+                      background: "var(--surface)",
+                      color: "var(--text-secondary)",
+                      borderBottom: "1px solid var(--border-color)"
+                    },
+                    children: "Reference Photo"
+                  }
+                ),
+                referenceUrl ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "img",
+                  {
+                    src: referenceUrl,
+                    alt: `Reference for ${record.student_name}`,
+                    className: "w-full object-cover",
+                    style: { height: 240 }
+                  }
+                ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "flex flex-col items-center justify-center gap-2",
+                    style: {
+                      height: 240,
+                      color: "var(--text-secondary)"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-8 h-8 opacity-30" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-center px-4 opacity-60", children: "No reference photo registered" })
+                    ]
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: panelStyle, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    className: "px-3 py-2 text-xs font-semibold uppercase tracking-wide",
+                    style: {
+                      background: "var(--surface)",
+                      color: "var(--text-secondary)",
+                      borderBottom: "1px solid var(--border-color)"
+                    },
+                    children: "Check-In Photo"
+                  }
+                ),
+                record.image_url ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "img",
+                  {
+                    src: record.image_url,
+                    alt: `Check-in selfie of ${record.student_name}`,
+                    className: "w-full object-cover",
+                    style: { height: 240 }
+                  }
+                ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "flex flex-col items-center justify-center gap-2",
+                    style: {
+                      height: 240,
+                      color: "var(--text-secondary)"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-8 h-8 opacity-30" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-60", children: "No photo captured" })
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "div",
+                  {
+                    className: "px-3 py-2 text-xs",
+                    style: {
+                      color: "var(--text-secondary)",
+                      borderTop: "1px solid var(--border-color)"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { className: "w-3 h-3 inline mr-1" }),
+                      formatNanoTs$1(record.timestamp)
+                    ]
+                  }
+                )
               ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-5 pb-5 flex items-center justify-between", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs", style: { color: "var(--text-secondary)" }, children: "Manually review and flag if faces do not match." }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  type: "button",
+                  "data-ocid": "attendance.comparison.flag_toggle",
+                  onClick: handleToggleMismatch,
+                  disabled: flagMutation.isPending,
+                  className: "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold",
+                  style: {
+                    background: record.face_mismatch ? "#F97316" : "#F974161A",
+                    color: record.face_mismatch ? "#fff" : "#F97316",
+                    border: record.face_mismatch ? "none" : "1px solid #F9731640",
+                    opacity: flagMutation.isPending ? 0.65 : 1,
+                    cursor: flagMutation.isPending ? "wait" : "pointer",
+                    transition: "opacity 0.15s"
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(TriangleAlert, { className: "w-4 h-4" }),
+                    flagMutation.isPending ? "Updating…" : record.face_mismatch ? "Unflag Mismatch" : "Flag as Mismatch"
+                  ]
+                }
+              )
             ] })
           ]
         }
@@ -44609,9 +45353,6 @@ function ManualAddPanel({ onClose }) {
   );
 }
 function AttendancePage() {
-  const { actor, isFetching } = useActor(createActor);
-  const [allRecords, setAllRecords] = reactExports.useState([]);
-  const [loading, setLoading] = reactExports.useState(true);
   const [search, setSearch] = reactExports.useState("");
   const [selectedDate, setSelectedDate] = reactExports.useState("");
   const [lightboxRecord, setLightboxRecord] = reactExports.useState(
@@ -44620,38 +45361,16 @@ function AttendancePage() {
   const [confirmDeleteId, setConfirmDeleteId] = reactExports.useState(null);
   const [showManualAdd, setShowManualAdd] = reactExports.useState(false);
   const deleteMutation = useDeleteAttendance();
-  reactExports.useEffect(() => {
-    if (!actor || isFetching) return;
-    let cancelled = false;
-    async function load() {
-      if (!actor) return;
-      try {
-        const records = await actor.get_all_attendance();
-        const sorted = [...records].sort(
-          (a2, b2) => Number(b2.timestamp - a2.timestamp)
-        );
-        if (!cancelled) setAllRecords(sorted);
-      } catch (_2) {
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-    load();
-    const interval = setInterval(load, 1e4);
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, [actor, isFetching]);
-  reactExports.useEffect(() => {
-    if (!deleteMutation.isSuccess || !actor) return;
-    actor.get_all_attendance().then((records) => {
-      const sorted = [...records].sort(
-        (a2, b2) => Number(b2.timestamp - a2.timestamp)
-      );
-      setAllRecords(sorted);
-    });
-  }, [deleteMutation.isSuccess, actor]);
+  const { data: allRecords = [], isLoading: loading } = useAllAttendance();
+  const { data: allStudents = [] } = useAllStudents();
+  const studentMap = new Map(
+    allStudents.map((s2) => [s2.prn, s2])
+  );
+  function handleFlagToggle(recordId, newFlagged) {
+    setLightboxRecord(
+      (prev) => prev && prev.id === recordId ? { ...prev, face_mismatch: newFlagged } : prev
+    );
+  }
   const filtered = allRecords.filter((c2) => {
     const matchDate = selectedDate ? tsToDateStr(c2.timestamp) === selectedDate : true;
     const q2 = search.toLowerCase();
@@ -44940,17 +45659,33 @@ function AttendancePage() {
                       }
                     ) }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(
-                        "div",
-                        {
-                          className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0",
-                          style: {
-                            background: "rgba(59,130,246,0.2)",
-                            color: "#3B82F6"
-                          },
-                          children: getInitials$2(c2.student_name)
-                        }
-                      ),
+                      (() => {
+                        var _a3;
+                        const refUrl = safePhotoUrl$1(
+                          ((_a3 = studentMap.get(c2.prn)) == null ? void 0 : _a3.reference_photo_url) ?? null
+                        );
+                        return refUrl ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          "img",
+                          {
+                            src: refUrl,
+                            alt: `Ref: ${c2.student_name}`,
+                            className: "w-8 h-8 rounded-full object-cover flex-shrink-0",
+                            style: {
+                              border: "2px solid var(--border-color)"
+                            }
+                          }
+                        ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          "div",
+                          {
+                            className: "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0",
+                            style: {
+                              background: "rgba(59,130,246,0.2)",
+                              color: "#3B82F6"
+                            },
+                            children: getInitials$2(c2.student_name)
+                          }
+                        );
+                      })(),
                       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "var(--text-primary)" }, children: c2.student_name })
                     ] }) }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -44997,19 +45732,34 @@ function AttendancePage() {
                         children: "Verified"
                       }
                     ) }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: c2.geo_fail && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      "span",
-                      {
-                        "data-ocid": `attendance.geo_fail_badge.${i + 1}`,
-                        className: "px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide",
-                        style: {
-                          background: "#EF44441A",
-                          color: "#EF4444",
-                          border: "1px solid #EF444466"
-                        },
-                        children: "GEO_FAIL"
-                      }
-                    ) }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-1", children: [
+                      c2.geo_fail && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "span",
+                        {
+                          "data-ocid": `attendance.geo_fail_badge.${i + 1}`,
+                          className: "px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide w-fit",
+                          style: {
+                            background: "#EF44441A",
+                            color: "#EF4444",
+                            border: "1px solid #EF444466"
+                          },
+                          children: "GEO_FAIL"
+                        }
+                      ),
+                      c2.face_mismatch && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "span",
+                        {
+                          "data-ocid": `attendance.face_mismatch_badge.${i + 1}`,
+                          className: "px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide w-fit",
+                          style: {
+                            background: "#EF4444",
+                            color: "#FFFFFF",
+                            border: "1px solid #EF4444"
+                          },
+                          children: "FACE_MISMATCH"
+                        }
+                      )
+                    ] }) }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: confirmDeleteId === c2.id ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                       DeleteConfirm,
                       {
@@ -45048,10 +45798,12 @@ function AttendancePage() {
       )
     ] }),
     lightboxRecord && /* @__PURE__ */ jsxRuntimeExports.jsx(
-      SelfieModal,
+      ComparisonModal,
       {
         record: lightboxRecord,
-        onClose: () => setLightboxRecord(null)
+        student: studentMap.get(lightboxRecord.prn) ?? null,
+        onClose: () => setLightboxRecord(null),
+        onFlagToggle: handleFlagToggle
       }
     ),
     showManualAdd && /* @__PURE__ */ jsxRuntimeExports.jsx(ManualAddPanel, { onClose: () => setShowManualAdd(false) })
@@ -49160,6 +49912,55 @@ function Skeleton({ className, ...props }) {
     }
   );
 }
+function EspCodeBlock({ baseUrl }) {
+  const code = [
+    "#include <WiFi.h>",
+    "#include <time.h>",
+    "",
+    'const char* WIFI_SSID = "YourHotspotSSID";',
+    'const char* WIFI_PASS = "YourHotspotPassword";',
+    "// Use your deployed app URL directly — no redirect shorteners needed",
+    `const char* BASE_URL  = "${baseUrl}";`,
+    "const long  SECRET    = 987654321L;",
+    "",
+    "void setup() {",
+    "  WiFi.begin(WIFI_SSID, WIFI_PASS);",
+    "  while (WiFi.status() != WL_CONNECTED) delay(500);",
+    "",
+    "  // Sync UTC time from NTP — MUST use UTC offset = 0",
+    '  configTime(0, 0, "pool.ntp.org", "time.nist.gov");',
+    "  while (time(nullptr) < 1000000000) delay(500);",
+    "}",
+    "",
+    "String generateToken() {",
+    "  long epoch = (long)time(nullptr);   // UTC epoch seconds",
+    "  long block = epoch / 10;            // 10-second window",
+    "  long token = abs(block * SECRET) % 1000000;",
+    "  String t = String(token);",
+    '  while (t.length() < 6) t = "0" + t; // zero-pad to 6 digits',
+    "  return t;",
+    "}",
+    "",
+    "void loop() {",
+    "  String url = String(BASE_URL) + generateToken();",
+    "  // Display url as a QR code on your OLED/TFT screen",
+    "  // Regenerate every 10 seconds",
+    "  delay(10000);",
+    "}"
+  ].join("\n");
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "pre",
+    {
+      className: "rounded-xl p-4 text-xs font-mono overflow-x-auto leading-relaxed",
+      style: {
+        background: "var(--surface-2)",
+        color: "var(--text-primary)",
+        border: "1px solid var(--border-color)"
+      },
+      children: code
+    }
+  );
+}
 function SettingsPage() {
   const { actor, isFetching } = useActor(createActor);
   const queryClient2 = useQueryClient();
@@ -49915,6 +50716,82 @@ function SettingsPage() {
                             }
                           )
                         ] })
+                      ]
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "div",
+                    {
+                      className: "pt-5 border-t",
+                      style: { borderColor: "var(--border-color)" },
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-3", children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(QrCode, { className: "w-4 h-4", style: { color: "#F97316" } }),
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(
+                            "span",
+                            {
+                              className: "text-sm font-semibold",
+                              style: { color: "var(--text-primary)" },
+                              children: "ESP32 Firmware — TOTP Token Generation"
+                            }
+                          )
+                        ] }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                          "p",
+                          {
+                            className: "text-xs mb-3",
+                            style: { color: "var(--text-secondary)" },
+                            children: [
+                              "Your ESP32 must independently generate the same TOTP token the backend verifies. Each token is valid for a",
+                              " ",
+                              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "10-second window" }),
+                              " (current + previous window = up to 20 s of tolerance). Refresh the QR every",
+                              " ",
+                              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "10 seconds" }),
+                              "."
+                            ]
+                          }
+                        ),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(EspCodeBlock, { baseUrl: `${window.location.origin}/q?t=` }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                          "p",
+                          {
+                            className: "text-xs mt-3",
+                            style: { color: "var(--text-secondary)" },
+                            children: [
+                              /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Critical:" }),
+                              " Always use",
+                              " ",
+                              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                                "code",
+                                {
+                                  className: "px-1 py-0.5 rounded font-mono",
+                                  style: {
+                                    background: "var(--surface-2)",
+                                    border: "1px solid var(--border-color)"
+                                  },
+                                  children: "configTime(0, 0, ...)"
+                                }
+                              ),
+                              " ",
+                              "(UTC offset = 0). Never use local time or",
+                              " ",
+                              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                                "code",
+                                {
+                                  className: "px-1 py-0.5 rounded font-mono",
+                                  style: {
+                                    background: "var(--surface-2)",
+                                    border: "1px solid var(--border-color)"
+                                  },
+                                  children: "millis()"
+                                }
+                              ),
+                              " ",
+                              "— clock drift will cause token mismatches."
+                            ]
+                          }
+                        )
                       ]
                     }
                   )
@@ -56344,19 +57221,37 @@ function sectionKeyFromLabel(label) {
       return "btech";
   }
 }
+const safePhotoUrl = (val) => {
+  if (typeof val === "string") return val || void 0;
+  if (Array.isArray(val))
+    return val.length > 0 ? val[0] : void 0;
+  return void 0;
+};
 function StudentsPage() {
   var _a3;
   const [activeTab, setActiveTab] = reactExports.useState("btech");
   const [query, setQuery] = reactExports.useState("");
   const [sortField, setSortField] = reactExports.useState("name");
   const [sortDir, setSortDir] = reactExports.useState("asc");
+  reactExports.useEffect(() => {
+    setQuery("");
+    setSortField("name");
+    setSortDir("asc");
+  }, [activeTab]);
   const [isFormOpen, setIsFormOpen] = reactExports.useState(false);
   const [editingStudent, setEditingStudent] = reactExports.useState(null);
   const [deleteTarget, setDeleteTarget] = reactExports.useState(
     null
   );
+  const [faceModalStudent, setFaceModalStudent] = reactExports.useState(
+    null
+  );
   const { data: counts, isLoading: countsLoading } = useStudentSectionCounts();
-  const { data: students = [], isLoading: studentsLoading } = useStudentsBySection(activeTab);
+  const { data: rawStudents = [], isLoading: studentsLoading } = useStudentsBySection(activeTab);
+  const students = rawStudents.map((s2) => ({
+    ...s2,
+    reference_photo_url: safePhotoUrl(s2.reference_photo_url)
+  }));
   useAddStudent();
   useUpdateStudent();
   const deleteStudent = useDeleteStudent();
@@ -56398,6 +57293,9 @@ function StudentsPage() {
   };
   const handleDeleteClick = (student) => {
     setDeleteTarget(student);
+  };
+  const handleRegisterFace = (student) => {
+    setFaceModalStudent(student);
   };
   const confirmDelete = async () => {
     if (!deleteTarget) return;
@@ -56555,6 +57453,7 @@ function StudentsPage() {
               { label: "Name", field: "name" },
               { label: "Full PRN", field: "prn" },
               { label: "Status", field: null },
+              { label: "Photo", field: null },
               { label: "Actions", field: null }
             ].map(({ label, field }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
               "th",
@@ -56584,14 +57483,16 @@ function StudentsPage() {
                   ] }) }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Skeleton, { className: "h-4 w-32" }) }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Skeleton, { className: "h-5 w-20 rounded-full" }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Skeleton, { className: "h-5 w-16 rounded-full" }) }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Skeleton, { className: "w-8 h-8 rounded-lg" }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(Skeleton, { className: "w-8 h-8 rounded-lg" }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(Skeleton, { className: "w-8 h-8 rounded-lg" })
                   ] }) })
                 ]
               },
               `skeleton-${i}`
-            )) : filtered.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: 5, className: "px-4 py-12 text-center", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            )) : filtered.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: 6, className: "px-4 py-12 text-center", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "div",
               {
                 className: "flex flex-col items-center gap-2",
@@ -56670,7 +57571,66 @@ function StudentsPage() {
                       children: s2.isActive ? "Active" : "Ex-Student"
                     }
                   ) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: (() => {
+                    const photoUrl = safePhotoUrl(s2.reference_photo_url);
+                    return photoUrl ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "img",
+                        {
+                          src: photoUrl,
+                          alt: `${s2.name} reference`,
+                          className: "w-8 h-8 rounded-full object-cover border",
+                          style: { borderColor: "var(--border-color)" },
+                          "data-ocid": `students.photo_thumb.${i + 1}`,
+                          onError: (e) => {
+                            e.target.style.display = "none";
+                          }
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "span",
+                        {
+                          "data-ocid": `students.photo_badge.${i + 1}`,
+                          className: "inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full",
+                          style: {
+                            background: "var(--success-bg)",
+                            color: "var(--success)"
+                          },
+                          children: [
+                            /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-3 h-3" }),
+                            "Photo"
+                          ]
+                        }
+                      )
+                    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "span",
+                      {
+                        "data-ocid": `students.photo_badge.${i + 1}`,
+                        className: "inline-flex items-center text-xs px-2 py-0.5 rounded-full",
+                        style: {
+                          border: "1.5px dashed var(--border-color)",
+                          color: "var(--text-secondary)"
+                        },
+                        children: "None"
+                      }
+                    );
+                  })() }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "button",
+                      {
+                        type: "button",
+                        "data-ocid": `students.register_face_button.${i + 1}`,
+                        onClick: () => handleRegisterFace(s2),
+                        className: "p-2 rounded-lg transition-colors",
+                        style: {
+                          background: "var(--surface-2)",
+                          color: "var(--blue)"
+                        },
+                        "aria-label": "Register face photo",
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-4 h-4" })
+                      }
+                    ),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       "button",
                       {
@@ -56710,6 +57670,13 @@ function StudentsPage() {
         }
       )
     ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      RegisterFaceModal,
+      {
+        student: faceModalStudent,
+        onClose: () => setFaceModalStudent(null)
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       StudentFormDialog,
       {
@@ -56776,6 +57743,356 @@ function StudentsPage() {
       }
     )
   ] });
+}
+function RegisterFaceModal({ student, onClose }) {
+  const [cameraState, setCameraState] = reactExports.useState("idle");
+  const [errorMsg, setErrorMsg] = reactExports.useState("");
+  const [capturedDataUrl, setCapturedDataUrl] = reactExports.useState(null);
+  const videoRef = reactExports.useRef(null);
+  const canvasRef = reactExports.useRef(null);
+  const streamRef = reactExports.useRef(null);
+  const updatePhoto = useUpdateStudentPhoto();
+  const stopStream = reactExports.useCallback(() => {
+    if (streamRef.current) {
+      for (const track2 of streamRef.current.getTracks()) track2.stop();
+      streamRef.current = null;
+    }
+  }, []);
+  const startCamera = reactExports.useCallback(async () => {
+    setCameraState("starting");
+    setErrorMsg("");
+    setCapturedDataUrl(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: "user",
+          width: { ideal: 640 },
+          height: { ideal: 480 }
+        }
+      });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+      }
+      setCameraState("live");
+    } catch (err) {
+      stopStream();
+      const e = err;
+      if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
+        setErrorMsg(
+          "Camera permission denied. Please allow camera access in your browser settings and try again."
+        );
+      } else if (e.name === "NotFoundError") {
+        setErrorMsg("No camera found on this device.");
+      } else {
+        setErrorMsg(`Camera error: ${e.message || e.name}`);
+      }
+      setCameraState("error");
+    }
+  }, [stopStream]);
+  const handleCapture = reactExports.useCallback(() => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
+    setCapturedDataUrl(dataUrl);
+    stopStream();
+    setCameraState("captured");
+  }, [stopStream]);
+  const handleRetake = reactExports.useCallback(() => {
+    setCapturedDataUrl(null);
+    startCamera();
+  }, [startCamera]);
+  const handleSave = reactExports.useCallback(async () => {
+    if (!capturedDataUrl || !student) return;
+    setCameraState("saving");
+    try {
+      await updatePhoto.mutateAsync({ prn: student.prn, url: capturedDataUrl });
+      ue.success(`Reference photo saved for ${student.name}`);
+      onClose();
+    } catch (_err) {
+      ue.error("Failed to save photo. Please try again.");
+      setCameraState("captured");
+    }
+  }, [capturedDataUrl, student, updatePhoto, onClose]);
+  const handleClose = reactExports.useCallback(() => {
+    stopStream();
+    setCameraState("idle");
+    setCapturedDataUrl(null);
+    setErrorMsg("");
+    onClose();
+  }, [stopStream, onClose]);
+  reactExports.useEffect(() => {
+    if (student) {
+      startCamera();
+    } else {
+      stopStream();
+      setCameraState("idle");
+      setCapturedDataUrl(null);
+      setErrorMsg("");
+    }
+    return () => {
+      stopStream();
+    };
+  }, [student, startCamera, stopStream]);
+  const isOpen = !!student;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Dialog,
+    {
+      open: isOpen,
+      onOpenChange: (v2) => {
+        if (!v2) handleClose();
+      },
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        DialogContent,
+        {
+          className: "sm:max-w-lg p-0 overflow-hidden",
+          style: {
+            background: "var(--surface)",
+            borderColor: "var(--border-color)"
+          },
+          "data-ocid": "students.register_face.dialog",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(DialogHeader, { className: "px-6 pt-5 pb-3", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  DialogTitle,
+                  {
+                    className: "flex items-center gap-2",
+                    style: { color: "var(--text-primary)" },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-5 h-5", style: { color: "var(--blue)" } }),
+                      "Register Face Photo"
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  DialogDescription,
+                  {
+                    className: "mt-1 text-sm",
+                    style: { color: "var(--text-secondary)" },
+                    children: [
+                      student == null ? void 0 : student.name,
+                      " ·",
+                      " ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-xs", children: student == null ? void 0 : student.prn })
+                    ]
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  "data-ocid": "students.register_face.close_button",
+                  onClick: handleClose,
+                  className: "p-2 rounded-lg transition-colors",
+                  style: {
+                    color: "var(--text-secondary)",
+                    background: "var(--surface-2)"
+                  },
+                  "aria-label": "Close",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "w-4 h-4" })
+                }
+              )
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "mx-6 mb-4 rounded-xl overflow-hidden relative",
+                style: {
+                  background: "var(--surface-2)",
+                  border: "1px solid var(--border-color)",
+                  minHeight: 300
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "video",
+                    {
+                      ref: videoRef,
+                      className: "w-full object-cover",
+                      style: {
+                        display: cameraState === "live" ? "block" : "none",
+                        maxHeight: 360
+                      },
+                      playsInline: true,
+                      muted: true,
+                      "aria-label": "Camera preview"
+                    }
+                  ),
+                  cameraState === "captured" || cameraState === "saving" ? capturedDataUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "img",
+                    {
+                      src: capturedDataUrl,
+                      alt: "Captured preview",
+                      className: "w-full object-cover",
+                      style: { maxHeight: 360 }
+                    }
+                  ) : null,
+                  (cameraState === "starting" || cameraState === "idle") && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "div",
+                    {
+                      className: "absolute inset-0 flex flex-col items-center justify-center gap-3",
+                      style: { color: "var(--text-secondary)" },
+                      "data-ocid": "students.register_face.loading_state",
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-10 h-10 opacity-30" }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: cameraState === "starting" ? "Starting camera…" : "Initialising…" })
+                      ]
+                    }
+                  ),
+                  cameraState === "error" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                    "div",
+                    {
+                      className: "absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center",
+                      "data-ocid": "students.register_face.error_state",
+                      children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          "div",
+                          {
+                            className: "w-12 h-12 rounded-full flex items-center justify-center",
+                            style: { background: "var(--danger-bg)" },
+                            children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                              Camera,
+                              {
+                                className: "w-6 h-6",
+                                style: { color: "var(--danger)" }
+                              }
+                            )
+                          }
+                        ),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", style: { color: "var(--danger)" }, children: errorMsg }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                          "button",
+                          {
+                            type: "button",
+                            "data-ocid": "students.register_face.retry_button",
+                            onClick: startCamera,
+                            className: "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                            style: {
+                              background: "var(--surface-2)",
+                              color: "var(--blue)",
+                              border: "1px solid var(--border-color)"
+                            },
+                            children: [
+                              /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-4 h-4" }),
+                              "Retry"
+                            ]
+                          }
+                        )
+                      ]
+                    }
+                  ),
+                  cameraState === "saving" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      className: "absolute inset-0 flex items-center justify-center",
+                      style: { background: "rgba(0,0,0,0.45)" },
+                      "data-ocid": "students.register_face.saving_state",
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center gap-3", children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(
+                          "div",
+                          {
+                            className: "w-10 h-10 rounded-full border-2 border-t-transparent animate-spin",
+                            style: { borderColor: "var(--blue)" }
+                          }
+                        ),
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-medium text-white", children: "Saving…" })
+                      ] })
+                    }
+                  )
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef, className: "hidden" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-6 pb-5 gap-3", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "button",
+                  "data-ocid": "students.register_face.cancel_button",
+                  onClick: handleClose,
+                  disabled: cameraState === "saving",
+                  className: "flex-1 py-2 rounded-xl text-sm font-medium transition-colors border",
+                  style: {
+                    background: "var(--surface-2)",
+                    color: "var(--text-primary)",
+                    borderColor: "var(--border-color)"
+                  },
+                  children: "Cancel"
+                }
+              ),
+              cameraState === "live" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  type: "button",
+                  "data-ocid": "students.register_face.capture_button",
+                  onClick: handleCapture,
+                  className: "flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium text-white transition-colors",
+                  style: { background: "var(--blue)" },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Camera, { className: "w-4 h-4" }),
+                    "Capture"
+                  ]
+                }
+              ),
+              cameraState === "captured" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    type: "button",
+                    "data-ocid": "students.register_face.retake_button",
+                    onClick: handleRetake,
+                    className: "flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium transition-colors border",
+                    style: {
+                      background: "var(--surface-2)",
+                      color: "var(--text-secondary)",
+                      borderColor: "var(--border-color)"
+                    },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-4 h-4" }),
+                      "Retake"
+                    ]
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    type: "button",
+                    "data-ocid": "students.register_face.save_button",
+                    onClick: handleSave,
+                    className: "flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium text-white transition-colors",
+                    style: { background: "var(--blue)" },
+                    children: "Save Photo"
+                  }
+                )
+              ] }),
+              cameraState === "error" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  type: "button",
+                  "data-ocid": "students.register_face.retry_button",
+                  onClick: startCamera,
+                  className: "flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium transition-colors",
+                  style: { background: "var(--blue)", color: "#fff" },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "w-4 h-4" }),
+                    "Retry Camera"
+                  ]
+                }
+              )
+            ] })
+          ]
+        }
+      )
+    }
+  );
 }
 function StudentFormDialog({
   open,

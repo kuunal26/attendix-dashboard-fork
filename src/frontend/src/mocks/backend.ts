@@ -3,9 +3,9 @@ import type { backendInterface, Student } from "../backend";
 export const mockBackend: backendInterface = {
   get_student_by_prn: async (prn: string) => {
     const students: Record<string, Student> = {
-      "2024BTECS00001": { id: "1", prn: "2024BTECS00001", name: "Bhosale Pradnya Sanjay", section: "btech", isActive: true, rollNo: BigInt(1) },
-      "2024BTECS00022": { id: "2", prn: "2024BTECS00022", name: "Malusare Madhura Sagar", section: "btech", isActive: true, rollNo: BigInt(2) },
-      "2024BTECS00501": { id: "3", prn: "2024BTECS00501", name: "Giri Harshda Hanmant", section: "btech", isActive: true, rollNo: BigInt(3) },
+      "2024BTECS00001": { id: "1", prn: "2024BTECS00001", name: "Bhosale Pradnya Sanjay", section: "btech", isActive: true, rollNo: BigInt(1), reference_photo_url: undefined },
+      "2024BTECS00022": { id: "2", prn: "2024BTECS00022", name: "Malusare Madhura Sagar", section: "btech", isActive: true, rollNo: BigInt(2), reference_photo_url: undefined },
+      "2024BTECS00501": { id: "3", prn: "2024BTECS00501", name: "Giri Harshda Hanmant", section: "btech", isActive: true, rollNo: BigInt(3), reference_photo_url: undefined },
     };
     const student = students[prn];
     if (!student) return null;
@@ -51,9 +51,11 @@ export const mockBackend: backendInterface = {
     third_year: BigInt(0),
     btech: BigInt(0),
   }),
-  add_student: async (_req) => ({ __kind__: "ok", ok: { id: "1", prn: "", name: "", section: "", isActive: true, rollNo: BigInt(0) } }),
-  update_student: async (_id, _upd) => ({ __kind__: "ok", ok: { id: "1", prn: "", name: "", section: "", isActive: true, rollNo: BigInt(0) } }),
+  add_student: async (_req) => ({ __kind__: "ok", ok: { id: "1", prn: "", name: "", section: "", isActive: true, rollNo: BigInt(0), reference_photo_url: undefined } }),
+  update_student: async (_id, _upd) => ({ __kind__: "ok", ok: { id: "1", prn: "", name: "", section: "", isActive: true, rollNo: BigInt(0), reference_photo_url: undefined } }),
   delete_student: async (_id) => ({ __kind__: "ok", ok: null }),
   get_hotspot_ip: async () => "",
   update_hotspot_ip: async (_ip: string) => true,
+  flag_face_mismatch: async (_record_id, _flagged) => true,
+  update_student_photo: async (_prn, _url) => null,
 };

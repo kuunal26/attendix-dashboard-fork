@@ -135,6 +135,7 @@ export interface FacultyCredentials {
 export interface StudentWithSection {
     id: string;
     prn: string;
+    reference_photo_url?: string;
     name: string;
     section: string;
     isActive: boolean;
@@ -165,6 +166,7 @@ export interface AttendanceRecord {
     student_name: string;
     latitude: number;
     method: string;
+    face_mismatch: boolean;
     image_url: string;
     device_info: string;
     longitude: number;
@@ -188,6 +190,7 @@ export interface MarkAttendanceRequest {
 export interface Student {
     id: string;
     prn: string;
+    reference_photo_url?: string;
     name: string;
     section: string;
     isActive: boolean;
@@ -210,6 +213,7 @@ export interface backendInterface {
         __kind__: "err";
         err: string;
     }>;
+    flag_face_mismatch(record_id: bigint, flagged: boolean): Promise<boolean>;
     get_all_attendance(): Promise<Array<AttendanceRecord>>;
     get_all_semester_templates(): Promise<Array<[bigint, Array<WeeklySlot>]>>;
     get_all_students(): Promise<Array<Student>>;
@@ -249,8 +253,9 @@ export interface backendInterface {
         __kind__: "err";
         err: string;
     }>;
+    update_student_photo(prn: string, url: string): Promise<Student | null>;
 }
-import type { ManualAttendanceRequest as _ManualAttendanceRequest, MarkAttendanceResponse as _MarkAttendanceResponse, Student as _Student, UpdateStudentRequest as _UpdateStudentRequest } from "./declarations/backend.did.d.ts";
+import type { ManualAttendanceRequest as _ManualAttendanceRequest, MarkAttendanceResponse as _MarkAttendanceResponse, Student as _Student, StudentWithSection as _StudentWithSection, UpdateStudentRequest as _UpdateStudentRequest } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
     async add_manual_attendance(arg0: ManualAttendanceRequest): Promise<MarkAttendanceResponse> {
@@ -311,14 +316,28 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.delete_student(arg0);
-                return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+                return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.delete_student(arg0);
-            return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+            return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async flag_face_mismatch(arg0: bigint, arg1: boolean): Promise<boolean> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.flag_face_mismatch(arg0, arg1);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.flag_face_mismatch(arg0, arg1);
+            return result;
         }
     }
     async get_all_attendance(): Promise<Array<AttendanceRecord>> {
@@ -353,14 +372,14 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.get_all_students();
-                return result;
+                return from_candid_vec_n10(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.get_all_students();
-            return result;
+            return from_candid_vec_n10(this._uploadFile, this._downloadFile, result);
         }
     }
     async get_attendance_by_date(arg0: string): Promise<Array<AttendanceRecord>> {
@@ -479,14 +498,14 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.get_student_by_prn(arg0);
-                return from_candid_opt_n7(this._uploadFile, this._downloadFile, result);
+                return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.get_student_by_prn(arg0);
-            return from_candid_opt_n7(this._uploadFile, this._downloadFile, result);
+            return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
         }
     }
     async get_student_list(): Promise<Array<StudentWithId>> {
@@ -521,14 +540,14 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.get_students_by_section(arg0);
-                return result;
+                return from_candid_vec_n12(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.get_students_by_section(arg0);
-            return result;
+            return from_candid_vec_n12(this._uploadFile, this._downloadFile, result);
         }
     }
     async mark_attendance(arg0: MarkAttendanceRequest): Promise<MarkAttendanceResponse> {
@@ -583,14 +602,14 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.update_location_config(arg0);
-                return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+                return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.update_location_config(arg0);
-            return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+            return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
         }
     }
     async update_semester_template(arg0: bigint, arg1: Array<WeeklySlot>): Promise<{
@@ -603,14 +622,14 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.update_semester_template(arg0, arg1);
-                return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+                return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.update_semester_template(arg0, arg1);
-            return from_candid_variant_n6(this._uploadFile, this._downloadFile, result);
+            return from_candid_variant_n9(this._uploadFile, this._downloadFile, result);
         }
     }
     async update_student(arg0: string, arg1: UpdateStudentRequest): Promise<{
@@ -622,23 +641,73 @@ export class Backend implements backendInterface {
     }> {
         if (this.processError) {
             try {
-                const result = await this.actor.update_student(arg0, to_candid_UpdateStudentRequest_n8(this._uploadFile, this._downloadFile, arg1));
+                const result = await this.actor.update_student(arg0, to_candid_UpdateStudentRequest_n14(this._uploadFile, this._downloadFile, arg1));
                 return from_candid_variant_n5(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.update_student(arg0, to_candid_UpdateStudentRequest_n8(this._uploadFile, this._downloadFile, arg1));
+            const result = await this.actor.update_student(arg0, to_candid_UpdateStudentRequest_n14(this._uploadFile, this._downloadFile, arg1));
             return from_candid_variant_n5(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async update_student_photo(arg0: string, arg1: string): Promise<Student | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.update_student_photo(arg0, arg1);
+                return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.update_student_photo(arg0, arg1);
+            return from_candid_opt_n11(this._uploadFile, this._downloadFile, result);
         }
     }
 }
 function from_candid_MarkAttendanceResponse_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _MarkAttendanceResponse): MarkAttendanceResponse {
     return from_candid_variant_n4(_uploadFile, _downloadFile, value);
 }
-function from_candid_opt_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_Student]): Student | null {
+function from_candid_StudentWithSection_n13(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _StudentWithSection): StudentWithSection {
+    return from_candid_record_n7(_uploadFile, _downloadFile, value);
+}
+function from_candid_Student_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Student): Student {
+    return from_candid_record_n7(_uploadFile, _downloadFile, value);
+}
+function from_candid_opt_n11(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_Student]): Student | null {
+    return value.length === 0 ? null : from_candid_Student_n6(_uploadFile, _downloadFile, value[0]);
+}
+function from_candid_opt_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
     return value.length === 0 ? null : value[0];
+}
+function from_candid_record_n7(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    id: string;
+    prn: string;
+    reference_photo_url: [] | [string];
+    name: string;
+    section: string;
+    isActive: boolean;
+    rollNo: bigint;
+}): {
+    id: string;
+    prn: string;
+    reference_photo_url?: string;
+    name: string;
+    section: string;
+    isActive: boolean;
+    rollNo: bigint;
+} {
+    return {
+        id: value.id,
+        prn: value.prn,
+        reference_photo_url: record_opt_to_undefined(from_candid_opt_n8(_uploadFile, _downloadFile, value.reference_photo_url)),
+        name: value.name,
+        section: value.section,
+        isActive: value.isActive,
+        rollNo: value.rollNo
+    };
 }
 function from_candid_variant_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     ok: string;
@@ -688,13 +757,13 @@ function from_candid_variant_n5(_uploadFile: (file: ExternalBlob) => Promise<Uin
 } {
     return "ok" in value ? {
         __kind__: "ok",
-        ok: value.ok
+        ok: from_candid_Student_n6(_uploadFile, _downloadFile, value.ok)
     } : "err" in value ? {
         __kind__: "err",
         err: value.err
     } : value;
 }
-function from_candid_variant_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function from_candid_variant_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     ok: null;
 } | {
     err: string;
@@ -713,31 +782,19 @@ function from_candid_variant_n6(_uploadFile: (file: ExternalBlob) => Promise<Uin
         err: value.err
     } : value;
 }
+function from_candid_vec_n10(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Student>): Array<Student> {
+    return value.map((x)=>from_candid_Student_n6(_uploadFile, _downloadFile, x));
+}
+function from_candid_vec_n12(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_StudentWithSection>): Array<StudentWithSection> {
+    return value.map((x)=>from_candid_StudentWithSection_n13(_uploadFile, _downloadFile, x));
+}
 function to_candid_ManualAttendanceRequest_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: ManualAttendanceRequest): _ManualAttendanceRequest {
     return to_candid_record_n2(_uploadFile, _downloadFile, value);
 }
-function to_candid_UpdateStudentRequest_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UpdateStudentRequest): _UpdateStudentRequest {
-    return to_candid_record_n9(_uploadFile, _downloadFile, value);
+function to_candid_UpdateStudentRequest_n14(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: UpdateStudentRequest): _UpdateStudentRequest {
+    return to_candid_record_n15(_uploadFile, _downloadFile, value);
 }
-function to_candid_record_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
-    prn: string;
-    subject: string;
-    timestamp_override?: bigint;
-    notes: string;
-}): {
-    prn: string;
-    subject: string;
-    timestamp_override: [] | [bigint];
-    notes: string;
-} {
-    return {
-        prn: value.prn,
-        subject: value.subject,
-        timestamp_override: value.timestamp_override ? candid_some(value.timestamp_override) : candid_none(),
-        notes: value.notes
-    };
-}
-function to_candid_record_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+function to_candid_record_n15(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     prn?: string;
     name?: string;
     section?: string;
@@ -756,6 +813,24 @@ function to_candid_record_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
         section: value.section ? candid_some(value.section) : candid_none(),
         isActive: value.isActive ? candid_some(value.isActive) : candid_none(),
         rollNo: value.rollNo ? candid_some(value.rollNo) : candid_none()
+    };
+}
+function to_candid_record_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    prn: string;
+    subject: string;
+    timestamp_override?: bigint;
+    notes: string;
+}): {
+    prn: string;
+    subject: string;
+    timestamp_override: [] | [bigint];
+    notes: string;
+} {
+    return {
+        prn: value.prn,
+        subject: value.subject,
+        timestamp_override: value.timestamp_override ? candid_some(value.timestamp_override) : candid_none(),
+        notes: value.notes
     };
 }
 export interface CreateActorOptions {

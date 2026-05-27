@@ -1,5 +1,5 @@
-import { useActor } from "@caffeineai/core-infrastructure";
 import {
+  AlertTriangle,
   Camera,
   Clock,
   MapPin,
@@ -11,13 +11,14 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { createActor } from "../../backend";
-import type { AttendanceRecord } from "../../backend";
+import type { AttendanceRecord, Student } from "../../backend";
 import Topbar from "../../components/layout/Topbar";
 import {
   useAddManualAttendance,
+  useAllAttendance,
   useAllStudents,
   useDeleteAttendance,
+  useFlagFaceMismatch,
 } from "../../hooks/useQueries";
 
 function formatNanoTs(ts: bigint): string {
@@ -38,6 +39,13 @@ function tsToDateStr(ts: bigint): string {
   return d.toISOString().slice(0, 10);
 }
 
+// Safe helper — handles both legacy string and Motoko [] | [string] array form
+function safePhotoUrl(val: unknown): string | null {
+  if (typeof val === "string") return val || null;
+  if (Array.isArray(val)) return val.length > 0 ? (val as string[])[0] : null;
+  return null;
+}
+
 function getInitials(name: string): string {
   return name
     .split(" ")
@@ -47,12 +55,24 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
-// ─── Selfie Lightbox ────────────────────────────────────────────────────────
-function SelfieModal({
+// ─── Comparison Modal ────────────────────────────────────────────────────────
+function ComparisonModal({
   record,
+  student,
   onClose,
-}: { record: AttendanceRecord; onClose: () => void }) {
+  onFlagToggle,
+}: {
+  record: AttendanceRecord;
+  student: Student | null;
+  onClose: () => void;
+  onFlagToggle: (recordId: string, newFlagged: boolean) => void;
+}) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const flagMutation = useFlagFaceMismatch();
+
+  // Reference photo comes from the pre-fetched student map — no extra query
+  // safePhotoUrl handles both string and [] | [string] Motoko optional forms
+  const referenceUrl = safePhotoUrl(student?.reference_photo_url ?? null);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -62,11 +82,37 @@ function SelfieModal({
     return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
+  async function handleToggleMismatch() {
+    const newFlagged = !record.face_mismatch;
+    try {
+      await flagMutation.mutateAsync({
+        record_id: BigInt(record.id),
+        flagged: newFlagged,
+      });
+      // Propagate to parent so allRecords + lightboxRecord update immediately
+      onFlagToggle(record.id, newFlagged);
+      toast.success(
+        record.face_mismatch
+          ? "Mismatch flag removed"
+          : "Record flagged as mismatch",
+      );
+    } catch {
+      toast.error("Failed to update flag");
+    }
+  }
+
+  const panelStyle = {
+    background: "var(--surface-2)",
+    border: "1px solid var(--border-color)",
+    borderRadius: 12,
+    overflow: "hidden" as const,
+  };
+
   return (
     <div
       ref={overlayRef}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.75)" }}
+      style={{ background: "rgba(0,0,0,0.80)" }}
       role="presentation"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
@@ -76,35 +122,157 @@ function SelfieModal({
       }}
     >
       <div
-        className="relative rounded-2xl overflow-hidden max-w-sm w-full shadow-2xl"
-        style={{ background: "var(--surface)" }}
+        data-ocid="attendance.comparison.dialog"
+        className="relative rounded-2xl shadow-2xl w-full"
+        style={{
+          background: "var(--surface)",
+          maxWidth: 760,
+          maxHeight: "90vh",
+          overflowY: "auto",
+        }}
       >
-        <button
-          type="button"
-          data-ocid="attendance.lightbox.close_button"
-          onClick={onClose}
-          className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full"
-          style={{ background: "rgba(0,0,0,0.5)", color: "#fff" }}
-          aria-label="Close photo"
+        {/* Header */}
+        <div
+          className="flex items-center justify-between px-5 py-4 border-b"
+          style={{ borderColor: "var(--border-color)" }}
         >
-          <X className="w-4 h-4" />
-        </button>
-        <img
-          src={record.image_url}
-          alt={`Selfie of ${record.student_name}`}
-          className="w-full object-cover"
-          style={{ maxHeight: 320 }}
-        />
-        <div className="p-4 space-y-1">
-          <p
-            className="font-semibold text-sm"
-            style={{ color: "var(--text-primary)" }}
+          <div>
+            <h3
+              className="font-semibold text-base"
+              style={{ color: "var(--text-primary)" }}
+            >
+              Identity Verification — {record.student_name}
+            </h3>
+            <p
+              className="text-xs mt-0.5"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              PRN: {record.prn}
+            </p>
+          </div>
+          <button
+            type="button"
+            data-ocid="attendance.comparison.close_button"
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-full"
+            style={{
+              background: "var(--surface-2)",
+              color: "var(--text-secondary)",
+            }}
+            aria-label="Close comparison"
           >
-            {record.student_name}
-          </p>
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Side-by-side photos */}
+        <div className="p-5 grid grid-cols-2 gap-4">
+          {/* Left — Reference Photo */}
+          <div style={panelStyle}>
+            <div
+              className="px-3 py-2 text-xs font-semibold uppercase tracking-wide"
+              style={{
+                background: "var(--surface)",
+                color: "var(--text-secondary)",
+                borderBottom: "1px solid var(--border-color)",
+              }}
+            >
+              Reference Photo
+            </div>
+            {referenceUrl ? (
+              <img
+                src={referenceUrl}
+                alt={`Reference for ${record.student_name}`}
+                className="w-full object-cover"
+                style={{ height: 240 }}
+              />
+            ) : (
+              <div
+                className="flex flex-col items-center justify-center gap-2"
+                style={{
+                  height: 240,
+                  color: "var(--text-secondary)",
+                }}
+              >
+                <Camera className="w-8 h-8 opacity-30" />
+                <p className="text-xs text-center px-4 opacity-60">
+                  No reference photo registered
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Right — Check-In Photo */}
+          <div style={panelStyle}>
+            <div
+              className="px-3 py-2 text-xs font-semibold uppercase tracking-wide"
+              style={{
+                background: "var(--surface)",
+                color: "var(--text-secondary)",
+                borderBottom: "1px solid var(--border-color)",
+              }}
+            >
+              Check-In Photo
+            </div>
+            {record.image_url ? (
+              <img
+                src={record.image_url}
+                alt={`Check-in selfie of ${record.student_name}`}
+                className="w-full object-cover"
+                style={{ height: 240 }}
+              />
+            ) : (
+              <div
+                className="flex flex-col items-center justify-center gap-2"
+                style={{
+                  height: 240,
+                  color: "var(--text-secondary)",
+                }}
+              >
+                <Camera className="w-8 h-8 opacity-30" />
+                <p className="text-xs opacity-60">No photo captured</p>
+              </div>
+            )}
+            <div
+              className="px-3 py-2 text-xs"
+              style={{
+                color: "var(--text-secondary)",
+                borderTop: "1px solid var(--border-color)",
+              }}
+            >
+              <Clock className="w-3 h-3 inline mr-1" />
+              {formatNanoTs(record.timestamp)}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer — Flag toggle */}
+        <div className="px-5 pb-5 flex items-center justify-between">
           <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
-            PRN: {record.prn} · {formatNanoTs(record.timestamp)}
+            Manually review and flag if faces do not match.
           </p>
+          <button
+            type="button"
+            data-ocid="attendance.comparison.flag_toggle"
+            onClick={handleToggleMismatch}
+            disabled={flagMutation.isPending}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
+            style={{
+              background: record.face_mismatch ? "#F97316" : "#F974161A",
+              color: record.face_mismatch ? "#fff" : "#F97316",
+              border: record.face_mismatch ? "none" : "1px solid #F9731640",
+              opacity: flagMutation.isPending ? 0.65 : 1,
+              cursor: flagMutation.isPending ? "wait" : "pointer",
+              transition: "opacity 0.15s",
+            }}
+          >
+            <AlertTriangle className="w-4 h-4" />
+            {flagMutation.isPending
+              ? "Updating…"
+              : record.face_mismatch
+                ? "Unflag Mismatch"
+                : "Flag as Mismatch"}
+          </button>
         </div>
       </div>
     </div>
@@ -409,9 +577,6 @@ function ManualAddPanel({ onClose }: { onClose: () => void }) {
 
 // ─── Main Page ───────────────────────────────────────────────────────────────
 export default function AttendancePage() {
-  const { actor, isFetching } = useActor(createActor);
-  const [allRecords, setAllRecords] = useState<AttendanceRecord[]>([]);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [lightboxRecord, setLightboxRecord] = useState<AttendanceRecord | null>(
@@ -421,41 +586,24 @@ export default function AttendancePage() {
   const [showManualAdd, setShowManualAdd] = useState(false);
   const deleteMutation = useDeleteAttendance();
 
-  useEffect(() => {
-    if (!actor || isFetching) return;
-    let cancelled = false;
-    async function load() {
-      if (!actor) return;
-      try {
-        const records = await actor.get_all_attendance();
-        const sorted = [...records].sort((a, b) =>
-          Number(b.timestamp - a.timestamp),
-        );
-        if (!cancelled) setAllRecords(sorted);
-      } catch (_) {
-        // keep previous state
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-    load();
-    const interval = setInterval(load, 10_000);
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, [actor, isFetching]);
+  // Single batch fetch — no per-record queries
+  const { data: allRecords = [], isLoading: loading } = useAllAttendance();
+  const { data: allStudents = [] } = useAllStudents();
 
-  // Re-fetch after mutation
-  useEffect(() => {
-    if (!deleteMutation.isSuccess || !actor) return;
-    actor.get_all_attendance().then((records) => {
-      const sorted = [...records].sort((a, b) =>
-        Number(b.timestamp - a.timestamp),
-      );
-      setAllRecords(sorted);
-    });
-  }, [deleteMutation.isSuccess, actor]);
+  // Build a PRN → Student lookup map (O(1) access per row)
+  const studentMap = new Map<string, Student>(
+    allStudents.map((s) => [s.prn, s]),
+  );
+
+  // Optimistic update after flag mutation succeeds — update lightbox in-place
+  // (React Query will sync the full list on its next background refetch)
+  function handleFlagToggle(recordId: string, newFlagged: boolean) {
+    setLightboxRecord((prev) =>
+      prev && prev.id === recordId
+        ? { ...prev, face_mismatch: newFlagged }
+        : prev,
+    );
+  }
 
   const filtered = allRecords.filter((c) => {
     const matchDate = selectedDate
@@ -726,18 +874,35 @@ export default function AttendancePage() {
                           </div>
                         )}
                       </td>
-                      {/* Student */}
+                      {/* Student — with reference photo thumbnail */}
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
-                          <div
-                            className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-                            style={{
-                              background: "rgba(59,130,246,0.2)",
-                              color: "#3B82F6",
-                            }}
-                          >
-                            {getInitials(c.student_name)}
-                          </div>
+                          {(() => {
+                            const refUrl = safePhotoUrl(
+                              studentMap.get(c.prn)?.reference_photo_url ??
+                                null,
+                            );
+                            return refUrl ? (
+                              <img
+                                src={refUrl}
+                                alt={`Ref: ${c.student_name}`}
+                                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                                style={{
+                                  border: "2px solid var(--border-color)",
+                                }}
+                              />
+                            ) : (
+                              <div
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                                style={{
+                                  background: "rgba(59,130,246,0.2)",
+                                  color: "#3B82F6",
+                                }}
+                              >
+                                {getInitials(c.student_name)}
+                              </div>
+                            );
+                          })()}
                           <span style={{ color: "var(--text-primary)" }}>
                             {c.student_name}
                           </span>
@@ -784,21 +949,36 @@ export default function AttendancePage() {
                           Verified
                         </span>
                       </td>
-                      {/* Geo Fail Badge */}
+                      {/* Geo Fail + Face Mismatch Badges */}
                       <td className="px-4 py-3">
-                        {c.geo_fail && (
-                          <span
-                            data-ocid={`attendance.geo_fail_badge.${i + 1}`}
-                            className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide"
-                            style={{
-                              background: "#EF44441A",
-                              color: "#EF4444",
-                              border: "1px solid #EF444466",
-                            }}
-                          >
-                            GEO_FAIL
-                          </span>
-                        )}
+                        <div className="flex flex-col gap-1">
+                          {c.geo_fail && (
+                            <span
+                              data-ocid={`attendance.geo_fail_badge.${i + 1}`}
+                              className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide w-fit"
+                              style={{
+                                background: "#EF44441A",
+                                color: "#EF4444",
+                                border: "1px solid #EF444466",
+                              }}
+                            >
+                              GEO_FAIL
+                            </span>
+                          )}
+                          {c.face_mismatch && (
+                            <span
+                              data-ocid={`attendance.face_mismatch_badge.${i + 1}`}
+                              className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide w-fit"
+                              style={{
+                                background: "#EF4444",
+                                color: "#FFFFFF",
+                                border: "1px solid #EF4444",
+                              }}
+                            >
+                              FACE_MISMATCH
+                            </span>
+                          )}
+                        </div>
                       </td>
                       {/* Delete */}
                       <td className="px-4 py-3">
@@ -843,11 +1023,13 @@ export default function AttendancePage() {
         </div>
       </div>
 
-      {/* Selfie lightbox */}
+      {/* Comparison modal — student looked up from cached map, no extra query */}
       {lightboxRecord && (
-        <SelfieModal
+        <ComparisonModal
           record={lightboxRecord}
+          student={studentMap.get(lightboxRecord.prn) ?? null}
           onClose={() => setLightboxRecord(null)}
+          onFlagToggle={handleFlagToggle}
         />
       )}
 

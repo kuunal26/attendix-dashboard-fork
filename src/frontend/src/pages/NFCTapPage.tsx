@@ -1,6 +1,7 @@
 import { createActor } from "@/backend";
 import type { MarkAttendanceRequest, MarkAttendanceResponse } from "@/backend";
 import {
+  useFlagFaceMismatch,
   useHotspotIp,
   useLocationConfig,
   useMarkAttendance,
@@ -8,9 +9,11 @@ import {
 import { useActor } from "@caffeineai/core-infrastructure";
 import {
   AlertCircle,
+  Camera,
   CheckCircle,
   Crosshair,
   MapPin,
+  RefreshCw,
   Shield,
   ShieldOff,
   User,
@@ -20,6 +23,56 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 
 // TOTP math lives on the backend only — frontend passes token through
+
+/** Compute pixel-level cosine similarity between two images (0..1) */
+async function computeFaceSimilarity(
+  url1: string,
+  url2: string,
+): Promise<number> {
+  const size = 64;
+  const canvas1 = document.createElement("canvas");
+  const canvas2 = document.createElement("canvas");
+  canvas1.width = size;
+  canvas1.height = size;
+  canvas2.width = size;
+  canvas2.height = size;
+  const ctx1 = canvas1.getContext("2d");
+  const ctx2 = canvas2.getContext("2d");
+  if (!ctx1 || !ctx2) return 0;
+
+  const loadImage = (src: string): Promise<HTMLImageElement> =>
+    new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+
+  try {
+    const [img1, img2] = await Promise.all([loadImage(url1), loadImage(url2)]);
+    ctx1.drawImage(img1, 0, 0, size, size);
+    ctx2.drawImage(img2, 0, 0, size, size);
+
+    const d1 = ctx1.getImageData(0, 0, size, size).data;
+    const d2 = ctx2.getImageData(0, 0, size, size).data;
+
+    let dot = 0;
+    let mag1 = 0;
+    let mag2 = 0;
+    for (let i = 0; i < d1.length; i += 4) {
+      const g1 = 0.299 * d1[i] + 0.587 * d1[i + 1] + 0.114 * d1[i + 2];
+      const g2 = 0.299 * d2[i] + 0.587 * d2[i + 1] + 0.114 * d2[i + 2];
+      dot += g1 * g2;
+      mag1 += g1 * g1;
+      mag2 += g2 * g2;
+    }
+    if (mag1 === 0 || mag2 === 0) return 0;
+    return dot / (Math.sqrt(mag1) * Math.sqrt(mag2));
+  } catch {
+    return 0;
+  }
+}
 
 /** Haversine distance in metres between two lat/lng points */
 function haversineMeters(
@@ -67,6 +120,7 @@ type GateStatus = "pending" | "pass" | "fail";
 export default function NFCTapPage() {
   const { actor } = useActor(createActor);
   const markMutation = useMarkAttendance();
+  const flagMutation = useFlagFaceMismatch();
   const { data: locationConfig } = useLocationConfig();
   const { data: configuredGatewayIp } = useHotspotIp();
 
@@ -80,17 +134,34 @@ export default function NFCTapPage() {
   // null = still checking IP, false = allowed, true = blocked
   const [ipBlocked, setIpBlocked] = useState<boolean | null>(null);
   const [token, setToken] = useState("");
-  const [step, setStep] = useState<"form" | "submitting" | "success" | "error">(
-    "form",
-  );
+  const [step, setStep] = useState<
+    "camera" | "form" | "submitting" | "success" | "error" | "face_fail"
+  >("camera");
   const [successTime, setSuccessTime] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [referencePhotoUrl, setReferencePhotoUrl] = useState<string | null>(
+    null,
+  );
+  const [faceFailReason, setFaceFailReason] = useState<
+    "no_photo" | "mismatch" | null
+  >(null);
   const autoResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Camera state
+  const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
+  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const [cameraReady, setCameraReady] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canPlayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Extract token from URL param ?t=TOKEN (QR short form) or ?token= (legacy)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const t = params.get("t") ?? params.get("token") ?? "";
+    const t = (params.get("t") ?? params.get("token") ?? "").trim();
     setToken(t);
   }, []);
 
@@ -141,6 +212,7 @@ export default function NFCTapPage() {
   const handlePrnBlur = async () => {
     if (!prn.trim() || prn.trim().length < 3) {
       setStudentName(null);
+      setReferencePhotoUrl(null);
       setPrnError("PRN must be at least 3 characters");
       return;
     }
@@ -152,13 +224,25 @@ export default function NFCTapPage() {
       const student = await actor.get_student_by_prn(prn.trim());
       if (student) {
         setStudentName(student.name);
+        const rawUrl = (student as unknown as Record<string, unknown>)
+          .reference_photo_url;
+        const url = Array.isArray(rawUrl)
+          ? rawUrl.length > 0
+            ? (rawUrl[0] as string)
+            : null
+          : typeof rawUrl === "string"
+            ? rawUrl || null
+            : null;
+        setReferencePhotoUrl(url);
         setPrnError("");
       } else {
         setStudentName(null);
+        setReferencePhotoUrl(null);
         setPrnError("Student not found");
       }
     } catch {
       setStudentName(null);
+      setReferencePhotoUrl(null);
       setPrnError("Failed to validate PRN");
     }
   };
@@ -202,22 +286,126 @@ export default function NFCTapPage() {
   // Token validation is backend-only: only require presence here
   const canSubmit = !!token && !!studentName;
 
+  const stopCamera = useCallback(() => {
+    if (cameraStream) {
+      for (const track of cameraStream.getTracks()) track.stop();
+      setCameraStream(null);
+    }
+    setCameraReady(false);
+  }, [cameraStream]);
+
+  // Start camera when on camera step
+  // biome-ignore lint/correctness/useExhaustiveDependencies: retryCount is an intentional re-trigger sentinel
+  useEffect(() => {
+    if (step !== "camera" || capturedPhoto) return;
+    let active = true;
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "user",
+            width: { ideal: 320 },
+            height: { ideal: 240 },
+          },
+          audio: false,
+        });
+        if (!active) {
+          for (const t of stream.getTracks()) t.stop();
+          return;
+        }
+        setCameraStream(stream);
+        setCameraError(null);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play().catch(() => {});
+        }
+        // 5-second timeout: if onCanPlay never fires, surface a retry error
+        canPlayTimeoutRef.current = setTimeout(() => {
+          if (!active) return;
+          setCameraReady((ready) => {
+            if (!ready) {
+              for (const t of stream.getTracks()) t.stop();
+              setCameraStream(null);
+              setCameraError("Camera took too long to load. Tap Retry.");
+            }
+            return ready;
+          });
+        }, 5000);
+      } catch {
+        if (!active) return;
+        setCameraError(
+          "Camera access is required to mark attendance. Please allow camera access and reload the page.",
+        );
+      }
+    }
+    startCamera();
+    return () => {
+      active = false;
+      if (canPlayTimeoutRef.current) {
+        clearTimeout(canPlayTimeoutRef.current);
+        canPlayTimeoutRef.current = null;
+      }
+    };
+  }, [step, capturedPhoto, retryCount]);
+
+  // Attach stream to video element when both are ready
+  useEffect(() => {
+    if (cameraStream && videoRef.current) {
+      videoRef.current.srcObject = cameraStream;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [cameraStream]);
+
+  const handleCapturePhoto = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+    canvas.width = video.videoWidth || 320;
+    canvas.height = video.videoHeight || 240;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    // Mirror the image to match what the user sees in the preview
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(video, 0, 0);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
+    setCapturedPhoto(dataUrl);
+    stopCamera();
+  };
+
+  const handleRetakePhoto = () => {
+    setCapturedPhoto(null);
+    stopCamera();
+    setCameraError(null);
+    // Incrementing retryCount ensures the camera useEffect re-fires
+    setRetryCount((c) => c + 1);
+  };
+
+  const handleProceedWithPhoto = () => {
+    setStep("form");
+  };
+
   const resetForm = useCallback(() => {
     setPrn("");
     setStudentName(null);
     setPrnError("");
     setErrorMsg("");
     setSuccessTime("");
-    setStep("form");
+    setCapturedPhoto(null);
+    setCameraError(null);
+    setReferencePhotoUrl(null);
+    setFaceFailReason(null);
+    stopCamera();
+    setStep("camera");
     const params = new URLSearchParams(window.location.search);
-    const t = params.get("t") ?? params.get("token") ?? "";
+    const t = (params.get("t") ?? params.get("token") ?? "").trim();
     setToken(t);
-  }, []);
+  }, [stopCamera]);
 
-  // Auto-reset after success/error
+  // Auto-reset after success/error/face_fail
   useEffect(() => {
-    if (step === "success" || step === "error") {
-      autoResetRef.current = setTimeout(resetForm, 5000);
+    if (step === "success" || step === "error" || step === "face_fail") {
+      autoResetRef.current = setTimeout(resetForm, 20000);
     }
     return () => {
       if (autoResetRef.current) clearTimeout(autoResetRef.current);
@@ -228,14 +416,71 @@ export default function NFCTapPage() {
     e.preventDefault();
     if (!canSubmit || !actor) return;
 
+    const parsedToken = Number.parseInt(token, 10);
+    if (Number.isNaN(parsedToken)) {
+      setErrorMsg("QR code expired or invalid");
+      setStep("error");
+      return;
+    }
+
+    // Face verification gate
+    if (!referencePhotoUrl) {
+      setFaceFailReason("no_photo");
+      setStep("face_fail");
+      return;
+    }
+
     setStep("submitting");
+
+    // Compute face similarity
+    let similarity = 0;
+    try {
+      similarity = await computeFaceSimilarity(
+        capturedPhoto ?? "",
+        referencePhotoUrl,
+      );
+    } catch {
+      similarity = 0;
+    }
+
+    if (similarity < 0.35) {
+      setFaceFailReason("mismatch");
+      setStep("face_fail");
+
+      // Record the failed attempt so faculty can review it
+      const req: MarkAttendanceRequest = {
+        prn: prn.trim(),
+        latitude: userLat ?? 0,
+        longitude: userLng ?? 0,
+        token: BigInt(parsedToken),
+        image_url: capturedPhoto ?? "",
+        device_info: navigator.userAgent,
+      };
+
+      try {
+        const response = await markMutation.mutateAsync(req);
+        if (response.__kind__ === "ok") {
+          const recordId = (response as unknown as { ok: { id: string } }).ok
+            ?.id;
+          if (recordId) {
+            await flagMutation.mutateAsync({
+              record_id: BigInt(recordId),
+              flagged: true,
+            });
+          }
+        }
+      } catch {
+        // Silently ignore — the user already sees the failure screen
+      }
+      return;
+    }
 
     const req: MarkAttendanceRequest = {
       prn: prn.trim(),
       latitude: userLat ?? 0,
       longitude: userLng ?? 0,
-      token: BigInt(token),
-      image_url: "",
+      token: BigInt(parsedToken),
+      image_url: capturedPhoto ?? "",
       device_info: navigator.userAgent,
     };
 
@@ -259,7 +504,6 @@ export default function NFCTapPage() {
         setErrorMsg("Invalid PRN. Please check and try again.");
         setStep("error");
       } else {
-        // __kind__ === "error" — may include token validation errors from backend
         const errMsg =
           (response as { __kind__: "error"; error: string }).error ?? "";
         if (
@@ -312,6 +556,178 @@ export default function NFCTapPage() {
           Tap to Mark Attendance
         </span>
       </div>
+
+      {/* Camera capture step */}
+      {step === "camera" && (
+        <div
+          className="w-full max-w-sm flex flex-col gap-4"
+          data-ocid="nfc_tap.camera_step"
+        >
+          {cameraError ? (
+            <div
+              className="w-full rounded-xl border border-destructive/60 bg-destructive/10 px-4 py-5 flex flex-col items-center gap-3 text-center"
+              role="alert"
+              data-ocid="nfc_tap.camera_error_state"
+            >
+              <Camera className="w-10 h-10 text-destructive/70" aria-hidden />
+              <p className="text-sm font-semibold text-destructive">
+                {cameraError}
+              </p>
+              <button
+                type="button"
+                data-ocid="nfc_tap.camera_retry_button"
+                onClick={() => {
+                  stopCamera();
+                  setCameraError(null);
+                  setRetryCount((c) => c + 1);
+                }}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold"
+                style={{
+                  background: "var(--surface-2)",
+                  border: "1px solid var(--border-color)",
+                  color: "var(--text-secondary)",
+                }}
+              >
+                <RefreshCw className="w-4 h-4" />
+                Retry
+              </button>
+            </div>
+          ) : capturedPhoto ? (
+            <div className="flex flex-col items-center gap-4">
+              <p
+                className="text-sm font-semibold uppercase tracking-widest"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Preview — does this look good?
+              </p>
+              <div
+                className="relative rounded-2xl overflow-hidden shadow-lg"
+                style={{ border: "2px solid var(--border-color)" }}
+              >
+                <img
+                  src={capturedPhoto}
+                  alt="Your selfie"
+                  className="w-full max-w-xs object-cover"
+                  style={{ maxHeight: 280 }}
+                />
+                {/* small checkmark badge */}
+                <div
+                  className="absolute bottom-3 right-3 w-8 h-8 rounded-full flex items-center justify-center"
+                  style={{
+                    background: "var(--success-bg)",
+                    border: "2px solid var(--success)",
+                  }}
+                >
+                  <CheckCircle
+                    className="w-4 h-4"
+                    style={{ color: "var(--success)" }}
+                  />
+                </div>
+              </div>
+              <div className="flex gap-3 w-full">
+                <button
+                  type="button"
+                  data-ocid="nfc_tap.camera_retake_button"
+                  onClick={handleRetakePhoto}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium"
+                  style={{
+                    background: "var(--surface-2)",
+                    border: "1px solid var(--border-color)",
+                    color: "var(--text-secondary)",
+                  }}
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  Retake
+                </button>
+                <button
+                  type="button"
+                  data-ocid="nfc_tap.camera_proceed_button"
+                  onClick={handleProceedWithPhoto}
+                  className="nfc-button flex-1 flex items-center justify-center gap-2"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                  Use Photo
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-4">
+              <p
+                className="text-sm font-semibold uppercase tracking-widest text-center"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Take a selfie to verify your presence
+              </p>
+              {/* Video preview */}
+              <div
+                className="relative w-full rounded-2xl overflow-hidden shadow-lg"
+                style={{
+                  border: "2px solid var(--border-color)",
+                  background: "var(--surface-2)",
+                  aspectRatio: "4/3",
+                }}
+              >
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  onCanPlay={() => {
+                    if (canPlayTimeoutRef.current) {
+                      clearTimeout(canPlayTimeoutRef.current);
+                      canPlayTimeoutRef.current = null;
+                    }
+                    setCameraReady(true);
+                  }}
+                  className="w-full h-full object-cover"
+                  style={{ transform: "scaleX(-1)" }}
+                  aria-label="Camera preview"
+                />
+                {!cameraReady && (
+                  <div
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-2"
+                    style={{ background: "var(--surface-2)" }}
+                  >
+                    <span className="nfc-spinner w-8 h-8" aria-hidden />
+                    <p
+                      className="text-xs"
+                      style={{ color: "var(--text-secondary)" }}
+                    >
+                      Starting camera…
+                    </p>
+                  </div>
+                )}
+                {/* Overlay guide oval */}
+                {cameraReady && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div
+                      style={{
+                        width: "55%",
+                        paddingBottom: "70%",
+                        borderRadius: "50%",
+                        border: "2px dashed rgba(255,255,255,0.5)",
+                        position: "relative",
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+              {/* Hidden canvas for snapshot */}
+              <canvas ref={canvasRef} className="hidden" />
+              <button
+                type="button"
+                data-ocid="nfc_tap.camera_capture_button"
+                onClick={handleCapturePhoto}
+                disabled={!cameraReady}
+                className="nfc-button w-full flex items-center justify-center gap-2"
+              >
+                <Camera className="w-5 h-5" />
+                Capture Photo
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Token status banner — presence only; backend validates TOTP math */}
       {!token && (
@@ -540,6 +956,18 @@ export default function NFCTapPage() {
         </div>
       )}
 
+      {/* Photo thumbnail shown on success */}
+      {step === "success" && capturedPhoto && (
+        <div className="mb-2">
+          <img
+            src={capturedPhoto}
+            alt="Your selfie"
+            className="w-16 h-16 rounded-full object-cover mx-auto"
+            style={{ border: "2px solid var(--success)" }}
+          />
+        </div>
+      )}
+
       {/* Success */}
       {step === "success" && (
         <div
@@ -567,7 +995,7 @@ export default function NFCTapPage() {
             </p>
           </div>
           <p className="text-xs text-muted-foreground/60 mt-2">
-            Resetting in 5 seconds…
+            Resetting in 20 seconds…
           </p>
         </div>
       )}
@@ -594,7 +1022,38 @@ export default function NFCTapPage() {
             <p className="text-sm text-muted-foreground">{errorMsg}</p>
           </div>
           <p className="text-xs text-muted-foreground/60 mt-2">
-            Resetting in 5 seconds…
+            Resetting in 20 seconds…
+          </p>
+        </div>
+      )}
+
+      {/* Face Fail */}
+      {step === "face_fail" && (
+        <div
+          className="w-full max-w-sm flex flex-col items-center gap-4 text-center"
+          data-ocid="nfc_tap.face_fail_state"
+        >
+          <div
+            className="w-20 h-20 rounded-full flex items-center justify-center"
+            style={{ backgroundColor: "var(--danger-bg)" }}
+          >
+            <XCircle className="w-10 h-10" style={{ color: "var(--danger)" }} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl font-bold text-destructive">
+              Attendance Failed
+            </h1>
+            <p className="text-sm font-semibold text-foreground">
+              Face verification could not be completed.
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              {faceFailReason === "no_photo"
+                ? "No reference photo registered. Please ask your faculty to register your face first."
+                : "Your face did not match the registered reference photo. Please approach your faculty for manual attendance."}
+            </p>
+          </div>
+          <p className="text-xs text-muted-foreground/60 mt-2">
+            Resetting in 20 seconds…
           </p>
         </div>
       )}

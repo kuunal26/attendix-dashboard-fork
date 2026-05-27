@@ -53,6 +53,7 @@ export interface FacultyCredentials {
 export interface StudentWithSection {
     id: string;
     prn: string;
+    reference_photo_url?: string;
     name: string;
     section: string;
     isActive: boolean;
@@ -83,6 +84,7 @@ export interface AttendanceRecord {
     student_name: string;
     latitude: number;
     method: string;
+    face_mismatch: boolean;
     image_url: string;
     device_info: string;
     longitude: number;
@@ -106,6 +108,7 @@ export interface MarkAttendanceRequest {
 export interface Student {
     id: string;
     prn: string;
+    reference_photo_url?: string;
     name: string;
     section: string;
     isActive: boolean;
@@ -128,6 +131,7 @@ export interface backendInterface {
         __kind__: "err";
         err: string;
     }>;
+    flag_face_mismatch(record_id: bigint, flagged: boolean): Promise<boolean>;
     get_all_attendance(): Promise<Array<AttendanceRecord>>;
     get_all_semester_templates(): Promise<Array<[bigint, Array<WeeklySlot>]>>;
     get_all_students(): Promise<Array<Student>>;
@@ -167,4 +171,5 @@ export interface backendInterface {
         __kind__: "err";
         err: string;
     }>;
+    update_student_photo(prn: string, url: string): Promise<Student | null>;
 }

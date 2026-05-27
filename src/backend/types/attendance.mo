@@ -8,6 +8,7 @@ module {
     section : Text;
     rollNo : Nat;
     isActive : Bool;
+    reference_photo_url : ?Text;
   };
 
   public type AddStudentRequest = {
@@ -33,6 +34,7 @@ module {
     section : Text;
     rollNo : Nat;
     isActive : Bool;
+    reference_photo_url : ?Text;
   };
 
   public type SectionCounts = {
@@ -53,6 +55,7 @@ module {
     device_info : Text;
     method : Text;
     geo_fail : Bool;
+    face_mismatch : Bool;
   };
 
   public type ManualAttendanceRequest = {

@@ -30,6 +30,7 @@ export const AddStudentRequest = IDL.Record({
 export const Student = IDL.Record({
   'id' : IDL.Text,
   'prn' : IDL.Text,
+  'reference_photo_url' : IDL.Opt(IDL.Text),
   'name' : IDL.Text,
   'section' : IDL.Text,
   'isActive' : IDL.Bool,
@@ -41,6 +42,7 @@ export const AttendanceRecord = IDL.Record({
   'student_name' : IDL.Text,
   'latitude' : IDL.Float64,
   'method' : IDL.Text,
+  'face_mismatch' : IDL.Bool,
   'image_url' : IDL.Text,
   'device_info' : IDL.Text,
   'longitude' : IDL.Float64,
@@ -85,6 +87,7 @@ export const SectionCounts = IDL.Record({
 export const StudentWithSection = IDL.Record({
   'id' : IDL.Text,
   'prn' : IDL.Text,
+  'reference_photo_url' : IDL.Opt(IDL.Text),
   'name' : IDL.Text,
   'section' : IDL.Text,
   'isActive' : IDL.Bool,
@@ -123,6 +126,7 @@ export const idlService = IDL.Service({
       [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
       [],
     ),
+  'flag_face_mismatch' : IDL.Func([IDL.Nat, IDL.Bool], [IDL.Bool], []),
   'get_all_attendance' : IDL.Func([], [IDL.Vec(AttendanceRecord)], ['query']),
   'get_all_semester_templates' : IDL.Func(
       [],
@@ -188,6 +192,11 @@ export const idlService = IDL.Service({
       [IDL.Variant({ 'ok' : Student, 'err' : IDL.Text })],
       [],
     ),
+  'update_student_photo' : IDL.Func(
+      [IDL.Text, IDL.Text],
+      [IDL.Opt(Student)],
+      [],
+    ),
 });
 
 export const idlInitArgs = [];
@@ -215,6 +224,7 @@ export const idlFactory = ({ IDL }) => {
   const Student = IDL.Record({
     'id' : IDL.Text,
     'prn' : IDL.Text,
+    'reference_photo_url' : IDL.Opt(IDL.Text),
     'name' : IDL.Text,
     'section' : IDL.Text,
     'isActive' : IDL.Bool,
@@ -226,6 +236,7 @@ export const idlFactory = ({ IDL }) => {
     'student_name' : IDL.Text,
     'latitude' : IDL.Float64,
     'method' : IDL.Text,
+    'face_mismatch' : IDL.Bool,
     'image_url' : IDL.Text,
     'device_info' : IDL.Text,
     'longitude' : IDL.Float64,
@@ -270,6 +281,7 @@ export const idlFactory = ({ IDL }) => {
   const StudentWithSection = IDL.Record({
     'id' : IDL.Text,
     'prn' : IDL.Text,
+    'reference_photo_url' : IDL.Opt(IDL.Text),
     'name' : IDL.Text,
     'section' : IDL.Text,
     'isActive' : IDL.Bool,
@@ -308,6 +320,7 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text })],
         [],
       ),
+    'flag_face_mismatch' : IDL.Func([IDL.Nat, IDL.Bool], [IDL.Bool], []),
     'get_all_attendance' : IDL.Func([], [IDL.Vec(AttendanceRecord)], ['query']),
     'get_all_semester_templates' : IDL.Func(
         [],
@@ -371,6 +384,11 @@ export const idlFactory = ({ IDL }) => {
     'update_student' : IDL.Func(
         [IDL.Text, UpdateStudentRequest],
         [IDL.Variant({ 'ok' : Student, 'err' : IDL.Text })],
+        [],
+      ),
+    'update_student_photo' : IDL.Func(
+        [IDL.Text, IDL.Text],
+        [IDL.Opt(Student)],
         [],
       ),
   });

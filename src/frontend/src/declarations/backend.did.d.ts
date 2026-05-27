@@ -23,6 +23,7 @@ export interface AttendanceRecord {
   'student_name' : string,
   'latitude' : number,
   'method' : string,
+  'face_mismatch' : boolean,
   'image_url' : string,
   'device_info' : string,
   'longitude' : number,
@@ -73,6 +74,7 @@ export interface SectionCounts {
 export interface Student {
   'id' : string,
   'prn' : string,
+  'reference_photo_url' : [] | [string],
   'name' : string,
   'section' : string,
   'isActive' : boolean,
@@ -86,6 +88,7 @@ export interface StudentWithId {
 export interface StudentWithSection {
   'id' : string,
   'prn' : string,
+  'reference_photo_url' : [] | [string],
   'name' : string,
   'section' : string,
   'isActive' : boolean,
@@ -121,6 +124,7 @@ export interface _SERVICE {
     { 'ok' : null } |
       { 'err' : string }
   >,
+  'flag_face_mismatch' : ActorMethod<[bigint, boolean], boolean>,
   'get_all_attendance' : ActorMethod<[], Array<AttendanceRecord>>,
   'get_all_semester_templates' : ActorMethod<
     [],
@@ -160,6 +164,7 @@ export interface _SERVICE {
     { 'ok' : Student } |
       { 'err' : string }
   >,
+  'update_student_photo' : ActorMethod<[string, string], [] | [Student]>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

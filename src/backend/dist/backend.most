@@ -1,7 +1,8 @@
-// Version: 3.0.0
+// Version: 1.0.0
 type AttendanceRecord__699091857 =
   {
     device_info : Text;
+    face_mismatch : Bool;
     geo_fail : Bool;
     id : Text;
     image_url : Text;
@@ -17,71 +18,23 @@ type Data__791452850<K, V> =
 type Internal__8484328<K, V> =
   {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
 type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
-type List__415060402<T> = List__790383201<T>;
-type List__790383201<T> =
-  {
-    var blockIndex : Nat__490723111;
-    var blocks : [var [var ?T]];
-    var elementIndex : Nat__490723111
-  };
-type Map__158565046<K, V> = Map__297112838<K, V>;
-type Map__297112838<K, V> =
-  {var root : Node__46230540<K, V>; var size : Nat__490723111};
-type Map__605269027<K, V> = Map__158565046<K, V>;
 type Nat__490723111 = Nat__920180692;
 type Nat__920180692 = Nat;
 type Node__46230540<K, V> =
   {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
-type OldAttendanceRecord__238745332 =
-  {
-    device_info : Text;
-    geo_fail : Bool;
-    id : Text;
-    image_url : Text;
-    latitude : Float;
-    longitude : Float;
-    method : Text;
-    prn : Text;
-    student_name : Text;
-    timestamp : Int
-  };
-type OldStudent__333394504 =
-  {
-    id : Text;
-    isActive : Bool;
-    name : Text;
-    prn : Text;
-    rollNo : Nat;
-    section : Text
-  };
-type OldWeeklySlot__908798514 =
-  {day : Text; endTime : Text; room : Text; startTime : Text; subject : Text};
 type Student__5077313 =
   {
     id : Text;
     isActive : Bool;
     name : Text;
     prn : Text;
+    reference_photo_url : ?Text;
     rollNo : Nat;
     section : Text
   };
 type WeeklySlot__980773082 =
   {day : Text; endTime : Text; room : Text; startTime : Text; subject : Text};
-actor ({
-  in facultyCreds : {var email : Text; var name : Text; var password : Text};
-  in hotspotCfg : {var ip : Text};
-  in locationCfg :
-    {
-      var lat : Float;
-      var lng : Float;
-      var locationLabel : Text;
-      var radiusMeters : Float
-    };
-  in records : List__415060402<OldAttendanceRecord__238745332>;
-  in semesterTemplates : Map__605269027<Nat, [OldWeeklySlot__908798514]>;
-  in state : {var nextId : Nat};
-  in students : Map__605269027<Text, OldStudent__333394504>
-}, {
+actor {
   stable facultyCreds :
     {var email : Text; var name : Text; var password : Text};
   stable hotspotCfg : {var ip : Text};
@@ -109,4 +62,4 @@ actor ({
       var root : Node__46230540<Text, Student__5077313>;
       var size : Nat__490723111
     }
-});
+};

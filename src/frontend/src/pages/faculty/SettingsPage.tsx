@@ -28,6 +28,57 @@ import { Label } from "../../components/ui/label";
 import { Skeleton } from "../../components/ui/skeleton";
 import { useAuth } from "../../contexts/AuthContext";
 
+function EspCodeBlock({ baseUrl }: { baseUrl: string }) {
+  const code = [
+    "#include <WiFi.h>",
+    "#include <time.h>",
+    "",
+    'const char* WIFI_SSID = "YourHotspotSSID";',
+    'const char* WIFI_PASS = "YourHotspotPassword";',
+    "// Use your deployed app URL directly \u2014 no redirect shorteners needed",
+    `const char* BASE_URL  = "${baseUrl}";`,
+    "const long  SECRET    = 987654321L;",
+    "",
+    "void setup() {",
+    "  WiFi.begin(WIFI_SSID, WIFI_PASS);",
+    "  while (WiFi.status() != WL_CONNECTED) delay(500);",
+    "",
+    "  // Sync UTC time from NTP \u2014 MUST use UTC offset = 0",
+    '  configTime(0, 0, "pool.ntp.org", "time.nist.gov");',
+    "  while (time(nullptr) < 1000000000) delay(500);",
+    "}",
+    "",
+    "String generateToken() {",
+    "  long epoch = (long)time(nullptr);   // UTC epoch seconds",
+    "  long block = epoch / 10;            // 10-second window",
+    "  long token = abs(block * SECRET) % 1000000;",
+    "  String t = String(token);",
+    '  while (t.length() < 6) t = "0" + t; // zero-pad to 6 digits',
+    "  return t;",
+    "}",
+    "",
+    "void loop() {",
+    "  String url = String(BASE_URL) + generateToken();",
+    "  // Display url as a QR code on your OLED/TFT screen",
+    "  // Regenerate every 10 seconds",
+    "  delay(10000);",
+    "}",
+  ].join("\n");
+
+  return (
+    <pre
+      className="rounded-xl p-4 text-xs font-mono overflow-x-auto leading-relaxed"
+      style={{
+        background: "var(--surface-2)",
+        color: "var(--text-primary)",
+        border: "1px solid var(--border-color)",
+      }}
+    >
+      {code}
+    </pre>
+  );
+}
+
 export default function SettingsPage() {
   const { actor, isFetching } = useActor(createActor);
   const queryClient = useQueryClient();
@@ -789,6 +840,59 @@ export default function SettingsPage() {
                 >
                   {`${window.location.origin}/a`}
                 </code>
+              </p>
+            </div>
+
+            {/* ESP32 Firmware Guide */}
+            <div
+              className="pt-5 border-t"
+              style={{ borderColor: "var(--border-color)" }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <QrCode className="w-4 h-4" style={{ color: "#F97316" }} />
+                <span
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  ESP32 Firmware — TOTP Token Generation
+                </span>
+              </div>
+              <p
+                className="text-xs mb-3"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                Your ESP32 must independently generate the same TOTP token the
+                backend verifies. Each token is valid for a{" "}
+                <strong>10-second window</strong> (current + previous window =
+                up to 20 s of tolerance). Refresh the QR every{" "}
+                <strong>10 seconds</strong>.
+              </p>
+              <EspCodeBlock baseUrl={`${window.location.origin}/q?t=`} />
+              <p
+                className="text-xs mt-3"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                <strong>Critical:</strong> Always use{" "}
+                <code
+                  className="px-1 py-0.5 rounded font-mono"
+                  style={{
+                    background: "var(--surface-2)",
+                    border: "1px solid var(--border-color)",
+                  }}
+                >
+                  configTime(0, 0, ...)
+                </code>{" "}
+                (UTC offset = 0). Never use local time or{" "}
+                <code
+                  className="px-1 py-0.5 rounded font-mono"
+                  style={{
+                    background: "var(--surface-2)",
+                    border: "1px solid var(--border-color)",
+                  }}
+                >
+                  millis()
+                </code>{" "}
+                — clock drift will cause token mismatches.
               </p>
             </div>
           </div>

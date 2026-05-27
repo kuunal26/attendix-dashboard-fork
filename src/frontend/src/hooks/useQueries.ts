@@ -22,9 +22,11 @@ export function useAllAttendance() {
     queryKey: ["attendance", "all"],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.get_all_attendance();
+      const records = await actor.get_all_attendance();
+      return [...records].sort((a, b) => Number(b.timestamp - a.timestamp));
     },
     enabled: !!actor && !isFetching,
+    staleTime: 60_000,
     refetchInterval: 15_000,
   });
 }
@@ -80,9 +82,24 @@ export function useAllStudents() {
     queryKey: ["students", "all"],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.get_all_students();
+      const raw = await actor.get_all_students();
+      return raw.map((s: unknown) => {
+        const r = s as Record<string, unknown>;
+        const raw_url = r.reference_photo_url;
+        return {
+          ...r,
+          reference_photo_url: Array.isArray(raw_url)
+            ? raw_url.length > 0
+              ? (raw_url[0] as string)
+              : undefined
+            : typeof raw_url === "string"
+              ? raw_url || undefined
+              : undefined,
+        };
+      }) as Student[];
     },
     enabled: !!actor && !isFetching,
+    staleTime: 60_000,
   });
 }
 
@@ -178,7 +195,22 @@ export function useStudentsBySection(section: string) {
     queryKey: ["students", "section", section],
     queryFn: async () => {
       if (!actor) return [];
-      return actor.get_students_by_section(section);
+      const raw = await actor.get_students_by_section(section);
+      // Unwrap Motoko optional ?Text which arrives as [] | [string] at runtime
+      return raw.map((s: unknown) => {
+        const r = s as Record<string, unknown>;
+        const raw_url = r.reference_photo_url;
+        return {
+          ...r,
+          reference_photo_url: Array.isArray(raw_url)
+            ? raw_url.length > 0
+              ? (raw_url[0] as string)
+              : undefined
+            : typeof raw_url === "string"
+              ? raw_url || undefined
+              : undefined,
+        };
+      }) as StudentWithSection[];
     },
     enabled: !!actor && !isFetching && !!section,
   });
@@ -243,6 +275,58 @@ export function useDeleteStudent() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["students"] });
+    },
+  });
+}
+export function useUpdateStudentPhoto() {
+  const { actor } = useActor(createActor);
+  const queryClient = useQueryClient();
+  return useMutation<Student | null, Error, { prn: string; url: string }>({
+    mutationFn: async ({ prn, url }) => {
+      if (!actor) throw new Error("Actor not ready");
+      return actor.update_student_photo(prn, url);
+    },
+    onSuccess: (_data, variables) => {
+      // Optimistically update every student list cache so the thumbnail
+      // appears immediately without waiting for a background refetch.
+      const updateFn = (oldData: unknown) => {
+        if (!Array.isArray(oldData)) return oldData;
+        return oldData.map((student: unknown) => {
+          const s = student as Record<string, unknown>;
+          if (s.prn === variables.prn) {
+            return {
+              ...s,
+              reference_photo_url: variables.url,
+            };
+          }
+          return student;
+        });
+      };
+
+      // Touch every query whose key starts with ["students"]
+      const studentQueries = queryClient
+        .getQueryCache()
+        .findAll({ queryKey: ["students"] });
+      for (const query of studentQueries) {
+        queryClient.setQueryData(query.queryKey, updateFn);
+      }
+
+      // Invalidate so a background refetch keeps us in sync with the backend
+      queryClient.invalidateQueries({ queryKey: ["students"] });
+    },
+  });
+}
+
+export function useFlagFaceMismatch() {
+  const { actor } = useActor(createActor);
+  const queryClient = useQueryClient();
+  return useMutation<boolean, Error, { record_id: bigint; flagged: boolean }>({
+    mutationFn: async ({ record_id, flagged }) => {
+      if (!actor) throw new Error("Actor not ready");
+      return actor.flag_face_mismatch(record_id, flagged);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["attendance"] });
     },
   });
 }

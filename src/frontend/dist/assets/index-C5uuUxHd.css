@@ -712,6 +712,9 @@ html.light {
 .bottom-0 {
   bottom: 0px;
 }
+.bottom-3 {
+  bottom: 0.75rem;
+}
 .bottom-6 {
   bottom: 1.5rem;
 }
@@ -762,9 +765,6 @@ html.light {
 }
 .top-1\/2 {
   top: 50%;
-}
-.top-3 {
-  top: 0.75rem;
 }
 .top-3\.5 {
   top: 0.875rem;
@@ -833,6 +833,10 @@ html.light {
   margin-left: 1rem;
   margin-right: 1rem;
 }
+.mx-6 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -884,6 +888,9 @@ html.light {
 .ml-auto {
   margin-left: auto;
 }
+.mr-1 {
+  margin-right: 0.25rem;
+}
 .mt-0\.5 {
   margin-top: 0.125rem;
 }
@@ -925,6 +932,9 @@ html.light {
 }
 .inline-block {
   display: inline-block;
+}
+.inline {
+  display: inline;
 }
 .flex {
   display: flex;
@@ -1130,6 +1140,9 @@ html.light {
 }
 .w-11 {
   width: 2.75rem;
+}
+.w-12 {
+  width: 3rem;
 }
 .w-14 {
   width: 3.5rem;
@@ -1894,6 +1907,9 @@ html.light {
 .pb-4 {
   padding-bottom: 1rem;
 }
+.pb-5 {
+  padding-bottom: 1.25rem;
+}
 .pl-2 {
   padding-left: 0.5rem;
 }
@@ -2013,6 +2029,9 @@ html.light {
 .leading-none {
   line-height: 1;
 }
+.leading-relaxed {
+  line-height: 1.625;
+}
 .tracking-\[0\.15em\] {
   letter-spacing: 0.15em;
 }
@@ -2040,6 +2059,9 @@ html.light {
 }
 .text-destructive-foreground {
   color: oklch(var(--destructive-foreground));
+}
+.text-destructive\/70 {
+  color: oklch(var(--destructive) / 0.7);
 }
 .text-foreground {
   color: oklch(var(--foreground));

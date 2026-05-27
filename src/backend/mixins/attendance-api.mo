@@ -156,4 +156,16 @@ mixin (
     hotspotCfg.ip := ip;
     true;
   };
+
+  /// Saves a master reference photo URL for the student identified by PRN.
+  /// Returns the updated Student record on success, null if PRN not found.
+  public func update_student_photo(prn : Text, url : Text) : async ?Types.Student {
+    AttendanceLib.updateStudentPhoto(students, prn, url);
+  };
+
+  /// Sets or clears the face_mismatch flag on an attendance record.
+  /// Returns true if the record was found, false if not found.
+  public func flag_face_mismatch(record_id : Nat, flagged : Bool) : async Bool {
+    AttendanceLib.flagFaceMismatch(records, record_id, flagged);
+  };
 };

@@ -1,4 +1,6 @@
 import type { StudentWithSection, UpdateStudentRequest } from "@/backend";
+
+type StudentRow = StudentWithSection & { reference_photo_url?: string };
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,15 +33,18 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+  Camera,
   ChevronDown,
   ChevronUp,
   Pencil,
   Plus,
+  RefreshCw,
   Search,
   Trash2,
   Users,
+  X,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import Topbar from "../../components/layout/Topbar";
 import {
@@ -48,6 +53,7 @@ import {
   useStudentSectionCounts,
   useStudentsBySection,
   useUpdateStudent,
+  useUpdateStudentPhoto,
 } from "../../hooks/useQueries";
 
 type SectionKey = "first_year" | "second_year" | "third_year" | "btech";
@@ -91,11 +97,26 @@ function sectionKeyFromLabel(label: string): SectionKey {
   }
 }
 
+const safePhotoUrl = (val: unknown): string | undefined => {
+  if (typeof val === "string") return val || undefined;
+  if (Array.isArray(val))
+    return (val as string[]).length > 0 ? (val as string[])[0] : undefined;
+  return undefined;
+};
+
 export default function StudentsPage() {
   const [activeTab, setActiveTab] = useState<SectionKey>("btech");
   const [query, setQuery] = useState("");
   const [sortField, setSortField] = useState<SortField>("name");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
+
+  // Reset search + sort when tab changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: activeTab change is the intended trigger; setters are stable
+  useEffect(() => {
+    setQuery("");
+    setSortField("name");
+    setSortDir("asc");
+  }, [activeTab]);
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingStudent, setEditingStudent] =
@@ -103,10 +124,18 @@ export default function StudentsPage() {
   const [deleteTarget, setDeleteTarget] = useState<StudentWithSection | null>(
     null,
   );
+  const [faceModalStudent, setFaceModalStudent] = useState<StudentRow | null>(
+    null,
+  );
 
   const { data: counts, isLoading: countsLoading } = useStudentSectionCounts();
-  const { data: students = [], isLoading: studentsLoading } =
+  const { data: rawStudents = [], isLoading: studentsLoading } =
     useStudentsBySection(activeTab);
+  // Normalise reference_photo_url: backend may send [] | [string] (Motoko ?Text)
+  const students: StudentRow[] = rawStudents.map((s) => ({
+    ...s,
+    reference_photo_url: safePhotoUrl(s.reference_photo_url),
+  }));
 
   const _addStudent = useAddStudent();
   const _updateStudent = useUpdateStudent();
@@ -156,6 +185,10 @@ export default function StudentsPage() {
 
   const handleDeleteClick = (student: StudentWithSection) => {
     setDeleteTarget(student);
+  };
+
+  const handleRegisterFace = (student: StudentRow) => {
+    setFaceModalStudent(student);
   };
 
   const confirmDelete = async () => {
@@ -298,6 +331,7 @@ export default function StudentsPage() {
                     { label: "Name", field: "name" as SortField },
                     { label: "Full PRN", field: "prn" as SortField },
                     { label: "Status", field: null },
+                    { label: "Photo", field: null },
                     { label: "Actions", field: null },
                   ].map(({ label, field }) => (
                     <th
@@ -349,7 +383,11 @@ export default function StudentsPage() {
                         <Skeleton className="h-5 w-20 rounded-full" />
                       </td>
                       <td className="px-4 py-3">
+                        <Skeleton className="h-5 w-16 rounded-full" />
+                      </td>
+                      <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
+                          <Skeleton className="w-8 h-8 rounded-lg" />
                           <Skeleton className="w-8 h-8 rounded-lg" />
                           <Skeleton className="w-8 h-8 rounded-lg" />
                         </div>
@@ -358,7 +396,7 @@ export default function StudentsPage() {
                   ))
                 ) : filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-4 py-12 text-center">
+                    <td colSpan={6} className="px-4 py-12 text-center">
                       <div
                         className="flex flex-col items-center gap-2"
                         data-ocid="students.empty_state"
@@ -434,7 +472,62 @@ export default function StudentsPage() {
                         </Badge>
                       </td>
                       <td className="px-4 py-3">
+                        {(() => {
+                          const photoUrl = safePhotoUrl(s.reference_photo_url);
+                          return photoUrl ? (
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={photoUrl}
+                                alt={`${s.name} reference`}
+                                className="w-8 h-8 rounded-full object-cover border"
+                                style={{ borderColor: "var(--border-color)" }}
+                                data-ocid={`students.photo_thumb.${i + 1}`}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).style.display =
+                                    "none";
+                                }}
+                              />
+                              <span
+                                data-ocid={`students.photo_badge.${i + 1}`}
+                                className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"
+                                style={{
+                                  background: "var(--success-bg)",
+                                  color: "var(--success)",
+                                }}
+                              >
+                                <Camera className="w-3 h-3" />
+                                Photo
+                              </span>
+                            </div>
+                          ) : (
+                            <span
+                              data-ocid={`students.photo_badge.${i + 1}`}
+                              className="inline-flex items-center text-xs px-2 py-0.5 rounded-full"
+                              style={{
+                                border: "1.5px dashed var(--border-color)",
+                                color: "var(--text-secondary)",
+                              }}
+                            >
+                              None
+                            </span>
+                          );
+                        })()}
+                      </td>
+                      <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            data-ocid={`students.register_face_button.${i + 1}`}
+                            onClick={() => handleRegisterFace(s)}
+                            className="p-2 rounded-lg transition-colors"
+                            style={{
+                              background: "var(--surface-2)",
+                              color: "var(--blue)",
+                            }}
+                            aria-label="Register face photo"
+                          >
+                            <Camera className="w-4 h-4" />
+                          </button>
                           <button
                             type="button"
                             data-ocid={`students.edit_button.${i + 1}`}
@@ -471,6 +564,12 @@ export default function StudentsPage() {
           </div>
         </div>
       </div>
+
+      {/* Register Face Modal */}
+      <RegisterFaceModal
+        student={faceModalStudent}
+        onClose={() => setFaceModalStudent(null)}
+      />
 
       {/* Add/Edit Dialog */}
       <StudentFormDialog
@@ -531,6 +630,362 @@ export default function StudentsPage() {
         </AlertDialogContent>
       </AlertDialog>
     </div>
+  );
+}
+
+/* ─── Register Face Modal ─── */
+
+interface RegisterFaceModalProps {
+  student: StudentRow | null;
+  onClose: () => void;
+}
+
+type CameraState =
+  | "idle"
+  | "starting"
+  | "live"
+  | "captured"
+  | "saving"
+  | "error";
+
+function RegisterFaceModal({ student, onClose }: RegisterFaceModalProps) {
+  const [cameraState, setCameraState] = useState<CameraState>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [capturedDataUrl, setCapturedDataUrl] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+
+  const updatePhoto = useUpdateStudentPhoto();
+
+  const stopStream = useCallback(() => {
+    if (streamRef.current) {
+      for (const track of streamRef.current.getTracks()) track.stop();
+      streamRef.current = null;
+    }
+  }, []);
+
+  const startCamera = useCallback(async () => {
+    setCameraState("starting");
+    setErrorMsg("");
+    setCapturedDataUrl(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: "user",
+          width: { ideal: 640 },
+          height: { ideal: 480 },
+        },
+      });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+      }
+      setCameraState("live");
+    } catch (err) {
+      stopStream();
+      const e = err as Error;
+      if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
+        setErrorMsg(
+          "Camera permission denied. Please allow camera access in your browser settings and try again.",
+        );
+      } else if (e.name === "NotFoundError") {
+        setErrorMsg("No camera found on this device.");
+      } else {
+        setErrorMsg(`Camera error: ${e.message || e.name}`);
+      }
+      setCameraState("error");
+    }
+  }, [stopStream]);
+
+  const handleCapture = useCallback(() => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.6);
+    setCapturedDataUrl(dataUrl);
+    stopStream();
+    setCameraState("captured");
+  }, [stopStream]);
+
+  const handleRetake = useCallback(() => {
+    setCapturedDataUrl(null);
+    startCamera();
+  }, [startCamera]);
+
+  const handleSave = useCallback(async () => {
+    if (!capturedDataUrl || !student) return;
+    setCameraState("saving");
+    try {
+      await updatePhoto.mutateAsync({ prn: student.prn, url: capturedDataUrl });
+      toast.success(`Reference photo saved for ${student.name}`);
+      onClose();
+    } catch (_err) {
+      toast.error("Failed to save photo. Please try again.");
+      setCameraState("captured");
+    }
+  }, [capturedDataUrl, student, updatePhoto, onClose]);
+
+  const handleClose = useCallback(() => {
+    stopStream();
+    setCameraState("idle");
+    setCapturedDataUrl(null);
+    setErrorMsg("");
+    onClose();
+  }, [stopStream, onClose]);
+
+  // Start camera when modal opens
+  useEffect(() => {
+    if (student) {
+      startCamera();
+    } else {
+      stopStream();
+      setCameraState("idle");
+      setCapturedDataUrl(null);
+      setErrorMsg("");
+    }
+    return () => {
+      stopStream();
+    };
+  }, [student, startCamera, stopStream]);
+
+  const isOpen = !!student;
+
+  return (
+    <Dialog
+      open={isOpen}
+      onOpenChange={(v) => {
+        if (!v) handleClose();
+      }}
+    >
+      <DialogContent
+        className="sm:max-w-lg p-0 overflow-hidden"
+        style={{
+          background: "var(--surface)",
+          borderColor: "var(--border-color)",
+        }}
+        data-ocid="students.register_face.dialog"
+      >
+        {/* Header */}
+        <DialogHeader className="px-6 pt-5 pb-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <DialogTitle
+                className="flex items-center gap-2"
+                style={{ color: "var(--text-primary)" }}
+              >
+                <Camera className="w-5 h-5" style={{ color: "var(--blue)" }} />
+                Register Face Photo
+              </DialogTitle>
+              <DialogDescription
+                className="mt-1 text-sm"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                {student?.name} &middot;{" "}
+                <span className="font-mono text-xs">{student?.prn}</span>
+              </DialogDescription>
+            </div>
+            <button
+              type="button"
+              data-ocid="students.register_face.close_button"
+              onClick={handleClose}
+              className="p-2 rounded-lg transition-colors"
+              style={{
+                color: "var(--text-secondary)",
+                background: "var(--surface-2)",
+              }}
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </DialogHeader>
+
+        {/* Camera / Preview area */}
+        <div
+          className="mx-6 mb-4 rounded-xl overflow-hidden relative"
+          style={{
+            background: "var(--surface-2)",
+            border: "1px solid var(--border-color)",
+            minHeight: 300,
+          }}
+        >
+          {/* Live video */}
+          <video
+            ref={videoRef}
+            className="w-full object-cover"
+            style={{
+              display: cameraState === "live" ? "block" : "none",
+              maxHeight: 360,
+            }}
+            playsInline
+            muted
+            aria-label="Camera preview"
+          />
+
+          {/* Captured preview */}
+          {cameraState === "captured" || cameraState === "saving"
+            ? capturedDataUrl && (
+                <img
+                  src={capturedDataUrl}
+                  alt="Captured preview"
+                  className="w-full object-cover"
+                  style={{ maxHeight: 360 }}
+                />
+              )
+            : null}
+
+          {/* Starting / idle overlay */}
+          {(cameraState === "starting" || cameraState === "idle") && (
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3"
+              style={{ color: "var(--text-secondary)" }}
+              data-ocid="students.register_face.loading_state"
+            >
+              <Camera className="w-10 h-10 opacity-30" />
+              <p className="text-sm">
+                {cameraState === "starting"
+                  ? "Starting camera…"
+                  : "Initialising…"}
+              </p>
+            </div>
+          )}
+
+          {/* Error overlay */}
+          {cameraState === "error" && (
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center"
+              data-ocid="students.register_face.error_state"
+            >
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center"
+                style={{ background: "var(--danger-bg)" }}
+              >
+                <Camera
+                  className="w-6 h-6"
+                  style={{ color: "var(--danger)" }}
+                />
+              </div>
+              <p className="text-sm" style={{ color: "var(--danger)" }}>
+                {errorMsg}
+              </p>
+              <button
+                type="button"
+                data-ocid="students.register_face.retry_button"
+                onClick={startCamera}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                style={{
+                  background: "var(--surface-2)",
+                  color: "var(--blue)",
+                  border: "1px solid var(--border-color)",
+                }}
+              >
+                <RefreshCw className="w-4 h-4" />
+                Retry
+              </button>
+            </div>
+          )}
+
+          {/* Saving overlay */}
+          {cameraState === "saving" && (
+            <div
+              className="absolute inset-0 flex items-center justify-center"
+              style={{ background: "rgba(0,0,0,0.45)" }}
+              data-ocid="students.register_face.saving_state"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-full border-2 border-t-transparent animate-spin"
+                  style={{ borderColor: "var(--blue)" }}
+                />
+                <p className="text-sm font-medium text-white">Saving…</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Hidden canvas for capture */}
+        <canvas ref={canvasRef} className="hidden" />
+
+        {/* Footer actions */}
+        <div className="flex items-center justify-between px-6 pb-5 gap-3">
+          <button
+            type="button"
+            data-ocid="students.register_face.cancel_button"
+            onClick={handleClose}
+            disabled={cameraState === "saving"}
+            className="flex-1 py-2 rounded-xl text-sm font-medium transition-colors border"
+            style={{
+              background: "var(--surface-2)",
+              color: "var(--text-primary)",
+              borderColor: "var(--border-color)",
+            }}
+          >
+            Cancel
+          </button>
+
+          {cameraState === "live" && (
+            <button
+              type="button"
+              data-ocid="students.register_face.capture_button"
+              onClick={handleCapture}
+              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium text-white transition-colors"
+              style={{ background: "var(--blue)" }}
+            >
+              <Camera className="w-4 h-4" />
+              Capture
+            </button>
+          )}
+
+          {cameraState === "captured" && (
+            <>
+              <button
+                type="button"
+                data-ocid="students.register_face.retake_button"
+                onClick={handleRetake}
+                className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium transition-colors border"
+                style={{
+                  background: "var(--surface-2)",
+                  color: "var(--text-secondary)",
+                  borderColor: "var(--border-color)",
+                }}
+              >
+                <RefreshCw className="w-4 h-4" />
+                Retake
+              </button>
+              <button
+                type="button"
+                data-ocid="students.register_face.save_button"
+                onClick={handleSave}
+                className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium text-white transition-colors"
+                style={{ background: "var(--blue)" }}
+              >
+                Save Photo
+              </button>
+            </>
+          )}
+
+          {cameraState === "error" && (
+            <button
+              type="button"
+              data-ocid="students.register_face.retry_button"
+              onClick={startCamera}
+              className="flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium transition-colors"
+              style={{ background: "var(--blue)", color: "#fff" }}
+            >
+              <RefreshCw className="w-4 h-4" />
+              Retry Camera
+            </button>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
